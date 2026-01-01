@@ -1,3 +1,4 @@
+import { MockCommentarySection } from "@ui/MockCommentarySection";
 import { useState } from "react";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <div className="w-full ">
       <h1 className="text-2xl font-bold">draft</h1>
       <button onClick={() => setCount(count + 1)}>click me {count}</button>
+      <MockCommentarySection />
     </div>
   );
 }
