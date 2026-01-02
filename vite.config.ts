@@ -1,10 +1,15 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
-import tsconfigPaths from "vite-tsconfig-paths";
-
+import path from "path";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), tsconfigPaths()],
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@ui": path.resolve(__dirname, "./src/ui"),
+      "@core": path.resolve(__dirname, "./src/core"),
+    },
+  },
 });
