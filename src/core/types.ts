@@ -9,3 +9,8 @@ export type CommentData = {
   parentId: string | null;
   userId: string; // consider changing into user object
 };
+
+// web components
+
+export type WebComponentProps<T extends object = object> =
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & T, HTMLElement>;

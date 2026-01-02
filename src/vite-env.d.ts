@@ -1,13 +1,13 @@
 /// <reference types="vite/client" />
 /// <reference types="react" />
 
+import type { WebComponentProps } from "@core/types";
+
 declare global {
   namespace React.JSX {
     interface IntrinsicElements {
-      "commentary-container": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement> & {},
-        HTMLElement
-      >;
+      "commentary-container": WebComponentProps;
+      "commentary-header": WebComponentProps;
     }
   }
 }
