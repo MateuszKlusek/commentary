@@ -1,30 +1,32 @@
-export class CommentaryContainerDOM extends HTMLElement {
-  value: number[] | undefined;
+import { HeaderSection } from "./HeaderSection";
 
+export class CommentaryWebComponent extends HTMLElement {
   constructor() {
     super();
-    // The value here will be overwritten by React
-    // when initialized as an element
-    this.value = undefined;
   }
 
   connectedCallback() {
-    this.innerHTML = this.value?.join(", ") ?? "";
+    this.shadowRoot!.innerHTML = `
+       <style>
+         :host { display: flex; }
+       </style>
+       <slot></slot>
+     `;
   }
 }
+customElements.define("commentary-container", CommentaryWebComponent);
 
-customElements.define("commentary-container", CommentaryContainerDOM);
+type Props = {
+  commentsCount: number;
+};
 
-const CommentaryContainer = () => {
+const Commentary = ({ commentsCount }: Props) => {
   return (
-    <commentary-container
-      value={[1, 2, 9, 10]}
-      checked={true}
-      className="bg-orange-400"
-    >
-      Text
+    <commentary-container>
+      <HeaderSection commentsCount={commentsCount} />
+      <div className="text-white bg-purple-200">Text mate</div>
     </commentary-container>
   );
 };
 
-export default CommentaryContainer;
+export default Commentary;

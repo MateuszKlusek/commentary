@@ -15,7 +15,7 @@ function App() {
       {comments.map((comment) => (
         <Comment key={comment.id} {...comment} />
       ))}
-      <CommentaryContainer />
+      <CommentaryContainer commentsCount={2483} />
     </div>
   );
 }
