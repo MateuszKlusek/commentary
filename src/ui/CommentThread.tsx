@@ -1,4 +1,4 @@
-import type { CommentData } from "@core/types";
+import type { CommentData } from "../types/core";
 import { Comment } from "./Comment";
 
 type Props = CommentData;

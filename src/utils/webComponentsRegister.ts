@@ -1,4 +1,4 @@
-import { webComponentWrappers } from "@core/types";
+import { webComponentWrappers } from "../types/web-components";
 
 class SlotWrapperElement extends HTMLElement {
   constructor() {

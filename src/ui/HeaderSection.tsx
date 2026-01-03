@@ -14,7 +14,7 @@ export const HeaderSection = ({ commentsCount }: Props) => {
         </HStack>
         <HStack className="w-full">
           <div>P</div>
-          <input type="text" placeholder="Add a comment..."></input>
+          <textarea placeholder="Add a comment..."></textarea>
         </HStack>
       </section>
     </commentary-header>
