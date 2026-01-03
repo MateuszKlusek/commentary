@@ -11,6 +11,9 @@ function App() {
         getTopLevelComments={(offset, limit) =>
           commentsRepo.getTopLevelComments(offset, limit)
         }
+        getReplies={(commentId, offset, limit) =>
+          commentsRepo.getReplies(commentId, offset, limit)
+        }
       />
     </div>
   );

@@ -28,6 +28,23 @@ export class InMemoryCommentsRepo implements CommentaryRepository {
     limit: number
   ): Promise<CommentData[]> {
     await this.ensureReady();
-    return this.comments?.slice(offset, offset + limit) ?? [];
+    return (
+      this.comments
+        ?.filter((comment) => comment.parentId === null)
+        ?.slice(offset, offset + limit) ?? []
+    );
+  }
+
+  async getReplies(
+    commentId: string,
+    offset: number,
+    limit: number
+  ): Promise<CommentData[]> {
+    await this.ensureReady();
+    return (
+      this.comments
+        ?.filter((comment) => comment.parentId === commentId)
+        ?.slice(offset, offset + limit) ?? []
+    );
   }
 }

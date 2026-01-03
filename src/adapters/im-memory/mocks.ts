@@ -2,7 +2,8 @@ import type { CommentData } from "../../types/core";
 
 export const comments: CommentData[] = [
   {
-    id: "1",
+    id: "",
+    commendId: "019b8612-41e0-76d8-99f3-9899d9b9fd32",
     content: "> **Late reply**\n> Still thinking\n> Probably wrong",
     createdAt: new Date("2025-12-02T14:12:00Z"),
     updatedAt: new Date("2025-12-02T14:12:00Z"),
@@ -14,6 +15,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "2",
+    commendId: "019b8612-41de-77bf-8a88-4fa5c098ba59",
     content: "> **Hot take**\n> Opens the thread\n> Chaos ensues",
     createdAt: new Date("2025-11-21T09:34:00Z"),
     updatedAt: new Date("2025-11-21T10:01:00Z"),
@@ -25,6 +27,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "3",
+    commendId: "019b8612-41e0-76d8-99f3-9e96569ac7a0",
     content: "> **Replying again**\n> This feels familiar\n> Déjà vu",
     createdAt: new Date("2025-11-19T22:45:00Z"),
     updatedAt: new Date("2025-11-20T07:12:00Z"),
@@ -36,6 +39,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "4",
+    commendId: "019b8612-41e0-76d8-99f3-a3d0065e632b",
     content: "This is a comment with no replies.",
     createdAt: new Date("2025-12-01T18:05:00Z"),
     updatedAt: new Date("2025-12-01T19:40:00Z"),
@@ -47,28 +51,31 @@ export const comments: CommentData[] = [
   },
   {
     id: "5",
+    commendId: "019b8612-41e0-76d8-99f3-a5b241edeabf",
     content: "> **Night reply**\n> Too late now\n> No regrets",
     createdAt: new Date("2025-11-27T02:11:00Z"),
     updatedAt: new Date("2025-11-27T02:11:00Z"),
     likes: 3,
     dislikes: 0,
-    parentId: "4",
+    parentId: "019b8612-41de-77bf-8a88-4fa5c098ba59",
     userId: "6",
     replyCount: 0,
   },
   {
     id: "6",
+    commendId: "019b8612-41e0-76d8-99f3-aa2d61de59bf",
     content: "> **Observational comment**\n> Watching quietly\n> Taking notes",
     createdAt: new Date("2025-11-18T15:29:00Z"),
     updatedAt: new Date("2025-11-18T16:00:00Z"),
     likes: 7,
     dislikes: 1,
-    parentId: "1",
+    parentId: "019b8612-41de-77bf-8a88-4fa5c098ba59",
     userId: "7",
     replyCount: 0,
   },
   {
     id: "7",
+    commendId: "019b8612-41e0-76d8-99f3-ae89ba422b3b",
     content: "> **Second-level reply**\n> Deep thread\n> No escape",
     createdAt: new Date("2025-12-03T11:44:00Z"),
     updatedAt: new Date("2025-12-03T12:10:00Z"),
@@ -80,6 +87,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "8",
+    commendId: "019b8612-41e0-76d8-99f3-b0faae52733a",
     content: "> **Unpopular opinion**\n> Scrolls past\n> Comes back anyway",
     createdAt: new Date("2025-11-16T08:22:00Z"),
     updatedAt: new Date("2025-11-16T09:45:00Z"),
@@ -91,6 +99,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "9",
+    commendId: "019b8612-41e0-76d8-99f3-b4c2fc680136",
     content: "> **Quick reply**\n> Misread everything\n> Oops",
     createdAt: new Date("2025-11-16T10:02:00Z"),
     updatedAt: new Date("2025-11-16T10:02:00Z"),
@@ -102,6 +111,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "10",
+    commendId: "019b8612-41e0-76d8-99f3-bbf5c332bdf4",
     content: "> **Thinking aloud**\n> This escalated\n> Unexpectedly",
     createdAt: new Date("2025-11-25T17:18:00Z"),
     updatedAt: new Date("2025-11-25T18:03:00Z"),
@@ -113,6 +123,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "11",
+    commendId: "019b8612-41e0-76d8-99f3-be18a66aba13",
     content: "> **Sarcastic reply**\n> Love that for us\n> Truly",
     createdAt: new Date("2025-11-14T21:55:00Z"),
     updatedAt: new Date("2025-11-15T08:10:00Z"),
@@ -124,6 +135,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "12",
+    commendId: "019b8612-41e0-76d8-99f3-c3cdfe613dba",
     content: "> **Thread veteran**\n> Seen worse\n> Still here",
     createdAt: new Date("2025-12-04T06:40:00Z"),
     updatedAt: new Date("2025-12-04T06:40:00Z"),
@@ -135,6 +147,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "13",
+    commendId: "019b8612-41e0-76d8-99f3-c4f8d12e633f",
     content: "> **Confused reply**\n> Wrong tab?\n> Maybe",
     createdAt: new Date("2025-11-23T13:07:00Z"),
     updatedAt: new Date("2025-11-23T13:50:00Z"),
@@ -146,6 +159,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "14",
+    commendId: "019b8612-41e0-76d8-99f3-c90c074533e5",
     content: "> **Overthinking**\n> Reads between lines\n> Finds nothing",
     createdAt: new Date("2025-11-20T19:33:00Z"),
     updatedAt: new Date("2025-11-21T00:12:00Z"),
@@ -157,6 +171,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "15",
+    commendId: "019b8612-41e0-76d8-99f3-cc7c5a7b9c98",
     content: "> **Casual reply**\n> Nods politely\n> Moves on",
     createdAt: new Date("2025-12-01T09:00:00Z"),
     updatedAt: new Date("2025-12-01T09:00:00Z"),
@@ -168,6 +183,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "16",
+    commendId: "019b8612-41e0-76d8-99f3-d0ac471b7123",
     content: "> **Drive-by comment**\n> Says nothing useful\n> Leaves",
     createdAt: new Date("2025-11-13T16:18:00Z"),
     updatedAt: new Date("2025-11-13T17:45:00Z"),
@@ -179,6 +195,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "17",
+    commendId: "019b8612-41e0-76d8-99f3-d45e713ea6e9",
     content: "> **Optimistic reply**\n> This will end well\n> Surely",
     createdAt: new Date("2025-11-29T11:26:00Z"),
     updatedAt: new Date("2025-11-29T12:01:00Z"),
@@ -190,6 +207,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "18",
+    commendId: "019b8612-41e0-76d8-99f3-dbc4d5af3490",
     content: "> **Reply storm**\n> One more thought\n> And another",
     createdAt: new Date("2025-12-02T20:48:00Z"),
     updatedAt: new Date("2025-12-02T21:15:00Z"),
@@ -201,6 +219,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "19",
+    commendId: "019b8612-41e0-76d8-99f3-de86c30637f3",
     content: "> **Minimal response**\n> Fair point\n> I guess",
     createdAt: new Date("2025-11-17T07:59:00Z"),
     updatedAt: new Date("2025-11-17T07:59:00Z"),
@@ -212,6 +231,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "20",
+    commendId: "019b8612-41e0-76d8-99f3-e30bb47c57f3",
     content: "> **Long-time lurker**\n> First comment\n> Be gentle",
     createdAt: new Date("2025-12-05T10:11:00Z"),
     updatedAt: new Date("2025-12-05T10:11:00Z"),
@@ -223,6 +243,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "21",
+    commendId: "019b8612-41e0-76d8-99f3-e730fc92224e",
     content: "> **Skeptical reply**\n> Source?\n> Trust me bro",
     createdAt: new Date("2025-11-22T18:42:00Z"),
     updatedAt: new Date("2025-11-22T19:20:00Z"),
@@ -234,6 +255,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "22",
+    commendId: "019b8612-41e0-76d8-99f3-eb54f632f4d4",
     content: "> **Replying anyway**\n> Nobody asked\n> Yet here I am",
     createdAt: new Date("2025-11-26T14:33:00Z"),
     updatedAt: new Date("2025-11-26T15:10:00Z"),
@@ -245,6 +267,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "23",
+    commendId: "019b8612-41e0-76d8-99f3-efe967f763da",
     content: "> **Deep in the thread**\n> Too late now\n> Keep scrolling",
     createdAt: new Date("2025-12-03T01:05:00Z"),
     updatedAt: new Date("2025-12-03T01:45:00Z"),
@@ -256,6 +279,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "24",
+    commendId: "019b8612-41e0-76d8-99f3-f1d69eac2dba",
     content: "> **Final thought**\n> Closes the app\n> Peace at last",
     createdAt: new Date("2025-11-15T23:59:00Z"),
     updatedAt: new Date("2025-11-16T00:10:00Z"),
@@ -267,6 +291,7 @@ export const comments: CommentData[] = [
   },
   {
     id: "25",
+    commendId: "019b8612-41e0-76d8-99f3-f7e44ff32175",
     content: "> **Still here**\n> Reading everything\n> No regrets",
     createdAt: new Date("2025-12-06T08:27:00Z"),
     updatedAt: new Date("2025-12-06T09:00:00Z"),

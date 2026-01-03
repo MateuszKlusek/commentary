@@ -1,5 +1,6 @@
 export type CommentData = {
   id: string;
+  commendId: string;
   content: string; // later on test markdown
   createdAt: Date;
   updatedAt: Date;
@@ -13,4 +14,9 @@ export type CommentData = {
 export interface CommentaryRepository {
   getTopLevelCommentCount(): Promise<number>;
   getTopLevelComments(offset: number, limit: number): Promise<CommentData[]>;
+  getReplies(
+    commentId: string,
+    offset: number,
+    limit: number
+  ): Promise<CommentData[]>;
 }

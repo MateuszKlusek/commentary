@@ -7,6 +7,7 @@ import { useLoadInitData } from "./hooks/useLoadInitData";
 export const Commentary = ({
   getTopLevelCommentCount,
   getTopLevelComments,
+  getReplies,
 }: CommentaryRepository) => {
   const { commentsCount, comments, isLoading } = useLoadInitData({
     getTopLevelCommentCount,
@@ -21,7 +22,11 @@ export const Commentary = ({
           <div>Loading...</div>
         ) : (
           comments.map((comment) => (
-            <CommentThread key={comment.id} {...comment} />
+            <CommentThread
+              key={comment.id}
+              {...comment}
+              getReplies={getReplies}
+            />
           ))
         )}
       </Content>

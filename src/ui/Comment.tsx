@@ -1,6 +1,22 @@
+import { useState } from "react";
 import type { CommentData } from "../types/core";
 
-export const Comment = (props: CommentData) => {
+export const Comment = (
+  props: CommentData & {
+    getReplies: (
+      commentId: string,
+      offset: number,
+      limit: number
+    ) => Promise<CommentData[]>;
+  }
+) => {
+  const [replies, setReplies] = useState<CommentData[]>([]);
+
+  const handleReplyClick = async () => {
+    const replies = await props.getReplies(props.commendId, 0, 10);
+    setReplies(replies);
+  };
+
   return (
     <div className="w-full p-2">
       {/* header */}
@@ -29,7 +45,15 @@ export const Comment = (props: CommentData) => {
       </div>
 
       {/*replies  */}
-      {props.replyCount > 0 ? <div>Replies {props.replyCount}</div> : null}
+      {props.replyCount > 0 ? (
+        <div className="cursor-pointer" onClick={handleReplyClick}>
+          Replies {props.replyCount}
+        </div>
+      ) : null}
+
+      {replies.map((reply) => (
+        <Comment key={reply.id} {...reply} getReplies={props.getReplies} />
+      ))}
     </div>
   );
 };
