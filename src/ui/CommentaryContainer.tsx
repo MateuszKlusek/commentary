@@ -1,3 +1,6 @@
+import { comments } from "../../mock/comments";
+import { CommentThread } from "./CommentThread";
+import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
 
 type Props = {
@@ -8,7 +11,11 @@ const Commentary = ({ commentsCount }: Props) => {
   return (
     <commentary-container>
       <HeaderSection commentsCount={commentsCount} />
-      <div className="text-white bg-purple-200">Text mate</div>
+      <Content>
+        {comments.map((comment) => (
+          <CommentThread key={comment.id} {...comment} />
+        ))}
+      </Content>
     </commentary-container>
   );
 };

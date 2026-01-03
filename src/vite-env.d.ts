@@ -1,14 +1,11 @@
 /// <reference types="vite/client" />
 /// <reference types="react" />
 
-import type { WebComponentProps } from "@core/types";
+import type { WrapperElements } from "@core/types";
 
 declare global {
   namespace React.JSX {
-    interface IntrinsicElements {
-      "commentary-container": WebComponentProps;
-      "commentary-header": WebComponentProps;
-    }
+    interface IntrinsicElements extends WrapperElements {}
   }
 }
 

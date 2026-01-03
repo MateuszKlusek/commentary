@@ -33,4 +33,14 @@ export const comments: CommentData[] = [
       },
     ],
   },
+  {
+    id: "4",
+    content: "This is a comment",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    likes: 0,
+    dislikes: 0,
+    parentId: null,
+    userId: "4",
+  },
 ];
