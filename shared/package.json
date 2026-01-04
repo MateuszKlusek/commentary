@@ -1,0 +1,14 @@
+{
+    "name": "@commentary/shared",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "main": "./types/library.ts",
+    "types": "./types/library.ts",
+    "exports": {
+        ".": {
+            "types": "./types/library.ts",
+            "default": "./types/library.ts"
+        }
+    }
+}

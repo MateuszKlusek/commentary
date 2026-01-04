@@ -19,6 +19,9 @@
       ],
       "@ui/*": [
         "./src/ui/*"
+      ],
+      "@shared/*": [
+        "../shared/*"
       ]
     },
     /* Bundler mode */
@@ -38,6 +41,9 @@
   },
   "include": [
     "src",
-    "mock"
+    "mock",
+    "src/adapters/rest/endpoint-map.ts",
+    "src/adapters/rest/test-client.ts",
+    "../server/src/services/mocks"
   ]
 }

@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       "@ui": path.resolve(__dirname, "./src/ui"),
       "@core": path.resolve(__dirname, "./src/core"),
+      "@shared": path.resolve(__dirname, "../shared"),
     },
   },
 });

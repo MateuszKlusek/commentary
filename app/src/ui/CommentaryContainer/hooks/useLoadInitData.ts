@@ -31,6 +31,7 @@ export const useLoadInitData = ({
           getTopLevelComments(initialOffset, initialLimit),
         ]);
 
+        console.log(commentsCount, comments);
         setCommentsCount(commentsCount);
         setComments(comments);
       } catch (error) {

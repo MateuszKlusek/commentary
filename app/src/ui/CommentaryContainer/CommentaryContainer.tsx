@@ -1,4 +1,4 @@
-import type { CommentaryRepository } from "../../types/core";
+import type { CommentaryAPI } from "@shared/types/library";
 import { CommentThread } from "../CommentThread";
 import { Content } from "../Content";
 import { HeaderSection } from "../HeaderSection";
@@ -8,7 +8,10 @@ export const Commentary = ({
   getTopLevelCommentCount,
   getTopLevelComments,
   getReplies,
-}: CommentaryRepository) => {
+  updateLike,
+  addComment,
+  userId,
+}: CommentaryAPI) => {
   const { commentsCount, comments, isLoading } = useLoadInitData({
     getTopLevelCommentCount,
     getTopLevelComments,
@@ -26,6 +29,9 @@ export const Commentary = ({
               key={comment.id}
               {...comment}
               getReplies={getReplies}
+              updateLike={updateLike}
+              addComment={addComment}
+              userId={userId}
             />
           ))
         )}
