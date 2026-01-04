@@ -10,5 +10,8 @@
             "types": "./types/library.ts",
             "default": "./types/library.ts"
         }
+    },
+    "dependencies": {
+        "zod": "^4.3.5"
     }
 }

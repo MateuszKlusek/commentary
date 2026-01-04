@@ -1,4 +1,4 @@
-import type { CommentaryAPI } from "@shared/types/library";
+import type { CommentaryAPI, CommentData } from "@shared/types";
 import axios from "axios";
 import { endpoints } from "./endpoint-map";
 
@@ -18,15 +18,10 @@ export class GenericRestClient implements CommentaryAPI {
   }
 
   async getTopLevelComments(offset: number, limit: number) {
-    return Promise.resolve([{ id: "1", content: "test" }]);
-    const res = await axios.get(
+    const res = await axios.get<{ comments: CommentData[] }>(
       `${this.baseUrl}${endpoints.getTopLevelComments(offset, limit)}`
     );
-    return res.data;
-  }
-  async getUser(id: string) {
-    const res = await axios.get(`${this.baseUrl}${endpoints.getUser(id)}`);
-    return res.data;
+    return res.data.comments;
   }
 
   async getReplies(commentId: string, offset: number, limit: number) {
@@ -35,21 +30,22 @@ export class GenericRestClient implements CommentaryAPI {
     );
     return res.data;
   }
-
-  async updateLike(commentId: string, like: boolean) {
-    const res = await axios.put(
-      `${this.baseUrl}${endpoints.updateLike(commentId, like)}`
-    );
-    return res.data;
+  addComment(
+    content: string,
+    userId: string,
+    parentId: string | null
+  ): Promise<void> {
+    void content;
+    void userId;
+    void parentId;
+    return Promise.resolve();
   }
 
-  async addComment(content: string, userId: string, parentId: string | null) {}
-
-  async updateUser(user: any) {
-    await axios.put(`${this.baseUrl}${endpoints.updateUser(user)}`, user);
+  updateLike(commentId: string, like: boolean): Promise<void> {
+    void commentId;
+    void like;
+    return Promise.resolve();
   }
-
-  async deleteUser(id: string) {
-    await axios.delete(`${this.baseUrl}${endpoints.deleteUser(id)}`);
-  }
+  slug: string | null | undefined;
+  userId: string | null | undefined;
 }

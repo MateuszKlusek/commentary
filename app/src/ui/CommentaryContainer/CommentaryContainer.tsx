@@ -1,4 +1,4 @@
-import type { CommentaryAPI } from "@shared/types/library";
+import type { CommentaryAPI } from "@shared/types";
 import { CommentThread } from "../CommentThread";
 import { Content } from "../Content";
 import { HeaderSection } from "../HeaderSection";

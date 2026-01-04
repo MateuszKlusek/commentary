@@ -33,10 +33,9 @@ function App() {
         getReplies={(commentId, offset, limit) =>
           client.getReplies(commentId, offset, limit)
         }
-        updateLike={(commentId, like) => client.updateLike(commentId, like)}
-        addComment={(content, userId, parentId) =>
-          client.addComment(content, userId, parentId)
-        }
+        // implement
+        updateLike={() => Promise.resolve()}
+        addComment={() => Promise.resolve()}
         userId={userId}
         slug={CONFIG.slug}
       />

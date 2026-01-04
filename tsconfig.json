@@ -1,0 +1,15 @@
+{
+    "extends": "./tsconfig.base.json",
+    "files": [],
+    "references": [
+        {
+            "path": "./app"
+        },
+        {
+            "path": "./server"
+        },
+        {
+            "path": "./shared"
+        }
+    ]
+}

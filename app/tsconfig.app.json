@@ -1,5 +1,7 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
@@ -44,6 +46,7 @@
     "mock",
     "src/adapters/rest/endpoint-map.ts",
     "src/adapters/rest/test-client.ts",
-    "../server/src/services/mocks"
+    "../server/src/services/mocks",
+    "../shared/**/*"
   ]
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tsx src/index.ts"
+    "dev": "npx tsx watch srcÓ src/index.ts"
   },
   "keywords": [],
   "author": "k",
@@ -12,9 +12,12 @@
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
-    "@types/express": "^5.0.6"
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.10.1"
   }
 }

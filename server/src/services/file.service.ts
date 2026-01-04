@@ -1,147 +1,100 @@
-import type { CommentaryAPI, CommentData } from "@shared/types/library";
-import { comments as initialComments } from "./mocks/comments";
+import type { CommentaryAPI, CommentData } from "@shared/types";
+import { validateComments } from "@shared/validators";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const STORAGE_KEY = "commentary_comments";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-export class InMemoryCommentsRepo implements CommentaryAPI {
-  private comments: CommentData[] | null = null;
-  private ready: Promise<void>;
-  userId: string | null | undefined;
-  slug: string | null | undefined;
+export class FileCommentaryServiceSingleton implements CommentaryAPI {
+  private static instance: FileCommentaryServiceSingleton;
 
-  constructor(delay = 200) {
-    this.ready = new Promise((resolve) => {
-      setTimeout(() => {
-        this.loadComments();
-        resolve();
-      }, delay);
-    });
-  }
+  private constructor() {}
 
-  private loadComments(): void {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as Array<{
-          id: string;
-          commendId: string;
-          content: string;
-          createdAt: string;
-          updatedAt: string;
-          likes: number;
-          dislikes: number;
-          replyCount: number;
-          parentId: string | null;
-          userId: string;
-        }>;
-        // Convert date strings back to Date objects
-        this.comments = parsed.map((comment) => ({
-          ...comment,
-          createdAt: new Date(comment.createdAt),
-          updatedAt: new Date(comment.updatedAt),
-        }));
-      } else {
-        // Initialize with mock data if nothing in storage
-        this.comments = [...initialComments];
-        this.saveComments();
-      }
-    } catch (error) {
-      console.error("Failed to load comments from localStorage:", error);
-      this.comments = [...initialComments];
+  public static getInstance() {
+    if (!FileCommentaryServiceSingleton.instance) {
+      FileCommentaryServiceSingleton.instance =
+        new FileCommentaryServiceSingleton();
     }
+    return FileCommentaryServiceSingleton.instance;
   }
 
-  private saveComments(): void {
-    if (this.comments) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.comments));
-      } catch (error) {
-        console.error("Failed to save comments to localStorage:", error);
-      }
-    }
+  // ----------------------- helpers methods ------------------------
+  private async delay(): Promise<void> {
+    const delayMs = Math.floor(Math.random() * (1000 - 250 + 1)) + 250;
+    return new Promise((resolve) => setTimeout(resolve, delayMs));
   }
 
-  private async ensureReady() {
-    await this.ready;
+  private async readFile(path: string) {
+    return fs.readFileSync(path, "utf8");
   }
 
-  async getTopLevelCommentCount(): Promise<number> {
-    await this.ensureReady();
-    return (
-      this.comments?.filter((comment) => comment.parentId === null).length ?? 0
+  private async readCommentsFile() {
+    return this.readFile(path.join(__dirname, "..", "mocks", "comments.json"));
+  }
+
+  private async readUserReactionsFile() {
+    return this.readFile(
+      path.join(__dirname, "..", "mocks", "user-reactions.json")
     );
+  }
+
+  // ---------------------- CommentaryAPI methods ------------------------
+  async getTopLevelCommentCount(): Promise<number> {
+    try {
+      const commentsJson = await this.readCommentsFile();
+      const commentsArray = JSON.parse(commentsJson) as CommentData[];
+      await this.delay();
+      return commentsArray.length;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getTopLevelComments(
     offset: number,
     limit: number
   ): Promise<CommentData[]> {
-    await this.ensureReady();
-    return (
-      this.comments
-        ?.filter((comment) => comment.parentId === null)
-        ?.slice(offset, offset + limit) ?? []
-    );
+    try {
+      const commentsJson = await this.readCommentsFile();
+      await this.delay();
+      const commentsArray = JSON.parse(commentsJson) as CommentData[];
+      const result = validateComments(commentsArray);
+      return result.slice(offset, offset + limit);
+    } catch (error) {
+      throw error;
+    }
   }
-
   async getReplies(
     commentId: string,
     offset: number,
     limit: number
   ): Promise<CommentData[]> {
-    await this.ensureReady();
-    return (
-      this.comments
-        ?.filter((comment) => comment.parentId === commentId)
-        ?.slice(offset, offset + limit) ?? []
-    );
+    void commentId;
+    void offset;
+    void limit;
+    return [];
   }
-
+  async updateLike(commentId: string, like: boolean): Promise<void> {
+    void commentId;
+    void like;
+    return;
+  }
   async addComment(
     content: string,
     userId: string,
     parentId: string | null
   ): Promise<void> {
-    await this.ensureReady();
-    const newComment: CommentData = {
-      id: crypto.randomUUID(),
-      parentId,
-      userId,
-      content,
-      commendId: crypto.randomUUID(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      likes: 0,
-      dislikes: 0,
-      replyCount: 0,
-    };
-
-    if (this.comments) {
-      this.comments.push(newComment);
-      // Update parent's replyCount if it's a reply
-      if (parentId) {
-        const parent = this.comments.find((c) => c.id === parentId);
-        if (parent) {
-          parent.replyCount = (parent.replyCount || 0) + 1;
-        }
-      }
-      this.saveComments();
-    }
+    void content;
+    void userId;
+    void parentId;
+    return;
   }
-
-  async updateLike(commentId: string, like: boolean): Promise<void> {
-    await this.ensureReady();
-    if (this.comments) {
-      const comment = this.comments.find((c) => c.id === commentId);
-      if (comment) {
-        if (like) {
-          comment.likes += 1;
-        } else {
-          comment.dislikes += 1;
-        }
-        comment.updatedAt = new Date();
-        this.saveComments();
-      }
-    }
-  }
+  slug: string | null | undefined;
+  userId: string | null | undefined;
 }
+
+const fileCommentaryService = FileCommentaryServiceSingleton.getInstance();
+
+export { fileCommentaryService as commentaryService };

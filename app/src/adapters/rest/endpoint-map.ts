@@ -1,7 +1,6 @@
 export const endpoints = {
-  getUser: (id: string) => `/users/${id}`,
-  updateUser: (userId: string) => `/users/${userId}`,
-  deleteUser: (id: string) => `/users/${id}`,
+  getReplies: (commentId: string, offset: number, limit: number) =>
+    `/comments/${commentId}/replies?offset=${offset}&limit=${limit}`,
   getTopLevelCommentCount: () => `/comments/count`,
   getTopLevelComments: (offset: number, limit: number) =>
     `/comments?offset=${offset}&limit=${limit}`,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useIsLoading } from "../../../hooks/useIsLoading";
-import type { CommentData } from "../../../types/core";
+import type { CommentData } from "@shared/types";
 
 type UseLoadInitDataParams = {
   getTopLevelCommentCount: () => Promise<number>;

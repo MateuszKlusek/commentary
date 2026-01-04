@@ -6,12 +6,9 @@
         "app",
         "server"
     ],
-    "types": "shared/types",
+    "types": "@commentary/shared/types",
     "scripts": {
-        "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary/app dev\"",
-        "start-server": "pnpm --filter server start",
-        "start-app": "pnpm --filter app dev",
-        "build": "pnpm -r build"
+        "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary/app dev\""
     },
     "devDependencies": {
         "typescript": "^5.2.0",
