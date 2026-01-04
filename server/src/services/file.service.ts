@@ -45,7 +45,6 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
     try {
       const commentsJson = await this.readCommentsFile();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
-      await this.delay();
       return commentsArray.length;
     } catch (error) {
       throw error;
@@ -58,7 +57,6 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
   ): Promise<CommentData[]> {
     try {
       const commentsJson = await this.readCommentsFile();
-      await this.delay();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
       const result = validateComments(commentsArray);
       return result.slice(offset, offset + limit);

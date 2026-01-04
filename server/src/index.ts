@@ -7,6 +7,11 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
+app.use((_req, _res, next) => {
+  setTimeout(() => {
+    next();
+  }, 200);
+});
 
 app.use("/api", router);
 
