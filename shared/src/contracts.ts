@@ -9,8 +9,7 @@ export const contract = c.router({
     method: "GET",
     path: "/comments/count",
     query: z.object({
-      name: z.string().optional(),
-      type: z.string().optional(),
+      discussionId: z.string().nonempty(),
     }),
     responses: {
       200: z.object({
@@ -18,12 +17,14 @@ export const contract = c.router({
       }),
     },
   },
+
   getTopLevelComments: {
     method: "GET",
     path: "/comments",
     query: z.object({
-      offset: z.coerce.number(),
-      limit: z.coerce.number(),
+      offset: z.coerce.number().min(0),
+      limit: z.coerce.number().min(1),
+      discussionId: z.string().nonempty(),
     }),
     responses: {
       200: z.object({
@@ -31,13 +32,15 @@ export const contract = c.router({
       }),
     },
   },
+
   getReplies: {
     method: "GET",
     path: "/comments/:commentId/replies",
     query: z.object({
       offset: z.coerce.number(),
       limit: z.coerce.number(),
-      commentId: z.string(),
+      commentId: z.string().nonempty(),
+      discussionId: z.string().nonempty(),
     }),
     responses: {
       200: z.object({

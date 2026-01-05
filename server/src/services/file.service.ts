@@ -1,4 +1,7 @@
-import type { CommentaryAPI, CommentData } from "@shared/src/types";
+import type {
+  CommentaryActionsWithDiscussionContext,
+  CommentData,
+} from "@shared/src/types";
 import { validateComments } from "@shared/src/validators";
 import fs from "fs";
 import path from "path";
@@ -7,7 +10,9 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export class FileCommentaryServiceSingleton implements CommentaryAPI {
+export class FileCommentaryServiceSingleton
+  implements CommentaryActionsWithDiscussionContext
+{
   private static instance: FileCommentaryServiceSingleton;
 
   private constructor() {}
@@ -37,13 +42,14 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
   }
 
   // ---------------------- CommentaryAPI methods ------------------------
-  async getTopLevelCommentCount(): Promise<number> {
+  async getTopLevelCommentCount(discussionId: string): Promise<number> {
     try {
       const commentsJson = await this.readCommentsFile();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
       const result = validateComments(commentsArray);
       const topLevelComments = result.filter(
-        (comment) => comment.parentId === null
+        (comment) =>
+          comment.parentId === null && comment.discussionId === discussionId
       );
       return topLevelComments.length;
     } catch (error) {
@@ -52,6 +58,7 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
   }
 
   async getTopLevelComments(
+    discussionId: string,
     offset: number,
     limit: number
   ): Promise<CommentData[]> {
@@ -60,7 +67,8 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
       const result = validateComments(commentsArray);
       const topLevelComments = result.filter(
-        (comment) => comment.parentId === null
+        (comment) =>
+          comment.parentId === null && comment.discussionId === discussionId
       );
       return topLevelComments.slice(offset, offset + limit);
     } catch (error) {
@@ -83,10 +91,13 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
     return replies;
   }
 
-  async updateLike(commentId: string, like: boolean): Promise<void> {
+  async updateLike(
+    discussionId: string,
+    commentId: string,
+    like: boolean
+  ): Promise<void> {
     void commentId;
     void like;
-
     return;
   }
 

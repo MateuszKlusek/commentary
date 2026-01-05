@@ -1,28 +1,22 @@
 import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import { useState } from "react";
 
-export const Comment = (props: CommentData & CommentaryAPI) => {
+export const Comment = ({
+  commentaryProps,
+  comment,
+}: {
+  commentaryProps: CommentaryAPI;
+  comment: CommentData;
+}) => {
   const [replies, setReplies] = useState<CommentData[]>([]);
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
 
   const handleReplyClick = async () => {
-    const replies = await props.getReplies(props.commendId, 0, 10);
+    const replies = await commentaryProps.getReplies(comment.commentId, 0, 10);
     console.log({ replies });
     setReplies(replies || []);
     setRepliesShown(true);
-  };
-
-  const handleLikeClick = async () => {
-    await props.updateLike(props.commendId, true);
-  };
-
-  const handleDislikeClick = async () => {
-    await props.updateLike(props.commendId, false);
-  };
-
-  const handleReply = async () => {
-    await props.addComment(props.content, props.userId, props.commendId);
   };
 
   return (
@@ -31,24 +25,36 @@ export const Comment = (props: CommentData & CommentaryAPI) => {
       <div className="flex ">
         <div>icon</div>
 
-        <div>{props.userId}</div>
+        <div>{commentaryProps.userId}</div>
 
-        <div>{new Date(props.createdAt).toLocaleDateString()}</div>
+        <div>{new Date(comment.createdAt).toLocaleDateString()}</div>
       </div>
 
       {/* content */}
-      <div className="text-sm">{props.content}</div>
+      <div className="text-sm">{comment.content}</div>
 
       {/* actions */}
       <div className="flex gap-2 flex-col">
         <div className="flex gap-1">
           <div className="flex gap-1">
-            <button onClick={handleLikeClick}>Like </button>
-            <div>{props.likes}</div>
+            <button
+              onClick={() =>
+                commentaryProps.updateLike(comment.commentId, true)
+              }
+            >
+              Like{" "}
+            </button>
+            <div>{comment.likes}</div>
           </div>
           <div className="flex gap-1">
-            <button onClick={handleDislikeClick}>Dislike </button>
-            <div>{props.dislikes}</div>
+            <button
+              onClick={() =>
+                commentaryProps.updateLike(comment.commentId, false)
+              }
+            >
+              Dislike{" "}
+            </button>
+            <div>{comment.dislikes}</div>
           </div>
           <div className="flex gap-1">
             <button onClick={() => setReplyInputShown(true)}>Reply</button>
@@ -59,25 +65,39 @@ export const Comment = (props: CommentData & CommentaryAPI) => {
             <textarea className="w-full" />
             <div className="flex justify-end gap-2">
               <button onClick={() => setReplyInputShown(false)}>Cancel</button>
-              <button onClick={handleReply}>Reply</button>
+              <button
+                onClick={() =>
+                  commentaryProps.addComment(
+                    comment.content,
+                    commentaryProps.userId || "",
+                    comment.commentId
+                  )
+                }
+              >
+                Reply
+              </button>
             </div>
           </div>
         ) : null}
       </div>
 
       {/*replies  */}
-      {props.replyCount > 0 && !repliesShown ? (
+      {comment.replyCount > 0 && !repliesShown ? (
         <div
           className="cursor-pointer text-amber-600 w-fit"
           onClick={handleReplyClick}
         >
-          Replies {props.replyCount}
+          Replies {comment.replyCount}
         </div>
       ) : null}
 
       <div className="ml-4">
         {replies?.map((reply) => (
-          <Comment key={reply.id} {...props} />
+          <Comment
+            key={reply.commentId}
+            commentaryProps={commentaryProps}
+            comment={reply}
+          />
         ))}
       </div>
     </div>

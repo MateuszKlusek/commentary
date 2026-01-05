@@ -6,17 +6,19 @@ const router: Router = Router();
 
 const s = initServer();
 const tsRestRouter = s.router(contract, {
-  getTopLevelCommentCount: async () => {
-    const count = await commentaryService.getTopLevelCommentCount();
+  getTopLevelCommentCount: async ({ query: { discussionId } }) => {
+    const count = await commentaryService.getTopLevelCommentCount(discussionId);
     return {
       status: 200,
       body: { count },
     };
   },
-
-  getTopLevelComments: async ({ query: { offset, limit } }) => {
-    console.log({ offset, limit });
-    const comments = await commentaryService.getTopLevelComments(offset, limit);
+  getTopLevelComments: async ({ query: { offset, limit, discussionId } }) => {
+    const comments = await commentaryService.getTopLevelComments(
+      discussionId,
+      offset,
+      limit
+    );
     return {
       status: 200,
       body: {

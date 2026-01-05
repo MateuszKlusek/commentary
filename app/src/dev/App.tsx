@@ -6,7 +6,7 @@ import { GenericRestClient } from "../adapters/rest/test-client";
 const CONFIG = {
   baseUrl: "http://localhost:3000/api/v1/file",
   userId: "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-  slug: "test-slug",
+  discussionId: "94c61dbf-1680-41c8-9029-ecf0bb301636",
 };
 
 function App() {
@@ -15,7 +15,10 @@ function App() {
   );
 
   const client = useMemo(() => {
-    return new GenericRestClient(CONFIG.baseUrl);
+    return new GenericRestClient({
+      baseUrl: CONFIG.baseUrl,
+      discussionId: CONFIG.discussionId,
+    });
   }, []);
 
   const handleUserIdChange = (newUserId: string | undefined | null) => {
@@ -33,11 +36,11 @@ function App() {
         getReplies={(commentId, offset, limit) =>
           client.getReplies(commentId, offset, limit)
         }
-        // implement
+        // TODO: implement
         updateLike={() => Promise.resolve()}
         addComment={() => Promise.resolve()}
+        discussionId={CONFIG.discussionId}
         userId={userId}
-        slug={CONFIG.slug}
       />
     </div>
   );

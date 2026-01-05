@@ -1,17 +1,23 @@
 import { contract } from "@shared/src/contracts";
-import type { CommentaryAPI } from "@shared/src/types";
+import type { CommentaryActions } from "@shared/src/types";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
 
-export class GenericRestClient implements CommentaryAPI {
-  private baseUrl: string;
+export class GenericRestClient implements CommentaryActions {
+  private discussionId: string;
   private client: ReturnType<
     typeof initClient<typeof contract, InitClientArgs>
   >;
 
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+  constructor({
+    baseUrl,
+    discussionId,
+  }: {
+    baseUrl: string;
+    discussionId: string;
+  }) {
+    this.discussionId = discussionId;
     this.client = initClient(contract, {
-      baseUrl: baseUrl,
+      baseUrl,
       baseHeaders: {
         "Content-Type": "application/json",
       },
@@ -19,7 +25,9 @@ export class GenericRestClient implements CommentaryAPI {
   }
 
   async getTopLevelCommentCount() {
-    const res = await this.client.getTopLevelCommentCount();
+    const res = await this.client.getTopLevelCommentCount({
+      query: { discussionId: this.discussionId },
+    });
     if (res.status === 200) {
       return res.body.count;
     }
@@ -29,7 +37,7 @@ export class GenericRestClient implements CommentaryAPI {
 
   async getTopLevelComments(offset: number, limit: number) {
     const res = await this.client.getTopLevelComments({
-      query: { offset, limit },
+      query: { offset, limit, discussionId: this.discussionId },
     });
 
     if (res.status === 200) {
@@ -40,7 +48,7 @@ export class GenericRestClient implements CommentaryAPI {
 
   async getReplies(commentId: string, offset: number, limit: number) {
     const res = await this.client.getReplies({
-      query: { commentId, offset, limit },
+      query: { commentId, offset, limit, discussionId: this.discussionId },
       params: { commentId },
     });
     if (res.status === 200) {

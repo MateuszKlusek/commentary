@@ -4,17 +4,10 @@ import { Content } from "../Content";
 import { HeaderSection } from "../HeaderSection";
 import { useLoadInitData } from "./hooks/useLoadInitData";
 
-export const Commentary = ({
-  getTopLevelCommentCount,
-  getTopLevelComments,
-  getReplies,
-  updateLike,
-  addComment,
-  userId,
-}: CommentaryAPI) => {
+export const Commentary = (props: CommentaryAPI) => {
   const { commentsCount, comments, isLoading } = useLoadInitData({
-    getTopLevelCommentCount,
-    getTopLevelComments,
+    getTopLevelCommentCount: props.getTopLevelCommentCount,
+    getTopLevelComments: props.getTopLevelComments,
   });
 
   return (
@@ -27,11 +20,8 @@ export const Commentary = ({
           comments.map((comment) => (
             <CommentThread
               key={comment.id}
-              {...comment}
-              getReplies={getReplies}
-              updateLike={updateLike}
-              addComment={addComment}
-              userId={userId}
+              commentaryProps={props}
+              comment={comment}
             />
           ))
         )}
