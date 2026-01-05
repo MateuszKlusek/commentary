@@ -14,8 +14,7 @@ export const Comment = ({
 
   const handleReplyClick = async () => {
     const replies = await commentaryProps.getReplies(comment.commentId, 0, 10);
-    console.log({ replies });
-    setReplies(replies || []);
+    setReplies(replies);
     setRepliesShown(true);
   };
 
