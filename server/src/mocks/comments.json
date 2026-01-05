@@ -14,16 +14,16 @@
     },
     {
         "id": "2",
-        "commentId": "019b8612-41de-77bf-8a88-4fa5c098ba59",
+        "commentId": "019b8612-41e0-76d8-99f3-e730fc92224e",
         "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
         "parentId": null,
-        "content": "> **Hot take**\n> Opens the thread\n> Chaos ensues",
-        "createdAt": "2025-11-21T09:34:00Z",
-        "updatedAt": "2025-11-21T10:01:00Z",
-        "likes": 9,
-        "dislikes": 3,
-        "userId": "3",
-        "replyCount": 0
+        "content": "Some main comment with come replies",
+        "createdAt": "2025-11-22T18:42:00Z",
+        "updatedAt": "2025-11-22T19:20:00Z",
+        "likes": 8,
+        "dislikes": 4,
+        "userId": "22",
+        "replyCount": 3
     },
     {
         "id": "3",
@@ -235,16 +235,16 @@
     },
     {
         "id": "20",
-        "commentId": "019b8612-41e0-76d8-99f3-e730fc92224e",
+        "commentId": "019b8612-41de-77bf-8a88-4fa5c098ba59",
         "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
         "parentId": null,
-        "content": "Some main comment with come replies",
-        "createdAt": "2025-11-22T18:42:00Z",
-        "updatedAt": "2025-11-22T19:20:00Z",
-        "likes": 8,
-        "dislikes": 4,
-        "userId": "22",
-        "replyCount": 3
+        "content": "> **Hot take**\n> Opens the thread\n> Chaos ensues",
+        "createdAt": "2025-11-21T09:34:00Z",
+        "updatedAt": "2025-11-21T10:01:00Z",
+        "likes": 9,
+        "dislikes": 3,
+        "userId": "3",
+        "replyCount": 0
     },
     {
         "id": "21",

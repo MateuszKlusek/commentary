@@ -1,6 +1,6 @@
+import type { CommentData } from "@shared/src/types";
 import { useEffect, useState } from "react";
 import { useIsLoading } from "../../../hooks/useIsLoading";
-import type { CommentData } from "@shared/src/types";
 
 type UseLoadInitDataParams = {
   getTopLevelCommentCount: () => Promise<number>;
@@ -16,7 +16,7 @@ export const useLoadInitData = ({
   getTopLevelCommentCount,
   getTopLevelComments,
   initialOffset = 0,
-  initialLimit = 10,
+  initialLimit = 20,
 }: UseLoadInitDataParams) => {
   const loading = useIsLoading();
   const [commentsCount, setCommentsCount] = useState(0);
