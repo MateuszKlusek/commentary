@@ -1,5 +1,5 @@
-import type { CommentaryAPI, CommentData } from "@shared/types";
-import { validateComments } from "@shared/validators";
+import type { CommentaryAPI, CommentData } from "@shared/src/types";
+import { validateComments } from "@shared/src/validators";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -21,10 +21,6 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
   }
 
   // ----------------------- helpers methods ------------------------
-  private async delay(): Promise<void> {
-    const delayMs = Math.floor(Math.random() * (1000 - 250 + 1)) + 250;
-    return new Promise((resolve) => setTimeout(resolve, delayMs));
-  }
 
   private async readFile(path: string) {
     return fs.readFileSync(path, "utf8");
@@ -45,7 +41,11 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
     try {
       const commentsJson = await this.readCommentsFile();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
-      return commentsArray.length;
+      const result = validateComments(commentsArray);
+      const topLevelComments = result.filter(
+        (comment) => comment.parentId === null
+      );
+      return topLevelComments.length;
     } catch (error) {
       throw error;
     }
@@ -59,7 +59,10 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
       const commentsJson = await this.readCommentsFile();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
       const result = validateComments(commentsArray);
-      return result.slice(offset, offset + limit);
+      const topLevelComments = result.filter(
+        (comment) => comment.parentId === null
+      );
+      return topLevelComments.slice(offset, offset + limit);
     } catch (error) {
       throw error;
     }
@@ -69,16 +72,24 @@ export class FileCommentaryServiceSingleton implements CommentaryAPI {
     offset: number,
     limit: number
   ): Promise<CommentData[]> {
-    void commentId;
-    void offset;
-    void limit;
-    return [];
+    const commentsJson = await this.readCommentsFile();
+    const commentsArray = JSON.parse(commentsJson) as CommentData[];
+    const result = validateComments(commentsArray);
+    const replies = result
+      .filter((comment) => comment.parentId === commentId)
+      .slice(offset, offset + limit);
+    console.log({ replies });
+
+    return replies;
   }
+
   async updateLike(commentId: string, like: boolean): Promise<void> {
     void commentId;
     void like;
+
     return;
   }
+
   async addComment(
     content: string,
     userId: string,

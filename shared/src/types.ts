@@ -1,14 +1,15 @@
 export type CommentData = {
   id: string;
   commendId: string;
-  content: string; // later on test markdown
+  // TODO: later on test markdown feasibility
+  content: string;
   createdAt: Date;
   updatedAt: Date;
   likes: number;
   dislikes: number;
   replyCount: number;
   parentId: string | null;
-  userId: string; // consider changing into user object
+  userId: string;
 };
 
 export interface CommentaryAPI {

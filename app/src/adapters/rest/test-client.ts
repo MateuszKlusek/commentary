@@ -1,4 +1,4 @@
-import type { CommentaryAPI, CommentData } from "@shared/types";
+import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import axios from "axios";
 import { endpoints } from "./endpoint-map";
 
@@ -25,10 +25,11 @@ export class GenericRestClient implements CommentaryAPI {
   }
 
   async getReplies(commentId: string, offset: number, limit: number) {
-    const res = await axios.get(
+    console.log({ commentId, offset, limit });
+    const res = await axios.get<{ replies: CommentData[] }>(
       `${this.baseUrl}${endpoints.getReplies(commentId, offset, limit)}`
     );
-    return res.data;
+    return res.data.replies;
   }
   addComment(
     content: string,

@@ -8,9 +8,10 @@ const PORT = 3000;
 
 app.use(cors());
 app.use((_req, _res, next) => {
+  const delayMs = Math.floor(Math.random() * 200) + 350;
   setTimeout(() => {
     next();
-  }, 200);
+  }, delayMs);
 });
 
 app.use("/api", router);

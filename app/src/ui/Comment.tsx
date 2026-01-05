@@ -1,14 +1,15 @@
+import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import { useState } from "react";
-import type { CommentaryRepository, CommentData } from "../types/core";
 
-export const Comment = (props: CommentData & CommentaryRepository) => {
+export const Comment = (props: CommentData & CommentaryAPI) => {
   const [replies, setReplies] = useState<CommentData[]>([]);
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
 
   const handleReplyClick = async () => {
     const replies = await props.getReplies(props.commendId, 0, 10);
-    setReplies(replies);
+    console.log({ replies });
+    setReplies(replies || []);
     setRepliesShown(true);
   };
 
@@ -75,7 +76,7 @@ export const Comment = (props: CommentData & CommentaryRepository) => {
       ) : null}
 
       <div className="ml-4">
-        {replies.map((reply) => (
+        {replies?.map((reply) => (
           <Comment key={reply.id} {...props} />
         ))}
       </div>
