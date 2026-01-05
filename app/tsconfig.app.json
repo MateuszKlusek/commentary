@@ -45,7 +45,7 @@
     "src",
     "mock",
     "src/adapters/rest/endpoint-map.ts",
-    "src/adapters/rest/test-client.ts",
+    "src/adapters/rest-adapter.ts",
     "../server/src/services/mocks",
     "../shared/**/*"
   ]

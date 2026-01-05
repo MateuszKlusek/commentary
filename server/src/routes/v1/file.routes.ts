@@ -5,6 +5,7 @@ import { commentaryService } from "../../services/file.service";
 const router: Router = Router();
 
 const s = initServer();
+
 const tsRestRouter = s.router(contract, {
   getTopLevelCommentCount: async ({ query: { discussionId } }) => {
     const count = await commentaryService.getTopLevelCommentCount(discussionId);

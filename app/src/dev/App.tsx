@@ -1,7 +1,7 @@
 import { Commentary } from "@ui/CommentaryContainer/CommentaryContainer";
 import { UserIdInput } from "@ui/UserIdInput";
 import { useMemo, useState } from "react";
-import { GenericRestClient } from "../adapters/rest/test-client";
+import { GenericRestClient } from "../adapters/rest-adapter";
 
 const CONFIG = {
   baseUrl: "http://localhost:3000/api/v1/file",
