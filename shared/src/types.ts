@@ -1,16 +1,19 @@
-export type CommentData = {
-  id: string;
-  commendId: string;
-  // TODO: later on test markdown feasibility
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  likes: number;
-  dislikes: number;
-  replyCount: number;
-  parentId: string | null;
-  userId: string;
-};
+import z from "zod";
+
+export const CommentDataSchema = z.object({
+  id: z.string(),
+  commendId: z.string(),
+  content: z.string(),
+  createdAt: z.string().transform((str) => new Date(str)),
+  updatedAt: z.string().transform((str) => new Date(str)),
+  likes: z.number().int().min(0),
+  dislikes: z.number().int().min(0),
+  replyCount: z.number().int().min(0),
+  parentId: z.string().nullable(),
+  userId: z.string(),
+});
+
+export type CommentData = z.infer<typeof CommentDataSchema>;
 
 export interface CommentaryAPI {
   getTopLevelCommentCount(): Promise<number>;

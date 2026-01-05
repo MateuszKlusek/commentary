@@ -7,11 +7,16 @@
     "types": "./types/library.ts",
     "exports": {
         ".": {
-            "types": "./types/library.ts",
-            "default": "./types/library.ts"
+            "types": "./src/contracts.ts",
+            "default": "./src/contracts.ts"
+        },
+        "./types": {
+            "types": "./src/types.ts",
+            "default": "./src/types.ts"
         }
     },
     "dependencies": {
+        "@ts-rest/core": "3.53.0-rc.1",
         "zod": "^4.3.5"
     }
 }

@@ -1,35 +1,52 @@
-import type { CommentaryAPI, CommentData } from "@shared/src/types";
-import axios from "axios";
-import { endpoints } from "./endpoint-map";
+import { contract } from "@shared/src/contracts";
+import type { CommentaryAPI } from "@shared/src/types";
+import { initClient, type InitClientArgs } from "@ts-rest/core";
 
 export class GenericRestClient implements CommentaryAPI {
   private baseUrl: string;
+  private client: ReturnType<
+    typeof initClient<typeof contract, InitClientArgs>
+  >;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+    this.client = initClient(contract, {
+      baseUrl: baseUrl,
+      baseHeaders: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   async getTopLevelCommentCount() {
-    const res = await axios.get<{ count: number }>(
-      `${this.baseUrl}${endpoints.getTopLevelCommentCount()}`
-    );
-    console.log(res.data);
-    return res.data.count;
+    const res = await this.client.getTopLevelCommentCount();
+    if (res.status === 200) {
+      return res.body.count;
+    }
+
+    return 0;
   }
 
   async getTopLevelComments(offset: number, limit: number) {
-    const res = await axios.get<{ comments: CommentData[] }>(
-      `${this.baseUrl}${endpoints.getTopLevelComments(offset, limit)}`
-    );
-    return res.data.comments;
+    const res = await this.client.getTopLevelComments({
+      query: { offset, limit },
+    });
+
+    if (res.status === 200) {
+      return res.body.comments;
+    }
+    return [];
   }
 
   async getReplies(commentId: string, offset: number, limit: number) {
-    console.log({ commentId, offset, limit });
-    const res = await axios.get<{ replies: CommentData[] }>(
-      `${this.baseUrl}${endpoints.getReplies(commentId, offset, limit)}`
-    );
-    return res.data.replies;
+    const res = await this.client.getReplies({
+      query: { commentId, offset, limit },
+      params: { commentId },
+    });
+    if (res.status === 200) {
+      return res.body.replies;
+    }
+    return [];
   }
   addComment(
     content: string,

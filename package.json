@@ -2,16 +2,11 @@
     "name": "@commentary/repository",
     "private": true,
     "version": "0.1.0",
-    "workspaces": [
-        "app",
-        "server"
-    ],
-    "types": "@commentary/shared/types",
     "scripts": {
         "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary/app dev\""
     },
     "devDependencies": {
-        "typescript": "^5.2.0",
-        "concurrently": "^9.1.0"
+        "concurrently": "^9.1.0",
+        "typescript": "~5.9.3"
     }
 }
