@@ -41,7 +41,7 @@ export const AutoTextarea = ({ value, onChange, ...props }: Props) => {
         border-b
         focus:border-white
         px-0
-        py-0
+        py-1
         leading-6
         box-border
       "
