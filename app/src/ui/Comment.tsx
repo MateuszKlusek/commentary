@@ -1,5 +1,6 @@
 import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import { useState } from "react";
+import { AutoTextarea } from "./AutoTextarea";
 
 export const Comment = ({
   commentaryProps,
@@ -17,6 +18,8 @@ export const Comment = ({
     setReplies(replies);
     setRepliesShown(true);
   };
+
+  const [replyComment, setReplyComment] = useState("");
 
   return (
     <div className="w-full p-2">
@@ -60,8 +63,13 @@ export const Comment = ({
           </div>
         </div>
         {replyInputShown ? (
-          <div className="border-2 border-gray-300 rounded-md p-2">
-            <textarea className="w-full" />
+          <div className="">
+            <AutoTextarea
+              placeholder="Add a reply..."
+              value={replyComment}
+              id="reply-textarea"
+              onChange={(e) => setReplyComment(e.target.value)}
+            />
             <div className="flex justify-end gap-2">
               <button onClick={() => setReplyInputShown(false)}>Cancel</button>
               <button

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { AutoTextarea } from "./AutoTextarea";
 import { HStack } from "./helpers/HStack";
 
 type Props = {
@@ -5,16 +7,23 @@ type Props = {
 };
 
 export const HeaderSection = ({ commentsCount }: Props) => {
+  const [comment, setComment] = useState("");
+
   return (
     <commentary-header>
-      <section id="header-section" className="flex flex-col w-full">
+      <section id="header-section" className="">
         <HStack>
           <div>{commentsCount} Comments</div>
           <div> Sort By</div>
         </HStack>
-        <HStack className="w-full">
+        <HStack className="w-full gap-4">
           <div>P</div>
-          <textarea placeholder="Add a comment..."></textarea>
+          <AutoTextarea
+            placeholder="Add a comment..."
+            value={comment}
+            id="comment-textarea"
+            onChange={(e) => setComment(e.target.value)}
+          />
         </HStack>
       </section>
     </commentary-header>

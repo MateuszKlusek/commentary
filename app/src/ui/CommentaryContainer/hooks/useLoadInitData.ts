@@ -16,7 +16,7 @@ export const useLoadInitData = ({
   getTopLevelCommentCount,
   getTopLevelComments,
   initialOffset = 0,
-  initialLimit = 20,
+  initialLimit = 10,
 }: UseLoadInitDataParams) => {
   const loading = useIsLoading();
   const [commentsCount, setCommentsCount] = useState(0);
@@ -31,7 +31,6 @@ export const useLoadInitData = ({
           getTopLevelComments(initialOffset, initialLimit),
         ]);
 
-        console.log(commentsCount, comments);
         setCommentsCount(commentsCount);
         setComments(comments);
       } catch (error) {
