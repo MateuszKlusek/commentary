@@ -36,6 +36,7 @@ export type CommentaryConfig = {
   discussionId: string | null | undefined;
   userId: string | null | undefined;
   validationMode?: "warn" | "strict" | "silent";
+  customCss?: string;
 };
 
 export type WithDiscussionId<T, I extends any, K extends keyof T> = {

@@ -2,6 +2,7 @@ import { Commentary } from "@ui/CommentaryContainer/CommentaryContainer";
 import { UserIdInput } from "@ui/UserIdInput";
 import { useMemo, useState } from "react";
 import { GenericRestClient } from "../adapters/rest-adapter";
+import customCss from "/styles/custom-css-1.css?url";
 
 const CONFIG = {
   baseUrl: "http://localhost:3000/api/v1/file",
@@ -41,6 +42,7 @@ function App() {
         addComment={() => Promise.resolve()}
         discussionId={CONFIG.discussionId}
         userId={userId}
+        customCss={customCss}
       />
     </div>
   );

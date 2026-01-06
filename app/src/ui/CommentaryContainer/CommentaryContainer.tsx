@@ -1,4 +1,5 @@
 import type { CommentaryAPI } from "@shared/src/types";
+import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { CommentThread } from "../CommentThread";
 import { Content } from "../Content";
 import { HeaderSection } from "../HeaderSection";
@@ -10,8 +11,10 @@ export const Commentary = (props: CommentaryAPI) => {
     getTopLevelComments: props.getTopLevelComments,
   });
 
+  useDynamicCss(props.customCss);
+
   return (
-    <commentary-container>
+    <commentary-container id="commentary-container">
       <HeaderSection commentsCount={commentsCount} />
       <Content>
         {isLoading ? (
