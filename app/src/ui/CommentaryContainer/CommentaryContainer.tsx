@@ -1,9 +1,9 @@
 import type { CommentaryAPI } from "@shared/src/types";
-import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { CommentThread } from "../CommentThread";
 import { Content } from "../Content";
 import { HeaderSection } from "../HeaderSection";
 import { useLoadInitData } from "./hooks/useLoadInitData";
+import { useDynamicCss } from "../../hooks/useDynamicCss";
 
 export const Commentary = (props: CommentaryAPI) => {
   const { commentsCount, comments, isLoading } = useLoadInitData({
@@ -11,7 +11,8 @@ export const Commentary = (props: CommentaryAPI) => {
     getTopLevelComments: props.getTopLevelComments,
   });
 
-  useDynamicCss(props.customCss);
+  const { isReady } = useDynamicCss(props.customCss);
+  if (!isReady) return <div>Loading...</div>;
 
   return (
     <commentary-container id="commentary-container">
