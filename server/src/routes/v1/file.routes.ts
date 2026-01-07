@@ -25,20 +25,21 @@ const tsRestRouter = s.router(contract, {
     };
   },
 
-  getReplies: async ({ query: { commentId, offset, limit } }) => {
-    const replies = await commentaryService.getReplies(
-      commentId,
+  getReplies: async ({ query: { parentId, offset, limit } }) => {
+    const replies = await commentaryService.getReplies({
+      parentId,
       offset,
-      limit
-    );
+      limit,
+    });
     return {
       status: 200,
       body: {
-        replies: replies.map((reply) => ({
+        items: replies.items.map((reply) => ({
           ...reply,
           createdAt: reply.createdAt.toISOString(),
           updatedAt: reply.updatedAt.toISOString(),
         })),
+        itemsCount: replies.itemsCount,
       },
     };
   },

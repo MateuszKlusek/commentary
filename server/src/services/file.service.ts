@@ -66,20 +66,23 @@ export class FileCommentaryServiceSingleton
     }
   }
 
-  async getReplies(
-    commentId: string,
-    offset: number,
-    limit: number
-  ): Promise<CommentData[]> {
+  async getReplies(params: {
+    offset: number;
+    limit: number;
+    parentId: string;
+  }) {
+    const { offset, limit, parentId } = params;
     const commentsJson = await this.readCommentsFile();
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
     const result = validateComments(commentsArray);
     const replies = result
-      .filter((comment) => comment.parentId === commentId)
+      .filter((comment) => comment.parentId === parentId)
       .slice(offset, offset + limit);
-    console.log({ replies });
 
-    return replies;
+    return {
+      items: replies,
+      itemsCount: replies.length,
+    };
   }
 
   async updateLike(

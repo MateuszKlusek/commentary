@@ -31,9 +31,7 @@ function App() {
       <UserIdInput userId={userId} onUserIdChange={handleUserIdChange} />
       <Commentary
         getTopLevelComments={client.getTopLevelComments}
-        getReplies={(commentId, offset, limit) =>
-          client.getReplies(commentId, offset, limit)
-        }
+        getReplies={client.getReplies}
         // TODO: implement
         updateLike={() => Promise.resolve()}
         addComment={() => Promise.resolve()}

@@ -18,11 +18,7 @@ export type CommentData = z.infer<typeof CommentDataSchema>;
 
 export type CommentaryActions = {
   getTopLevelComments: InfiniteFetcher<CommentData>;
-  getReplies(
-    commentId: string,
-    offset: number,
-    limit: number
-  ): Promise<CommentData[]>;
+  getReplies: InfiniteFetcher<CommentData, { parentId: string }>;
   updateLike(commentId: string, like: boolean): Promise<void>;
   addComment(
     content: string,
@@ -72,7 +68,14 @@ export type ReactionData = {
 //       limit: number;
 //     }) => Promise<{ items: T[]; nextCursor?: string }>);
 
-export type InfiniteFetcher<T> = (params: {
+type PaginationParams = {
   offset: number;
   limit: number;
-}) => Promise<{ items: T[]; itemsCount: number }>;
+};
+
+export type InfiniteFetcher<T, P = {}> = (
+  params: PaginationParams & P
+) => Promise<{
+  items: T[];
+  itemsCount: number;
+}>;

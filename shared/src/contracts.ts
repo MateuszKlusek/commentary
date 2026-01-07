@@ -7,7 +7,7 @@ const c = initContract();
 export const contract = c.router({
   getTopLevelComments: {
     method: "GET",
-    path: "/comments",
+    path: "/comments/top-level",
     query: z.object({
       offset: z.coerce.number().min(0),
       limit: z.coerce.number().min(1),
@@ -23,16 +23,17 @@ export const contract = c.router({
 
   getReplies: {
     method: "GET",
-    path: "/comments/:commentId/replies",
+    path: "/comments/replies",
     query: z.object({
       offset: z.coerce.number(),
       limit: z.coerce.number(),
-      commentId: z.string().nonempty(),
+      parentId: z.string().nonempty(),
       discussionId: z.string().nonempty(),
     }),
     responses: {
       200: z.object({
-        replies: z.array(CommentDataSchema),
+        items: z.array(CommentDataSchema),
+        itemsCount: z.number().int().min(0),
       }),
     },
   },
