@@ -1,10 +1,10 @@
 import type { CommentaryAPI } from "@shared/src/types";
-import { useDynamicCss } from "../../hooks/useDynamicCss";
-import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { CommentThread } from "../CommentThread";
-import { Content } from "../Content";
-import { HeaderSection } from "../HeaderSection";
+import { useDynamicCss } from "../hooks/useDynamicCss";
+import { useInfiniteQuery } from "../hooks/useInfiniteQuery";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import { CommentThread } from "./CommentThread";
+import { Content } from "./Content";
+import { HeaderSection } from "./HeaderSection";
 
 export const Commentary = (props: CommentaryAPI) => {
   const { items, loadMore, loading, hasMore, totalCount } = useInfiniteQuery(

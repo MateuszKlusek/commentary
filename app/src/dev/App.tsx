@@ -1,4 +1,4 @@
-import { Commentary } from "@ui/CommentaryContainer/CommentaryContainer";
+import { Commentary } from "@ui/Commentary";
 import { UserIdInput } from "@ui/UserIdInput";
 import { useMemo, useState } from "react";
 import { GenericRestClient } from "../adapters/rest-adapter";
