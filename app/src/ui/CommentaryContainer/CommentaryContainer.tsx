@@ -29,7 +29,7 @@ export const Commentary = (props: CommentaryAPI) => {
             comment={comment}
           />
         ))}
-        {hasMore && <div ref={sentinelRef} className="h-10 bg-red-500" />}
+        {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
 
         {loading && <div>Loading...</div>}
       </Content>

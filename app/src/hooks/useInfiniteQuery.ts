@@ -8,7 +8,7 @@ export function useInfiniteQuery<T>(
     initialFetch?: boolean;
   }
 ) {
-  const { initialFetch = true } = options || {};
+  const { initialFetch = false } = options || {};
 
   const [items, setItems] = useState<T[]>([]);
   const [offset, setOffset] = useState(0);
