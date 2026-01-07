@@ -1,5 +1,5 @@
 import { contract } from "@shared/src/contracts";
-import type { CommentaryActions } from "@shared/src/types";
+import type { CommentaryActions, GetParams } from "@shared/src/types";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
 
 export class GenericRestClient implements CommentaryActions {
@@ -24,8 +24,10 @@ export class GenericRestClient implements CommentaryActions {
     });
   }
 
-  getTopLevelComments = async (params: { offset: number; limit: number }) => {
-    const { offset, limit } = params;
+  getTopLevelComments = async ({
+    offset,
+    limit,
+  }: GetParams<CommentaryActions["getTopLevelComments"]>) => {
     const res = await this.client.getTopLevelComments({
       query: { offset, limit, discussionId: this.discussionId },
     });
@@ -43,12 +45,11 @@ export class GenericRestClient implements CommentaryActions {
     };
   };
 
-  getReplies = async (params: {
-    offset: number;
-    limit: number;
-    parentId: string;
-  }) => {
-    const { parentId, offset, limit } = params;
+  getReplies = async ({
+    offset,
+    limit,
+    parentId,
+  }: GetParams<CommentaryActions["getReplies"]>) => {
     const res = await this.client.getReplies({
       query: {
         offset,

@@ -68,14 +68,14 @@ export type ReactionData = {
 //       limit: number;
 //     }) => Promise<{ items: T[]; nextCursor?: string }>);
 
-type PaginationParams = {
+export type PaginationParams = {
   offset: number;
   limit: number;
 };
 
-export type InfiniteFetcher<T, P = {}> = (
-  params: PaginationParams & P
-) => Promise<{
+export type InfiniteFetcher<T, P = {}> = (_: PaginationParams & P) => Promise<{
   items: T[];
   itemsCount: number;
 }>;
+
+export type GetParams<T extends (...args: any[]) => any> = Parameters<T>[0];
