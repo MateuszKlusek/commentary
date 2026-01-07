@@ -7,30 +7,24 @@ const router: Router = Router();
 const s = initServer();
 
 const tsRestRouter = s.router(contract, {
-  getTopLevelCommentCount: async ({ query: { discussionId } }) => {
-    const count = await commentaryService.getTopLevelCommentCount(discussionId);
-    return {
-      status: 200,
-      body: { count },
-    };
-  },
   getTopLevelComments: async ({ query: { offset, limit, discussionId } }) => {
-    const comments = await commentaryService.getTopLevelComments(
-      discussionId,
+    const comments = await commentaryService.getTopLevelComments(discussionId, {
       offset,
-      limit
-    );
+      limit,
+    });
     return {
       status: 200,
       body: {
-        comments: comments.map((comment) => ({
+        items: comments.items.map((comment) => ({
           ...comment,
           createdAt: comment.createdAt.toISOString(),
           updatedAt: comment.updatedAt.toISOString(),
         })),
+        itemsCount: comments.itemsCount,
       },
     };
   },
+
   getReplies: async ({ query: { commentId, offset, limit } }) => {
     const replies = await commentaryService.getReplies(
       commentId,

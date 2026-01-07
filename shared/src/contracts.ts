@@ -5,19 +5,6 @@ import { CommentDataSchema } from "./types";
 const c = initContract();
 
 export const contract = c.router({
-  getTopLevelCommentCount: {
-    method: "GET",
-    path: "/comments/count",
-    query: z.object({
-      discussionId: z.string().nonempty(),
-    }),
-    responses: {
-      200: z.object({
-        count: z.number(),
-      }),
-    },
-  },
-
   getTopLevelComments: {
     method: "GET",
     path: "/comments",
@@ -28,7 +15,8 @@ export const contract = c.router({
     }),
     responses: {
       200: z.object({
-        comments: z.array(CommentDataSchema),
+        items: z.array(CommentDataSchema),
+        itemsCount: z.number().int().min(0),
       }),
     },
   },

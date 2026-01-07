@@ -1,5 +1,9 @@
 import { contract } from "@shared/src/contracts";
-import type { CommentaryActions } from "@shared/src/types";
+import type {
+  CommentaryActions,
+  CommentData,
+  InfiniteFetcher,
+} from "@shared/src/types";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
 
 export class GenericRestClient implements CommentaryActions {
@@ -24,27 +28,27 @@ export class GenericRestClient implements CommentaryActions {
     });
   }
 
-  async getTopLevelCommentCount() {
-    const res = await this.client.getTopLevelCommentCount({
-      query: { discussionId: this.discussionId },
-    });
-    if (res.status === 200) {
-      return res.body.count;
-    }
-
-    return 0;
-  }
-
-  async getTopLevelComments(offset: number, limit: number) {
+  getTopLevelComments: InfiniteFetcher<CommentData> = async (params: {
+    offset: number;
+    limit: number;
+  }) => {
+    const { offset, limit } = params;
     const res = await this.client.getTopLevelComments({
       query: { offset, limit, discussionId: this.discussionId },
     });
 
     if (res.status === 200) {
-      return res.body.comments;
+      return {
+        items: res.body.items,
+        itemsCount: res.body.itemsCount,
+      };
     }
-    return [];
-  }
+
+    return {
+      items: [],
+      itemsCount: 0,
+    };
+  };
 
   async getReplies(commentId: string, offset: number, limit: number) {
     const res = await this.client.getReplies({

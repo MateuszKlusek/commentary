@@ -42,7 +42,12 @@ export class FileCommentaryServiceSingleton
   }
 
   // ---------------------- CommentaryAPI methods ------------------------
-  async getTopLevelCommentCount(discussionId: string): Promise<number> {
+
+  async getTopLevelComments(
+    discussionId: string,
+    params: { offset: number; limit: number }
+  ) {
+    const { offset, limit } = params;
     try {
       const commentsJson = await this.readCommentsFile();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
@@ -51,30 +56,16 @@ export class FileCommentaryServiceSingleton
         (comment) =>
           comment.parentId === null && comment.discussionId === discussionId
       );
-      return topLevelComments.length;
+
+      return {
+        items: topLevelComments.slice(offset, offset + limit),
+        itemsCount: topLevelComments.length,
+      };
     } catch (error) {
       throw error;
     }
   }
 
-  async getTopLevelComments(
-    discussionId: string,
-    offset: number,
-    limit: number
-  ): Promise<CommentData[]> {
-    try {
-      const commentsJson = await this.readCommentsFile();
-      const commentsArray = JSON.parse(commentsJson) as CommentData[];
-      const result = validateComments(commentsArray);
-      const topLevelComments = result.filter(
-        (comment) =>
-          comment.parentId === null && comment.discussionId === discussionId
-      );
-      return topLevelComments.slice(offset, offset + limit);
-    } catch (error) {
-      throw error;
-    }
-  }
   async getReplies(
     commentId: string,
     offset: number,

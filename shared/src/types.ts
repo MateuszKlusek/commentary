@@ -17,8 +17,7 @@ export const CommentDataSchema = z.object({
 export type CommentData = z.infer<typeof CommentDataSchema>;
 
 export type CommentaryActions = {
-  getTopLevelCommentCount(): Promise<number>;
-  getTopLevelComments(offset: number, limit: number): Promise<CommentData[]>;
+  getTopLevelComments: InfiniteFetcher<CommentData>;
   getReplies(
     commentId: string,
     offset: number,
@@ -50,10 +49,7 @@ export type WithDiscussionId<T, I extends any, K extends keyof T> = {
 export type CommentaryActionsWithDiscussionContext = WithDiscussionId<
   CommentaryActions,
   string,
-  | "getTopLevelCommentCount"
-  | "getTopLevelComments"
-  | "updateLike"
-  | "addComment"
+  "getTopLevelComments" | "updateLike" | "addComment"
 >;
 
 export type CommentaryAPI = CommentaryActions & CommentaryConfig;
@@ -64,3 +60,19 @@ export type ReactionData = {
   reaction: 1 | -1 | 0; // 1 = like, -1 = dislike, 0 = none
   createdAt: string;
 };
+
+// TODO: consider using that for Mongodb-like databases with cursor pagination
+// export type InfiniteFetcher<T> =
+//   | ((params: {
+//       offset: number;
+//       limit: number;
+//     }) => Promise<{ items: T[]; itemTotal: number }>)
+//   | ((params: {
+//       cursor?: string;
+//       limit: number;
+//     }) => Promise<{ items: T[]; nextCursor?: string }>);
+
+export type InfiniteFetcher<T> = (params: {
+  offset: number;
+  limit: number;
+}) => Promise<{ items: T[]; itemsCount: number }>;

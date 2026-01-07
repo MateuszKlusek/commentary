@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useDynamicCss = (url?: string) => {
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(!url);
 
   useEffect(() => {
     if (!url) return;
@@ -31,7 +31,6 @@ export const useDynamicCss = (url?: string) => {
 
     link.addEventListener("load", handleLoad);
     link.addEventListener("error", handleError);
-
     document.head.appendChild(link);
 
     return () => {

@@ -30,10 +30,7 @@ function App() {
     <div className="w-full p-10 flex flex-col gap-2">
       <UserIdInput userId={userId} onUserIdChange={handleUserIdChange} />
       <Commentary
-        getTopLevelCommentCount={() => client.getTopLevelCommentCount()}
-        getTopLevelComments={(offset, limit) =>
-          client.getTopLevelComments(offset, limit)
-        }
+        getTopLevelComments={client.getTopLevelComments}
         getReplies={(commentId, offset, limit) =>
           client.getReplies(commentId, offset, limit)
         }

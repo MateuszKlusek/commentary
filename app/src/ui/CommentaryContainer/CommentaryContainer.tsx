@@ -1,34 +1,37 @@
 import type { CommentaryAPI } from "@shared/src/types";
+import { useDynamicCss } from "../../hooks/useDynamicCss";
+import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { CommentThread } from "../CommentThread";
 import { Content } from "../Content";
 import { HeaderSection } from "../HeaderSection";
-import { useLoadInitData } from "./hooks/useLoadInitData";
-import { useDynamicCss } from "../../hooks/useDynamicCss";
 
 export const Commentary = (props: CommentaryAPI) => {
-  const { commentsCount, comments, isLoading } = useLoadInitData({
-    getTopLevelCommentCount: props.getTopLevelCommentCount,
-    getTopLevelComments: props.getTopLevelComments,
-  });
+  const { items, loadMore, loading, hasMore, totalCount } = useInfiniteQuery(
+    props.getTopLevelComments,
+    10
+  );
+
+  const sentinelRef = useIntersectionObserver(loadMore, hasMore);
 
   const { isReady } = useDynamicCss(props.customCss);
+  // TODO add loader
   if (!isReady) return <div>Loading...</div>;
 
   return (
     <commentary-container id="commentary-container">
-      <HeaderSection commentsCount={commentsCount} />
+      <HeaderSection commentsCount={totalCount} />
       <Content>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          comments.map((comment) => (
-            <CommentThread
-              key={comment.id}
-              commentaryProps={props}
-              comment={comment}
-            />
-          ))
-        )}
+        {items?.map((comment) => (
+          <CommentThread
+            key={comment.id}
+            commentaryProps={props}
+            comment={comment}
+          />
+        ))}
+        {hasMore && <div ref={sentinelRef} className="h-10 bg-red-500" />}
+
+        {loading && <div>Loading...</div>}
       </Content>
     </commentary-container>
   );
