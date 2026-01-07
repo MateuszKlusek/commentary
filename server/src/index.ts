@@ -8,7 +8,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use((_req, _res, next) => {
-  const delayMs = Math.floor(Math.random() * 200) + 350;
+  const delayMs = Math.floor(Math.random() * 200) + 150;
   console.log(`Delaying for ${delayMs}ms`);
   setTimeout(() => {
     next();
