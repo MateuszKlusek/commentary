@@ -6,9 +6,10 @@ export function useInfiniteQuery<T>(
   pageSize: number,
   options?: {
     initialFetch?: boolean;
+    enabled?: boolean;
   }
 ) {
-  const { initialFetch = false } = options || {};
+  const { initialFetch = false, enabled = true } = options || {};
 
   const [items, setItems] = useState<T[]>([]);
   const [offset, setOffset] = useState(0);
@@ -17,7 +18,8 @@ export function useInfiniteQuery<T>(
   const [hasMore, setHasMore] = useState(true);
 
   const loadMore = async () => {
-    if (loading || !hasMore) return;
+    if (loading || !hasMore || !enabled) return;
+    console.log("loading more", offset, pageSize);
 
     setLoading(true);
 
@@ -35,12 +37,13 @@ export function useInfiniteQuery<T>(
     }
 
     setLoading(false);
+    console.log("ending for: ", offset, pageSize);
   };
 
   useEffect(() => {
-    if (!initialFetch) return;
+    if (!initialFetch || !enabled) return;
     queueMicrotask(() => void loadMore());
-  }, [initialFetch]);
+  }, [initialFetch, enabled]);
 
   return {
     items,

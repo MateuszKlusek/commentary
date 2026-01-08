@@ -1,5 +1,7 @@
 import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import { useState } from "react";
+import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { AutoTextarea } from "./AutoTextarea";
 
 export const Comment = ({
@@ -9,21 +11,28 @@ export const Comment = ({
   commentaryProps: CommentaryAPI;
   comment: CommentData;
 }) => {
-  const [replies, setReplies] = useState<CommentData[]>([]);
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
+  const [replyComment, setReplyComment] = useState("");
 
   const handleReplyClick = async () => {
-    const replies = await commentaryProps.getReplies({
-      parentId: comment.commentId,
-      offset: 0,
-      limit: 10,
-    });
-    setReplies(replies.items);
     setRepliesShown(true);
   };
 
-  const [replyComment, setReplyComment] = useState("");
+  const { items, loadMore, loading, hasMore } = useInfiniteQuery(
+    (params) =>
+      commentaryProps.getReplies({
+        parentId: comment.commentId,
+        ...params,
+      }),
+    10,
+    { initialFetch: false, enabled: repliesShown }
+  );
+
+  const sentinelRef = useIntersectionObserver(
+    loadMore,
+    hasMore && repliesShown
+  );
 
   return (
     <div className="w-full p-2">
@@ -92,7 +101,6 @@ export const Comment = ({
         ) : null}
       </div>
 
-      {/*replies  */}
       {comment.replyCount > 0 && !repliesShown ? (
         <div
           className="cursor-pointer text-amber-600 w-fit"
@@ -103,13 +111,16 @@ export const Comment = ({
       ) : null}
 
       <div className="ml-4">
-        {replies?.map((reply) => (
+        {items?.map((reply) => (
           <Comment
-            key={reply.commentId}
+            key={reply.id}
             commentaryProps={commentaryProps}
             comment={reply}
           />
         ))}
+        {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
+
+        {loading && <div>Loading...</div>}
       </div>
     </div>
   );
