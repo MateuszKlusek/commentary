@@ -3,7 +3,7 @@
     "private": true,
     "version": "0.1.0",
     "scripts": {
-        "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary/app dev\""
+        "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary dev\""
     },
     "devDependencies": {
         "concurrently": "^9.1.0",

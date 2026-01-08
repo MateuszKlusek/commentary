@@ -3,13 +3,13 @@
     "files": [],
     "references": [
         {
-            "path": "./app"
+            "path": "./shared"
         },
         {
             "path": "./server"
         },
         {
-            "path": "./shared"
-        }
+            "path": "./library"
+        },
     ]
 }

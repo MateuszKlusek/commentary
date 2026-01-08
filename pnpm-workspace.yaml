@@ -1,4 +1,4 @@
 packages:
-- app
+- library
 - server
 - shared
