@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AutoTextarea } from "./AutoTextarea";
-import { HStack } from "./helpers/HStack";
+import { HStack } from "../layout/HStack";
 
 type Props = {
   commentsCount: number;

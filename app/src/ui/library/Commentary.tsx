@@ -1,7 +1,7 @@
 import type { CommentaryAPI } from "@shared/src/types";
-import { useDynamicCss } from "../hooks/useDynamicCss";
-import { useInfiniteQuery } from "../hooks/useInfiniteQuery";
-import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import { useDynamicCss } from "../../hooks/useDynamicCss";
+import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";

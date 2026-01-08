@@ -1,5 +1,5 @@
-import { Commentary } from "@ui/Commentary";
-import { UserIdInput } from "@ui/UserIdInput";
+import { UserIdInput } from "@ui/dev/UserIdInput";
+import { Commentary } from "@ui/library/Commentary";
 import { useMemo, useState } from "react";
 import { GenericRestClient } from "../adapters/rest-adapter";
 import customCss from "/styles/custom-css-1.css?url";
