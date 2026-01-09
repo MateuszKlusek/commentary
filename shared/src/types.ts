@@ -45,7 +45,7 @@ export type WithDiscussionId<T, I extends any, K extends keyof T> = {
 export type CommentaryActionsWithDiscussionContext = WithDiscussionId<
   CommentaryActions,
   string,
-  "getTopLevelComments" | "updateLike" | "addComment"
+  "getTopLevelComments" | "addComment"
 >;
 
 export type CommentaryAPI = CommentaryActions & CommentaryConfig;

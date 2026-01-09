@@ -75,6 +75,7 @@ export class FileCommentaryServiceSingleton
     const commentsJson = await this.readCommentsFile();
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
     const result = validateComments(commentsArray);
+
     const replies = result
       .filter((comment) => comment.parentId === parentId)
       .slice(offset, offset + limit);
@@ -119,11 +120,7 @@ export class FileCommentaryServiceSingleton
     );
   }
 
-  async updateLike(
-    discussionId: string,
-    commentId: string,
-    like: boolean
-  ): Promise<void> {
+  async updateLike(commentId: string, like: boolean): Promise<void> {
     void commentId;
     void like;
     return;

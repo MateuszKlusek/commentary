@@ -55,7 +55,6 @@ export class GenericRestClient implements CommentaryActions {
         offset,
         limit,
         parentId,
-        discussionId: this.discussionId,
       },
     });
     if (res.status === 200) {
