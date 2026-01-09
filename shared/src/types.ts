@@ -17,7 +17,10 @@ export const CommentDataSchema = z.object({
 export type CommentData = z.infer<typeof CommentDataSchema>;
 
 export type CommentaryActions = {
-  getTopLevelComments: InfiniteFetcher<CommentData>;
+  getTopLevelComments: InfiniteFetcher<
+    CommentData,
+    { sortBy: SortingStrategy }
+  >;
   getReplies: InfiniteFetcher<CommentData, { parentId: string }>;
   updateLike(commentId: string, like: boolean): Promise<void>;
   addComment(
@@ -79,3 +82,6 @@ export type InfiniteFetcher<T, P = {}> = (_: PaginationParams & P) => Promise<{
 }>;
 
 export type GetParams<T extends (...args: any[]) => any> = Parameters<T>[0];
+
+export const SortingStrategySchema = z.enum(["newest", "top"]);
+export type SortingStrategy = z.infer<typeof SortingStrategySchema>;

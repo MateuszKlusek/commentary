@@ -24,13 +24,11 @@ function App() {
           getReplies={client.getReplies}
           addComment={client.addComment}
           // TODO: implement
-
           updateLike={() => Promise.resolve()}
+          //
           discussionId={discussionId}
           userId={userId}
           customCss={customCss}
-          // just for rerendering
-          key={`${userId}-${discussionId}`}
         />
       </div>
     </>

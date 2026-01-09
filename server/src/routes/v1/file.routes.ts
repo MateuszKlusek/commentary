@@ -7,10 +7,13 @@ const router: Router = Router();
 const s = initServer();
 
 const tsRestRouter = s.router(contract, {
-  getTopLevelComments: async ({ query: { offset, limit, discussionId } }) => {
+  getTopLevelComments: async ({
+    query: { offset, limit, discussionId, sortBy },
+  }) => {
     const comments = await commentaryService.getTopLevelComments(discussionId, {
       offset,
       limit,
+      sortBy,
     });
     return {
       status: 200,

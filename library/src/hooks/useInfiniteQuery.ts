@@ -17,6 +17,14 @@ export function useInfiniteQuery<T>(
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
+  const reset = () => {
+    setItems([]);
+    setOffset(0);
+    setTotalCount(0);
+    setLoading(false);
+    setHasMore(true);
+  };
+
   const loadMore = async () => {
     if (loading || !hasMore || !enabled) return;
     console.log("loading more", offset, pageSize);
@@ -47,9 +55,10 @@ export function useInfiniteQuery<T>(
 
   return {
     items,
-    loadMore,
     loading,
     hasMore,
     totalCount,
+    loadMore,
+    reset,
   };
 }

@@ -1,6 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import z from "zod";
-import { CommentDataSchema } from "./types";
+import { CommentDataSchema, SortingStrategySchema } from "./types";
 
 const c = initContract();
 
@@ -12,6 +12,7 @@ export const contract = c.router({
       offset: z.coerce.number().min(0),
       limit: z.coerce.number().min(1),
       discussionId: z.string().nonempty(),
+      sortBy: SortingStrategySchema,
     }),
     responses: {
       200: z.object({

@@ -1,18 +1,26 @@
-import type { CommentaryAPI } from "@shared/src/types";
-import type { JSX } from "react";
+import type { CommentaryAPI, SortingStrategy } from "@shared/src/types";
+import { useEffect, useState, type JSX } from "react";
 import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
+
 import "../index.css";
 
 export function Commentary(props: CommentaryAPI): JSX.Element {
-  const { items, loadMore, loading, hasMore, totalCount } = useInfiniteQuery(
-    props.getTopLevelComments,
-    10
-  );
+  const [sortBy, setSortBy] = useState<SortingStrategy>("top");
+
+  const { items, loadMore, loading, hasMore, totalCount, reset } =
+    useInfiniteQuery(
+      (params) => props.getTopLevelComments({ sortBy, ...params }),
+      10
+    );
+
+  useEffect(() => {
+    reset();
+  }, [sortBy, props.userId, props.discussionId]);
 
   const sentinelRef = useIntersectionObserver(loadMore, hasMore);
 
@@ -22,7 +30,12 @@ export function Commentary(props: CommentaryAPI): JSX.Element {
 
   return (
     <commentary-container id="commentary-container">
-      <HeaderSection commentsCount={totalCount} commentaryProps={props} />
+      <HeaderSection
+        commentsCount={totalCount}
+        commentaryProps={props}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
       <Content>
         {items?.map((comment) => (
           <CommentThread

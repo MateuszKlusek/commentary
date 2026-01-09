@@ -1,6 +1,7 @@
 import type {
   CommentaryActionsWithDiscussionContext,
   CommentData,
+  SortingStrategy,
 } from "@shared/src/types";
 import { validateComments } from "@shared/src/validators";
 import fs from "fs";
@@ -45,9 +46,9 @@ export class FileCommentaryServiceSingleton
 
   async getTopLevelComments(
     discussionId: string,
-    params: { offset: number; limit: number }
+    params: { offset: number; limit: number; sortBy: SortingStrategy }
   ) {
-    const { offset, limit } = params;
+    const { offset, limit, sortBy } = params;
     try {
       const commentsJson = await this.readCommentsFile();
       const commentsArray = JSON.parse(commentsJson) as CommentData[];
@@ -56,6 +57,11 @@ export class FileCommentaryServiceSingleton
         (comment) =>
           comment.parentId === null && comment.discussionId === discussionId
       );
+      if (sortBy === "newest") {
+        topLevelComments.sort(
+          (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+        );
+      }
 
       return {
         items: topLevelComments.slice(offset, offset + limit),
@@ -108,12 +114,15 @@ export class FileCommentaryServiceSingleton
       parentId,
     };
     commentsArray.push(newComment);
+
     const parentComment = commentsArray.find(
       (comment) => comment.commentId === parentId
     );
+
     if (parentComment) {
       parentComment.replyCount++;
     }
+
     await fs.writeFileSync(
       path.join(__dirname, "..", "mocks", "comments.json"),
       JSON.stringify(commentsArray)
