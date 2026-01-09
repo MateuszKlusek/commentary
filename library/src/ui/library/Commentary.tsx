@@ -1,12 +1,14 @@
 import type { CommentaryAPI } from "@shared/src/types";
+import type { JSX } from "react";
 import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
+import "../index.css";
 
-export const Commentary = (props: CommentaryAPI) => {
+export function Commentary(props: CommentaryAPI): JSX.Element {
   const { items, loadMore, loading, hasMore, totalCount } = useInfiniteQuery(
     props.getTopLevelComments,
     10
@@ -35,4 +37,4 @@ export const Commentary = (props: CommentaryAPI) => {
       </Content>
     </commentary-container>
   );
-};
+}

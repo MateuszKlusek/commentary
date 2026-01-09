@@ -5,5 +5,5 @@ type Props = React.PropsWithChildren<{
 }>;
 
 export const HStack = ({ children, className }: Props) => {
-  return <div className={cn("flex flex-row ", className)}>{children}</div>;
+  return <div className={cn("flex flex-row", className)}>{children}</div>;
 };

@@ -1,9 +1,9 @@
 {
     "name": "@commentary/repository",
-    "private": true,
+    "private": false,
     "version": "0.1.0",
     "scripts": {
-        "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary dev\""
+        "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary dev\" \"pnpm --filter @commentary/testing dev\""
     },
     "devDependencies": {
         "concurrently": "^9.1.0",

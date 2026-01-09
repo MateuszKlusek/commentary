@@ -1,7 +1,7 @@
 {
     "name": "@commentary/shared",
     "version": "0.1.0",
-    "private": true,
+    "private": false,
     "type": "module",
     "main": "./types/library.ts",
     "types": "./types/library.ts",

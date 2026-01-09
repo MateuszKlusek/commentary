@@ -5,5 +5,5 @@ type Props = React.PropsWithChildren<{
 }>;
 
 export const VStack = ({ children, className }: Props) => {
-  return <div className={cn("flex flex-col ", className)}>{children}</div>;
+  return <div className={cn("flex flex-col", className)}>{children}</div>;
 };

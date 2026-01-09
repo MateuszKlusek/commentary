@@ -1,8 +1,11 @@
 {
   "name": "@commentary",
-  "private": true,
+  "private": false,
   "version": "0.1.0",
   "type": "module",
+  "exports": {
+    ".": "./src/embed/react/index.ts"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

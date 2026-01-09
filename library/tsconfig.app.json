@@ -44,9 +44,10 @@
   "include": [
     "src",
     "mock",
-    "src/adapters/rest/endpoint-map.ts",
-    "src/adapters/rest-adapter.ts",
+    "../testing/src/adapters/rest/endpoint-map.ts",
+    "../testing/src/adapters/rest-adapter.ts",
     "../server/src/services/mocks",
-    "../shared/**/*"
+    "../shared/**/*",
+    "../testing/src/dev"
   ]
 }

@@ -2,3 +2,4 @@ packages:
 - library
 - server
 - shared
+- testing

@@ -22,5 +22,9 @@ export default defineConfig([
     rules: {
       "@typescript-eslint/no-empty-object-type": "off",
     },
+    parserOptions: {
+      tsconfigRootDir: __dirname,
+      project: "./tsconfig.json",
+    },
   },
 ]);
