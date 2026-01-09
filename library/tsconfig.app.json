@@ -48,6 +48,6 @@
     "../testing/src/adapters/rest-adapter.ts",
     "../server/src/services/mocks",
     "../shared/**/*",
-    "../testing/src/dev"
+    "../testing/src/dev",
   ]
 }
