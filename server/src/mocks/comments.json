@@ -10,7 +10,7 @@
         "likes": 4,
         "dislikes": 1,
         "userId": "2",
-        "replyCount": 0
+        "replyCount": 1
     },
     {
         "id": "5ad97e79-1a06-47ae-bd5f-9e29cc4c0119",
@@ -310,5 +310,31 @@
         "dislikes": 1,
         "userId": "26",
         "replyCount": 0
+    },
+    {
+        "id": "76863daf-b5bd-445f-9d51-ce10ae9434d8",
+        "commentId": "e7faee10-7081-42c3-a5f1-998e2036fef2",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-09T16:18:49.819Z",
+        "updatedAt": "2026-01-09T16:18:49.819Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "4242424 testing ",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32"
+    },
+    {
+        "id": "a7d3c4ec-c2e1-45a1-8ea6-8f4be485821e",
+        "commentId": "95f90b62-409c-4208-8321-748502ad1634",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-09T16:19:01.276Z",
+        "updatedAt": "2026-01-09T16:19:01.276Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "testing - 1",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": null
     }
 ]

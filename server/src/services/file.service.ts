@@ -85,6 +85,40 @@ export class FileCommentaryServiceSingleton
     };
   }
 
+  async addComment(
+    discussionId: string,
+    content: string,
+    userId: string,
+    parentId: string | null
+  ): Promise<void> {
+    const commentsJson = await this.readCommentsFile();
+    const commentsArray = JSON.parse(commentsJson) as CommentData[];
+    const newComment: CommentData = {
+      id: crypto.randomUUID(),
+      commentId: crypto.randomUUID(),
+      discussionId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      likes: 0,
+      dislikes: 0,
+      replyCount: 0,
+      content,
+      userId,
+      parentId,
+    };
+    commentsArray.push(newComment);
+    const parentComment = commentsArray.find(
+      (comment) => comment.commentId === parentId
+    );
+    if (parentComment) {
+      parentComment.replyCount++;
+    }
+    await fs.writeFileSync(
+      path.join(__dirname, "..", "mocks", "comments.json"),
+      JSON.stringify(commentsArray)
+    );
+  }
+
   async updateLike(
     discussionId: string,
     commentId: string,
@@ -95,16 +129,6 @@ export class FileCommentaryServiceSingleton
     return;
   }
 
-  async addComment(
-    content: string,
-    userId: string,
-    parentId: string | null
-  ): Promise<void> {
-    void content;
-    void userId;
-    void parentId;
-    return;
-  }
   slug: string | null | undefined;
   userId: string | null | undefined;
 }

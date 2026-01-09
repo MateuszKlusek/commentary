@@ -43,6 +43,19 @@ const tsRestRouter = s.router(contract, {
       },
     };
   },
+
+  addComment: async ({ body: { content, userId, parentId, discussionId } }) => {
+    const res = await commentaryService.addComment(
+      discussionId,
+      content,
+      userId,
+      parentId
+    );
+    return {
+      status: 200,
+      body: {},
+    };
+  },
 });
 
 createExpressEndpoints(contract, tsRestRouter, router);

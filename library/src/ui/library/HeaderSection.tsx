@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { AutoTextarea } from "./AutoTextarea";
+import type { CommentaryAPI } from "@shared/src/types";
 import { HStack } from "../layout/HStack";
+import { AddCommentBlock } from "./AddCommentBlock";
 
 type Props = {
   commentsCount: number;
+  commentaryProps: CommentaryAPI;
 };
 
-export const HeaderSection = ({ commentsCount }: Props) => {
-  const [comment, setComment] = useState("");
-
+export const HeaderSection = ({ commentsCount, commentaryProps }: Props) => {
   return (
     <commentary-header>
       <section id="header-section testing" className="">
@@ -18,12 +17,7 @@ export const HeaderSection = ({ commentsCount }: Props) => {
         </HStack>
         <HStack className="w-full gap-4">
           <div>P</div>
-          <AutoTextarea
-            placeholder="Add a comment..."
-            value={comment}
-            id="comment-textarea"
-            onChange={(e) => setComment(e.target.value)}
-          />
+          <AddCommentBlock commentaryProps={commentaryProps} parentId={null} />
         </HStack>
       </section>
     </commentary-header>

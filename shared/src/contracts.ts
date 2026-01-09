@@ -37,4 +37,18 @@ export const contract = c.router({
       }),
     },
   },
+
+  addComment: {
+    method: "POST",
+    path: "/comment",
+    body: z.object({
+      content: z.string().nonempty(),
+      parentId: z.string().nullable(),
+      userId: z.string().nonempty(),
+      discussionId: z.string().nonempty(),
+    }),
+    responses: {
+      200: z.object({}),
+    },
+  },
 });

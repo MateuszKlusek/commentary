@@ -2,7 +2,7 @@ import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import { useState } from "react";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { AutoTextarea } from "./AutoTextarea";
+import { AddCommentBlock } from "./AddCommentBlock";
 
 export const Comment = ({
   commentaryProps,
@@ -13,7 +13,6 @@ export const Comment = ({
 }) => {
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
-  const [replyComment, setReplyComment] = useState("");
 
   const handleReplyClick = async () => {
     setRepliesShown(true);
@@ -76,28 +75,11 @@ export const Comment = ({
           </div>
         </div>
         {replyInputShown ? (
-          <div className="">
-            <AutoTextarea
-              placeholder="Add a reply..."
-              value={replyComment}
-              id="reply-textarea"
-              onChange={(e) => setReplyComment(e.target.value)}
-            />
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setReplyInputShown(false)}>Cancel</button>
-              <button
-                onClick={() =>
-                  commentaryProps.addComment(
-                    comment.content,
-                    commentaryProps.userId || "",
-                    comment.commentId
-                  )
-                }
-              >
-                Reply
-              </button>
-            </div>
-          </div>
+          <AddCommentBlock
+            commentaryProps={commentaryProps}
+            parentId={comment.commentId}
+            setReplyInputShown={setReplyInputShown}
+          />
         ) : null}
       </div>
 

@@ -22,7 +22,7 @@ export function Commentary(props: CommentaryAPI): JSX.Element {
 
   return (
     <commentary-container id="commentary-container">
-      <HeaderSection commentsCount={totalCount} />
+      <HeaderSection commentsCount={totalCount} commentaryProps={props} />
       <Content>
         {items?.map((comment) => (
           <CommentThread

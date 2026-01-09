@@ -70,16 +70,21 @@ export class GenericRestClient implements CommentaryActions {
       itemsCount: 0,
     };
   };
-  addComment(
+
+  addComment = async (
     content: string,
     userId: string,
     parentId: string | null
-  ): Promise<void> {
-    void content;
-    void userId;
-    void parentId;
-    return Promise.resolve();
-  }
+  ) => {
+    const res = await this.client.addComment({
+      body: { content, userId, parentId, discussionId: this.discussionId },
+    });
+
+    if (res.status === 200) {
+      return;
+    }
+    throw new Error("Failed to add comment");
+  };
 
   updateLike(commentId: string, like: boolean): Promise<void> {
     void commentId;

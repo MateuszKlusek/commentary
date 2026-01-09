@@ -22,9 +22,10 @@ function App() {
         <Commentary
           getTopLevelComments={client.getTopLevelComments}
           getReplies={client.getReplies}
+          addComment={client.addComment}
           // TODO: implement
+
           updateLike={() => Promise.resolve()}
-          addComment={() => Promise.resolve()}
           discussionId={discussionId}
           userId={userId}
           customCss={customCss}
