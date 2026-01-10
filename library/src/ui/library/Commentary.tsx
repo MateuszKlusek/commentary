@@ -10,7 +10,7 @@ import { HeaderSection } from "./HeaderSection";
 import "../index.css";
 
 export function Commentary(props: CommentaryAPI): JSX.Element {
-  const [sortBy, setSortBy] = useState<SortingStrategy>("top");
+  const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
 
   const { items, loadMore, loading, hasMore, totalCount, reset } =
     useInfiniteQuery(

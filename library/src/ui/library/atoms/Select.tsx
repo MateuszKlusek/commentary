@@ -22,7 +22,7 @@ export function SelectComponent({
   return (
     <Select.Root value={value} onValueChange={onValueChange}>
       <Select.Trigger
-        className="inline-flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm shadow-sm hover:bg-gray-50 focus:outline-none"
+        className="inline-flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm shadow-sm hover:bg- focus:outline-none"
         aria-label="Select"
       >
         <Select.Value placeholder={placeholder} />

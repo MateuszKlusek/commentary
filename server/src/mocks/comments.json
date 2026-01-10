@@ -10,7 +10,7 @@
         "likes": 4,
         "dislikes": 1,
         "userId": "2",
-        "replyCount": 1
+        "replyCount": 2
     },
     {
         "id": "5ad97e79-1a06-47ae-bd5f-9e29cc4c0119",
@@ -296,7 +296,7 @@
         "likes": 5,
         "dislikes": 1,
         "userId": "26",
-        "replyCount": 0
+        "replyCount": 1
     },
     {
         "id": "66b2698c-b77d-49db-9550-3fe71b50fe62",
@@ -345,9 +345,61 @@
         "updatedAt": "2026-01-09T21:08:13.521Z",
         "likes": 0,
         "dislikes": 0,
-        "replyCount": 0,
+        "replyCount": 1,
         "content": "something random ",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
         "parentId": null
+    },
+    {
+        "id": "1a4cbefb-0580-497b-8693-4fb9330d5740",
+        "commentId": "f6d8ce81-939b-4a93-9007-b2c8c03bd1f2",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-09T22:11:38.699Z",
+        "updatedAt": "2026-01-09T22:11:38.699Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "testing response content",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32"
+    },
+    {
+        "id": "e27e6f36-45da-490a-8225-8bf359c51c9c",
+        "commentId": "a73855a3-5bd4-4e9c-9768-2ec72c57bfff",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-09T22:51:45.600Z",
+        "updatedAt": "2026-01-09T22:51:45.600Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "f2f2f2f2f2f2f2",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": null
+    },
+    {
+        "id": "c81f47dc-a6a3-4628-afe5-bbcc467ef440",
+        "commentId": "4dd0f1bd-43ea-4537-bd62-16ec38efb0d8",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-09T22:52:30.341Z",
+        "updatedAt": "2026-01-09T22:52:30.341Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "testing replies",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": "019b8612-41e0-76d8-99f3-f7e44ff32175"
+    },
+    {
+        "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+        "commentId": "48d7d0e8-829f-42c3-a8ef-90e834935af7",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-10T01:24:23.972Z",
+        "updatedAt": "2026-01-10T01:24:23.973Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "fsfsfsfsfs",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": "114ea533-18c2-4e4d-a131-3705f84aff02"
     }
 ]
