@@ -33,7 +33,11 @@ export const HeaderSection = <T,>({
         </HStack>
         <HStack className="w-full gap-4 px-2">
           <div>P</div>
-          <AddCommentBlock commentaryProps={commentaryProps} parentId={null} />
+          <AddCommentBlock
+            commentaryProps={commentaryProps}
+            parentId={null}
+            placeholder="Add a comment..."
+          />
         </HStack>
       </section>
     </commentary-header>

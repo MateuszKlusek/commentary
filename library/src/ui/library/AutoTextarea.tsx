@@ -5,12 +5,15 @@ type Props = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
+  onFocus?: () => void;
 } & React.ComponentProps<"textarea">;
 
 export const AutoTextarea = ({
   value,
   onChange,
   className,
+  onFocus,
+  onBlur,
   ...props
 }: Props) => {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -40,6 +43,7 @@ export const AutoTextarea = ({
       value={value}
       onChange={handleChange}
       rows={1}
+      onFocus={onFocus}
       className={cn(
         `
         w-full
