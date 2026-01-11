@@ -12,6 +12,11 @@ export const CommentDataSchema = z.object({
   replyCount: z.number().int().min(0),
   content: z.string(),
   userId: z.string(),
+  author: z.object({
+    id: z.uuid().nonempty(),
+    avatarUrl: z.url().nullable(),
+    name: z.string().nullable(),
+  }),
 });
 
 export type CommentData = z.infer<typeof CommentDataSchema>;

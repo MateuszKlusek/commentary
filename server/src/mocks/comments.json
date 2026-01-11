@@ -10,7 +10,12 @@
         "likes": 4,
         "dislikes": 1,
         "userId": "2",
-        "replyCount": 2
+        "replyCount": 2,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=1",
+            "name": "JohnDoe"
+        }
     },
     {
         "id": "5ad97e79-1a06-47ae-bd5f-9e29cc4c0119",
@@ -23,7 +28,12 @@
         "likes": 8,
         "dislikes": 4,
         "userId": "22",
-        "replyCount": 3
+        "replyCount": 3,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=2",
+            "name": "AliceSmith"
+        }
     },
     {
         "id": "0154c92e-1c18-4fbf-b276-a28f13ec7e8d",
@@ -36,7 +46,12 @@
         "likes": 1,
         "dislikes": 0,
         "userId": "4",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=3",
+            "name": "Bob123"
+        }
     },
     {
         "id": "1baa97c1-66be-476c-9e65-40dd3cbb92eb",
@@ -49,7 +64,12 @@
         "likes": 6,
         "dislikes": 2,
         "userId": "5",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=4",
+            "name": "CharlieBrown"
+        }
     },
     {
         "id": "5f569dc3-909f-4cb4-9dde-dc6d9cd5af48",
@@ -62,7 +82,12 @@
         "likes": 7,
         "dislikes": 1,
         "userId": "7",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=5",
+            "name": "David45"
+        }
     },
     {
         "id": "becc5adb-e028-4283-a456-c3372da1d498",
@@ -75,7 +100,12 @@
         "likes": 2,
         "dislikes": 0,
         "userId": "8",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=6",
+            "name": "EmmaWilson"
+        }
     },
     {
         "id": "b90ca0f9-9126-4448-98e8-c3b58e4387d1",
@@ -88,7 +118,12 @@
         "likes": 11,
         "dislikes": 5,
         "userId": "9",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=7",
+            "name": "Frank99"
+        }
     },
     {
         "id": "373db936-bbb4-49f4-bcf1-bd3815a90777",
@@ -101,7 +136,12 @@
         "likes": 1,
         "dislikes": 0,
         "userId": "10",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=8",
+            "name": "GraceLee"
+        }
     },
     {
         "id": "915e383a-d3b0-48d2-83d0-210036657a49",
@@ -114,7 +154,12 @@
         "likes": 5,
         "dislikes": 1,
         "userId": "11",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=9",
+            "name": "Henry2024"
+        }
     },
     {
         "id": "4c85d1eb-0d48-484f-aae1-d21ccb727bb4",
@@ -127,7 +172,12 @@
         "likes": 10,
         "dislikes": 2,
         "userId": "12",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=10",
+            "name": "IvyTaylor"
+        }
     },
     {
         "id": "4c07ffd6-3414-46cc-83d8-e578ffc4f0a5",
@@ -140,7 +190,12 @@
         "likes": 13,
         "dislikes": 0,
         "userId": "13",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=11",
+            "name": "Jack88"
+        }
     },
     {
         "id": "3bd983dd-a70f-4ae0-b376-bceb23442601",
@@ -153,7 +208,12 @@
         "likes": 0,
         "dislikes": 0,
         "userId": "14",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "KateMiller"
+        }
     },
     {
         "id": "35892cf0-67ef-4f2b-886b-c2d4a37b7f10",
@@ -166,7 +226,12 @@
         "likes": 6,
         "dislikes": 1,
         "userId": "15",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Liam77"
+        }
     },
     {
         "id": "23526975-e4f4-48cd-8313-9b8097593cd8",
@@ -179,7 +244,12 @@
         "likes": 1,
         "dislikes": 2,
         "userId": "17",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "MiaDavis"
+        }
     },
     {
         "id": "85a81d66-0d7c-461a-a683-a32fb103b1d9",
@@ -192,7 +262,12 @@
         "likes": 7,
         "dislikes": 1,
         "userId": "18",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Noah123"
+        }
     },
     {
         "id": "2fa311b8-b2cc-45e8-b336-c5225e8abd7f",
@@ -205,7 +280,12 @@
         "likes": 2,
         "dislikes": 0,
         "userId": "19",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "OliviaGarcia"
+        }
     },
     {
         "id": "e5efe93c-9989-4bb7-8b88-1655e5b76d70",
@@ -218,7 +298,12 @@
         "likes": 4,
         "dislikes": 0,
         "userId": "20",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Paul56"
+        }
     },
     {
         "id": "e869ef73-1531-402c-819e-09d5f22358e0",
@@ -231,7 +316,12 @@
         "likes": 14,
         "dislikes": 0,
         "userId": "21",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "QuinnRodriguez"
+        }
     },
     {
         "id": "4de431d5-3188-4b25-bade-710ee10d26cf",
@@ -244,7 +334,12 @@
         "likes": 9,
         "dislikes": 3,
         "userId": "3",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Ryan2025"
+        }
     },
     {
         "id": "4ac8cb61-2162-4ec8-ba72-bcc66ee2f2af",
@@ -257,7 +352,12 @@
         "likes": 2,
         "dislikes": 0,
         "userId": "23",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "SophiaMartinez"
+        }
     },
     {
         "id": "f4580573-5fbc-47f9-8a1e-1474ddf364f4",
@@ -270,7 +370,12 @@
         "likes": 6,
         "dislikes": 0,
         "userId": "24",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Thomas33"
+        }
     },
     {
         "id": "5c9d0451-ab4c-4103-862c-943ed3e057af",
@@ -283,7 +388,12 @@
         "likes": 16,
         "dislikes": 0,
         "userId": "25",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "UmaAnderson"
+        }
     },
     {
         "id": "4ed7766e-b8c4-4973-b711-60c6a4051108",
@@ -296,7 +406,12 @@
         "likes": 5,
         "dislikes": 1,
         "userId": "26",
-        "replyCount": 1
+        "replyCount": 1,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Victor44"
+        }
     },
     {
         "id": "66b2698c-b77d-49db-9550-3fe71b50fe62",
@@ -309,7 +424,12 @@
         "likes": 5,
         "dislikes": 1,
         "userId": "26",
-        "replyCount": 0
+        "replyCount": 0,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "WendyWhite"
+        }
     },
     {
         "id": "76863daf-b5bd-445f-9d51-ce10ae9434d8",
@@ -322,7 +442,12 @@
         "replyCount": 0,
         "content": "4242424 testing ",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32"
+        "parentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32",
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Xavier66"
+        }
     },
     {
         "id": "a7d3c4ec-c2e1-45a1-8ea6-8f4be485821e",
@@ -335,7 +460,12 @@
         "replyCount": 0,
         "content": "testing - 1",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": null
+        "parentId": null,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "YaraHarris"
+        }
     },
     {
         "id": "369684c1-7218-43ca-8e50-5247150f6b53",
@@ -348,7 +478,12 @@
         "replyCount": 1,
         "content": "something random ",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": null
+        "parentId": null,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Zoe55"
+        }
     },
     {
         "id": "1a4cbefb-0580-497b-8693-4fb9330d5740",
@@ -361,7 +496,12 @@
         "replyCount": 0,
         "content": "testing response content",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32"
+        "parentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32",
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=33",
+            "name": "AlexClark"
+        }
     },
     {
         "id": "e27e6f36-45da-490a-8225-8bf359c51c9c",
@@ -374,7 +514,12 @@
         "replyCount": 0,
         "content": "f2f2f2f2f2f2f2",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": null
+        "parentId": null,
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=30",
+            "name": "Blake22"
+        }
     },
     {
         "id": "c81f47dc-a6a3-4628-afe5-bbcc467ef440",
@@ -387,7 +532,12 @@
         "replyCount": 0,
         "content": "testing replies",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": "019b8612-41e0-76d8-99f3-f7e44ff32175"
+        "parentId": "019b8612-41e0-76d8-99f3-f7e44ff32175",
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=31",
+            "name": "CaseyLewis"
+        }
     },
     {
         "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
@@ -400,6 +550,11 @@
         "replyCount": 0,
         "content": "fsfsfsfsfs",
         "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
-        "parentId": "114ea533-18c2-4e4d-a131-3705f84aff02"
+        "parentId": "114ea533-18c2-4e4d-a131-3705f84aff02",
+        "author": {
+            "id": "56325f14-9748-4b0e-b1ae-ecbed7ee03ca",
+            "avatarUrl": "https://i.pravatar.cc/150?img=32",
+            "name": "Drew11"
+        }
     }
 ]

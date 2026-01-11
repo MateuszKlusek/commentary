@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { AddCommentBlock } from "./AddCommentBlock";
+import ImageWithLoader from "./atoms/ImageWithLoader";
 
 export const Comment = ({
   commentaryProps,
@@ -34,75 +35,80 @@ export const Comment = ({
   );
 
   return (
-    <div className="w-full p-2">
-      {/* header */}
-      <div className="flex ">
-        <div>icon</div>
+    <div className="w-full p-2 flex gap-2">
+      <ImageWithLoader
+        src={comment.author.avatarUrl || ""}
+        alt={comment.author.id}
+        className="w-10 h-10 rounded-full"
+      />
 
-        <div>{commentaryProps.userId}</div>
+      <div className="flex flex-col gap-2 w-full">
+        <div className="flex items-center gap-2">
+          <div className="font-bold">@{comment.author.name}</div>
 
-        <div>{new Date(comment.createdAt).toLocaleDateString()}</div>
-      </div>
-
-      {/* content */}
-      <div className="text-sm">{comment.content}</div>
-
-      {/* actions */}
-      <div className="flex gap-2 flex-col">
-        <div className="flex gap-1">
-          <div className="flex gap-1">
-            <button
-              onClick={() =>
-                commentaryProps.updateLike(comment.commentId, true)
-              }
-            >
-              Like{" "}
-            </button>
-            <div>{comment.likes}</div>
-          </div>
-          <div className="flex gap-1">
-            <button
-              onClick={() =>
-                commentaryProps.updateLike(comment.commentId, false)
-              }
-            >
-              Dislike{" "}
-            </button>
-            <div>{comment.dislikes}</div>
-          </div>
-          <div className="flex gap-1">
-            <button onClick={() => setReplyInputShown(true)}>Reply</button>
-          </div>
+          <div>{new Date(comment.createdAt).toLocaleDateString()}</div>
         </div>
-        {replyInputShown ? (
-          <AddCommentBlock
-            commentaryProps={commentaryProps}
-            parentId={comment.commentId}
-            setReplyInputShown={setReplyInputShown}
-          />
+
+        {/* content */}
+        <div className="text-sm">{comment.content}</div>
+
+        {/* actions */}
+        <div className="flex gap-2 flex-col">
+          <div className="flex gap-1">
+            <div className="flex gap-1">
+              <button
+                onClick={() =>
+                  commentaryProps.updateLike(comment.commentId, true)
+                }
+              >
+                Like{" "}
+              </button>
+              <div>{comment.likes}</div>
+            </div>
+            <div className="flex gap-1">
+              <button
+                onClick={() =>
+                  commentaryProps.updateLike(comment.commentId, false)
+                }
+              >
+                Dislike{" "}
+              </button>
+              <div>{comment.dislikes}</div>
+            </div>
+            <div className="flex gap-1">
+              <button onClick={() => setReplyInputShown(true)}>Reply</button>
+            </div>
+          </div>
+          {replyInputShown ? (
+            <AddCommentBlock
+              commentaryProps={commentaryProps}
+              parentId={comment.commentId}
+              setReplyInputShown={setReplyInputShown}
+            />
+          ) : null}
+        </div>
+
+        {comment.replyCount > 0 && !repliesShown ? (
+          <div
+            className="cursor-pointer text-amber-600 w-fit"
+            onClick={handleReplyClick}
+          >
+            Replies {comment.replyCount}
+          </div>
         ) : null}
-      </div>
 
-      {comment.replyCount > 0 && !repliesShown ? (
-        <div
-          className="cursor-pointer text-amber-600 w-fit"
-          onClick={handleReplyClick}
-        >
-          Replies {comment.replyCount}
+        <div className="ml-4">
+          {items?.map((reply) => (
+            <Comment
+              key={reply.id}
+              commentaryProps={commentaryProps}
+              comment={reply}
+            />
+          ))}
+          {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
+
+          {loading && <div>Loading...</div>}
         </div>
-      ) : null}
-
-      <div className="ml-4">
-        {items?.map((reply) => (
-          <Comment
-            key={reply.id}
-            commentaryProps={commentaryProps}
-            comment={reply}
-          />
-        ))}
-        {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
-
-        {loading && <div>Loading...</div>}
       </div>
     </div>
   );
