@@ -15,6 +15,10 @@ function App() {
     });
   }, [discussionId, baseUrl]);
 
+  const handleUserNameClick = (userId: string) => {
+    console.log("userId", userId);
+  };
+
   return (
     <>
       <div className="w-full p-10 flex flex-col gap-2 container mx-auto">
@@ -31,6 +35,7 @@ function App() {
           customCss={customCss}
           // just for rerendering
           key={`${userId}-${discussionId}`}
+          onUserNameClick={handleUserNameClick}
         />
       </div>
     </>

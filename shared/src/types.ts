@@ -33,6 +33,7 @@ export type CommentaryActions = {
     userId: string,
     parentId: string | null
   ): Promise<void>;
+  onUserNameClick?: (userId: string) => void;
 };
 
 export type CommentaryConfig = {

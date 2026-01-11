@@ -2,6 +2,7 @@ import type { CommentaryAPI, CommentData } from "@shared/src/types";
 import { useState } from "react";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { cn } from "../../utils/style";
 import { AddCommentBlock } from "./AddCommentBlock";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 
@@ -44,7 +45,15 @@ export const Comment = ({
 
       <div className="flex flex-col gap-2 w-full">
         <div className="flex items-center gap-2">
-          <div className="font-bold">@{comment.author.name}</div>
+          <div
+            className={cn(
+              "font-bold",
+              commentaryProps.onUserNameClick && "cursor-pointer"
+            )}
+            onClick={() => commentaryProps.onUserNameClick?.(comment.author.id)}
+          >
+            @{comment.author.name}
+          </div>
 
           <div>{new Date(comment.createdAt).toLocaleDateString()}</div>
         </div>
