@@ -1,6 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import z from "zod";
-import { CommentDataSchema, SortingStrategySchema } from "./types";
+import { CommentDataSchema, SortingStrategySchema } from "./types/core";
 
 const c = initContract();
 

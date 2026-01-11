@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CommentDataSchema, type CommentData } from "../types";
+import { CommentDataSchema, type CommentData } from "../types/core";
 
 export function validateComments(data: unknown): CommentData[] {
   return z.array(CommentDataSchema).parse(data);

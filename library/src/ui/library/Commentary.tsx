@@ -1,4 +1,4 @@
-import type { CommentaryAPI, SortingStrategy } from "@shared/src/types";
+import type { CommentaryAPI, SortingStrategy } from "@shared/src/types/core";
 import { useEffect, useState, type JSX } from "react";
 import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
@@ -7,6 +7,7 @@ import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
 
+import { CopyProvider } from "../../copy/CopyContext";
 import "../index.css";
 
 export function Commentary(props: CommentaryAPI): JSX.Element {
@@ -29,25 +30,27 @@ export function Commentary(props: CommentaryAPI): JSX.Element {
   if (!isReady) return <div>Loading...</div>;
 
   return (
-    <commentary-container>
-      <HeaderSection
-        commentsCount={totalCount}
-        commentaryProps={props}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-      />
-      <Content>
-        {items?.map((comment) => (
-          <CommentThread
-            key={comment.id}
-            commentaryProps={props}
-            comment={comment}
-          />
-        ))}
-        {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
+    <CopyProvider copy={props.copy}>
+      <commentary-container>
+        <HeaderSection
+          commentsCount={totalCount}
+          commentaryProps={props}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
+        <Content>
+          {items?.map((comment) => (
+            <CommentThread
+              key={comment.id}
+              commentaryProps={props}
+              comment={comment}
+            />
+          ))}
+          {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
 
-        {loading && <div>Loading...</div>}
-      </Content>
-    </commentary-container>
+          {loading && <div>Loading...</div>}
+        </Content>
+      </commentary-container>
+    </CopyProvider>
   );
 }

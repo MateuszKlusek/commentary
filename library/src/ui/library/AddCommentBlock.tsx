@@ -1,4 +1,4 @@
-import type { CommentaryAPI } from "@shared/src/types";
+import type { CommentaryAPI } from "@shared/src/types/core";
 import { useState } from "react";
 import { AutoTextarea } from "./AutoTextarea";
 

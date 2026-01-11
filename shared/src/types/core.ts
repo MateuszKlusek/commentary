@@ -1,4 +1,5 @@
 import z from "zod";
+import type { Copy } from "./copy";
 
 export const CommentDataSchema = z.object({
   id: z.string(),
@@ -21,6 +22,8 @@ export const CommentDataSchema = z.object({
 
 export type CommentData = z.infer<typeof CommentDataSchema>;
 
+// actions
+
 export type CommentaryActions = {
   getTopLevelComments: InfiniteFetcher<
     CommentData,
@@ -41,6 +44,7 @@ export type CommentaryConfig = {
   userId: string | null | undefined;
   validationMode?: "warn" | "strict" | "silent";
   customCss?: string;
+  copy?: Copy;
 };
 
 export type WithDiscussionId<T, I extends any, K extends keyof T> = {

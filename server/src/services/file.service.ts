@@ -2,7 +2,7 @@ import type {
   CommentaryActionsWithDiscussionContext,
   CommentData,
   SortingStrategy,
-} from "@shared/src/types";
+} from "@shared/src/types/core";
 import { validateComments } from "@shared/src/validators";
 import fs from "fs";
 import path from "path";

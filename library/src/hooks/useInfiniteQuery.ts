@@ -1,4 +1,4 @@
-import type { InfiniteFetcher } from "@shared/src/types";
+import type { InfiniteFetcher } from "@shared/src/types/core";
 import { useEffect, useState } from "react";
 
 export function useInfiniteQuery<T>(

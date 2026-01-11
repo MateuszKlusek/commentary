@@ -1,0 +1,12 @@
+export const CopyProvider = ({ copy, children }) => {
+  const value = useMemo(
+    () => deepMerge(defaultCopy, copy),
+    [copy]
+  );
+
+  return (
+    <CopyContext.Provider value={value}>
+      {children}
+    </CopyContext.Provider>
+  );
+};

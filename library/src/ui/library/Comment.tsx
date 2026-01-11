@@ -1,4 +1,4 @@
-import type { CommentaryAPI, CommentData } from "@shared/src/types";
+import type { CommentaryAPI, CommentData } from "@shared/src/types/core";
 import { useState } from "react";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";

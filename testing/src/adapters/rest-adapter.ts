@@ -1,5 +1,5 @@
 import { contract } from "@shared/src/contracts";
-import type { CommentaryActions, GetParams } from "@shared/src/types";
+import type { CommentaryActions, GetParams } from "@shared/src/types/core";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
 
 export class GenericRestClient implements CommentaryActions {
