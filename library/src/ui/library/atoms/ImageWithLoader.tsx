@@ -16,9 +16,13 @@ export default function ImageWithLoader({
 
   return (
     <div style={{ position: "relative", width: "fit-content" }}>
-      {loading && !error && <div className="loader">Loading...</div>}
+      {loading && !error && <div className={className} />}
 
-      {error && <div className="error">Failed to load image</div>}
+      {error && (
+        <div className={className}>
+          <DefaultImage />
+        </div>
+      )}
 
       <img
         src={src}
@@ -27,9 +31,8 @@ export default function ImageWithLoader({
         style={{
           display: loading || error ? "none" : "block",
         }}
-
         onLoad={() => setLoading(false)}
-        onError={() => {
+        onError={(err) => {
           setLoading(false);
           setError(true);
         }}
@@ -37,3 +40,13 @@ export default function ImageWithLoader({
     </div>
   );
 }
+
+export const DefaultImage = () => {
+  return (
+    <div className="w-10 h-10 rounded-full bg-gray-200">
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="w-4 h-4 rounded-full bg-gray-400"></div>
+      </div>
+    </div>
+  );
+};

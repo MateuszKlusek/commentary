@@ -112,6 +112,13 @@ export class FileCommentaryServiceSingleton
       content,
       userId,
       parentId,
+      author: {
+        id: userId,
+        avatarUrl: `https://i.pravatar.cc/150?img=${Math.floor(
+          Math.random() * 100
+        )}`,
+        name: `User${Math.floor(Math.random() * 70)}`,
+      },
     };
     commentsArray.push(newComment);
 
