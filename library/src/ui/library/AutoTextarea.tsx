@@ -1,11 +1,18 @@
 import { useLayoutEffect, useRef } from "react";
+import { cn } from "../../utils/style";
 
 type Props = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  className?: string;
 } & React.ComponentProps<"textarea">;
 
-export const AutoTextarea = ({ value, onChange, ...props }: Props) => {
+export const AutoTextarea = ({
+  value,
+  onChange,
+  className,
+  ...props
+}: Props) => {
   const ref = useRef<HTMLTextAreaElement>(null);
 
   const resize = () => {
@@ -33,7 +40,8 @@ export const AutoTextarea = ({ value, onChange, ...props }: Props) => {
       value={value}
       onChange={handleChange}
       rows={1}
-      className="
+      className={cn(
+        `
         w-full
         resize-none
         overflow-hidden
@@ -44,7 +52,9 @@ export const AutoTextarea = ({ value, onChange, ...props }: Props) => {
         py-1
         leading-6
         box-border
-      "
+      `,
+        className
+      )}
       {...props}
     />
   );

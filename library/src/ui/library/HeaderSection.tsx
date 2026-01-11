@@ -31,7 +31,7 @@ export const HeaderSection = <T,>({
             onValueChange={(value) => setSortBy(value as T)}
           />
         </HStack>
-        <HStack className="w-full gap-4">
+        <HStack className="w-full gap-4 px-2">
           <div>P</div>
           <AddCommentBlock commentaryProps={commentaryProps} parentId={null} />
         </HStack>

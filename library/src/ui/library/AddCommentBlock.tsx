@@ -16,7 +16,7 @@ export const AddCommentBlock = ({
   const [replyComment, setReplyComment] = useState("");
 
   return (
-    <div>
+    <div className="w-full">
       <AutoTextarea
         placeholder="Add a reply..."
         value={replyComment}
