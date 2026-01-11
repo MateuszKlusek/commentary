@@ -18,7 +18,7 @@ export const HeaderSection = <T,>({
 }: Props<T>) => {
   return (
     <commentary-header>
-      <section id="header-section testing" className="">
+      <section>
         <HStack className="gap-4">
           <div>{commentsCount} Comments</div>
           <div> Sort By</div>

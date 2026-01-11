@@ -29,7 +29,7 @@ export function Commentary(props: CommentaryAPI): JSX.Element {
   if (!isReady) return <div>Loading...</div>;
 
   return (
-    <commentary-container id="commentary-container">
+    <commentary-container>
       <HeaderSection
         commentsCount={totalCount}
         commentaryProps={props}
