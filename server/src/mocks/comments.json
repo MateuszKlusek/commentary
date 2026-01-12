@@ -610,5 +610,23 @@
             "avatarUrl": "https://i.pravatar.cc/150?img=60",
             "name": "User8"
         }
+    },
+    {
+        "id": "55e8e31a-4f18-4c54-be68-bb00f9f3cf78",
+        "commentId": "f85e5490-3c5c-44f9-a7d4-5b1ab0b83890",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-12T13:02:42.259Z",
+        "updatedAt": "2026-01-12T13:02:42.259Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "test \ntest kolejna linia\nfskjfs \\n\nfsfsfsfs",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": null,
+        "author": {
+            "id": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+            "avatarUrl": "https://i.pravatar.cc/150?img=28",
+            "name": "User15"
+        }
     }
 ]

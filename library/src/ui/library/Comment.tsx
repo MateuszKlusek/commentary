@@ -6,6 +6,7 @@ import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
 import { AddCommentBlock } from "./AddCommentBlock";
+import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 
 export const Comment = ({ comment }: { comment: CommentData }) => {
@@ -58,8 +59,7 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
           <div>{new Date(comment.createdAt).toLocaleDateString()}</div>
         </div>
 
-        {/* content */}
-        <div className="text-sm">{comment.content}</div>
+        <CommentRender text={comment.content} />
 
         {/* actions */}
         <div className="flex gap-2 flex-col">
