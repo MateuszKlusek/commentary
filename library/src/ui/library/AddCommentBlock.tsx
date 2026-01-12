@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
-import { AutoTextarea } from "./AutoTextarea";
 import { useCommentBlockStatus } from "../../context/CommentBlockStatusContext";
+import { AutoTextarea } from "./AutoTextarea";
 
 type Props = {
   parentId: string | null;
@@ -21,6 +21,7 @@ export const AddCommentBlock = ({
   const [replyComment, setReplyComment] = useState("");
   const { addComment, user } = useCommentaryAPI();
   const { commentBlockStatus, setCommentBlockStatus } = useCommentBlockStatus();
+
   const handleCancel = () => {
     setReplyInputShown?.(false);
     setCommentBlockStatus?.("closed");

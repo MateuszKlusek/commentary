@@ -54,6 +54,11 @@ export const CommentContent = ({
     setReplyInputShown(true);
   };
 
+  const handleShowMoreReplies = () => {
+    setCommentBlockStatus("open-focused");
+    setRepliesShown(true);
+  };
+
   return (
     <div className={cn("w-full p-2 flex gap-4")}>
       <ImageWithLoader
@@ -108,7 +113,7 @@ export const CommentContent = ({
         {comment.replyCount > 0 && !repliesShown ? (
           <div
             className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium"
-            onClick={handleReplyClick}
+            onClick={handleShowMoreReplies}
           >
             <span>Replies {comment.replyCount}</span>
             {repliesShown ? (
