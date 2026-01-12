@@ -17,6 +17,6 @@ export const handlePluralization = ({
   const rule = rules.find((rule) => quantity <= rule.from);
   return template
     .replace("{quantity}", quantity.toString())
-    .replace("{label}", rule?.label ?? rules[rules.length - 1].label)
+    .replace("{label}", rule?.label ?? rules[rules.length - 1]?.label ?? "")
     .trim();
 };
