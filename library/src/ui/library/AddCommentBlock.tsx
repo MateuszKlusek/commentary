@@ -5,13 +5,17 @@ import { AutoTextarea } from "./AutoTextarea";
 type Props = {
   parentId: string | null;
   setReplyInputShown?: (shown: boolean) => void;
-  placeholder?: string;
+  placeholder: string;
+  actionButtonLabel: string;
+  cancelButtonLabel: string;
 };
 
 export const AddCommentBlock = ({
   parentId,
   setReplyInputShown,
-  placeholder = "",
+  actionButtonLabel,
+  cancelButtonLabel,
+  placeholder,
 }: Props) => {
   const [replyComment, setReplyComment] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -28,11 +32,13 @@ export const AddCommentBlock = ({
       />
       {isFocused && (
         <div className="flex justify-end gap-2">
-          <button onClick={() => setReplyInputShown?.(false)}>Cancel</button>
+          <button onClick={() => setReplyInputShown?.(false)}>
+            {cancelButtonLabel}
+          </button>
           <button
             onClick={() => addComment(replyComment, userId || "", parentId)}
           >
-            Reply
+            {actionButtonLabel}
           </button>
         </div>
       )}

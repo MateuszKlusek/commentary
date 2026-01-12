@@ -1,15 +1,14 @@
 import type { CommentaryAPI, SortingStrategy } from "@shared/src/types/core";
 import { useEffect, useState } from "react";
+import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
+import { ContextWrapper } from "../../context/ContextWrapper";
 import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import "../index.css";
 import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
-
-import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
-import { ContextWrapper } from "../../context/ContextWrapper";
-import "../index.css";
 
 const CommentaryComponent = () => {
   const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
@@ -28,8 +27,8 @@ const CommentaryComponent = () => {
   }, [sortBy, userId, discussionId]);
 
   const sentinelRef = useIntersectionObserver(loadMore, hasMore);
-
   const { isReady } = useDynamicCss(customCss);
+
   // TODO add loader
   if (!isReady) return <div>Loading...</div>;
 

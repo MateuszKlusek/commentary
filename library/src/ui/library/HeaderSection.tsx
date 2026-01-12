@@ -15,7 +15,15 @@ export const HeaderSection = <T,>({
   sortBy,
   setSortBy,
 }: Props<T>) => {
-  const { comment: commentCopy } = useCopy();
+  const {
+    comment: commentCopy,
+    addCommentButtonLabel,
+    addCommentCancelButtonLabel,
+    sortingOptions,
+    sortByLabel,
+    addCommentPlaceholder,
+  } = useCopy();
+
   return (
     <commentary-header>
       <section>
@@ -26,19 +34,21 @@ export const HeaderSection = <T,>({
               rules: commentCopy,
             })}
           </div>
-          <div> Sort By</div>
+          <div>{sortByLabel}</div>
           <SelectComponent
-            options={[
-              { label: "Newest", value: "newest" },
-              { label: "Top", value: "top" },
-            ]}
+            options={sortingOptions}
             value={sortBy?.toString()}
             onValueChange={(value) => setSortBy(value as T)}
           />
         </HStack>
         <HStack className="w-full gap-4 px-2">
           <div>P</div>
-          <AddCommentBlock parentId={null} placeholder="Add a comment..." />
+          <AddCommentBlock
+            parentId={null}
+            placeholder={addCommentPlaceholder}
+            actionButtonLabel={addCommentButtonLabel}
+            cancelButtonLabel={addCommentCancelButtonLabel}
+          />
         </HStack>
       </section>
     </commentary-header>

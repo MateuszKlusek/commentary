@@ -1,6 +1,7 @@
 import type { CommentData } from "@shared/src/types/core";
 import { useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
+import { useCopy } from "../../copy/CopyContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
@@ -12,6 +13,11 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
   const [replyInputShown, setReplyInputShown] = useState(false);
 
   const { getReplies, onUserNameClick, updateLike } = useCommentaryAPI();
+  const {
+    addReplyButtonLabel,
+    addReplyCancelButtonLabel,
+    addReplyPlaceholder,
+  } = useCopy();
 
   const handleReplyClick = async () => {
     setRepliesShown(true);
@@ -77,6 +83,9 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
           {replyInputShown ? (
             <AddCommentBlock
               parentId={comment.commentId}
+              placeholder={addReplyPlaceholder}
+              actionButtonLabel={addReplyButtonLabel}
+              cancelButtonLabel={addReplyCancelButtonLabel}
               setReplyInputShown={setReplyInputShown}
             />
           ) : null}
