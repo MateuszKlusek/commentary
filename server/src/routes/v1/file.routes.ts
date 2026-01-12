@@ -56,7 +56,11 @@ const tsRestRouter = s.router(contract, {
     );
     return {
       status: 200,
-      body: {},
+      body: {
+        ...res,
+        createdAt: res.createdAt.toISOString(),
+        updatedAt: res.updatedAt.toISOString(),
+      },
     };
   },
 });

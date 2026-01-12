@@ -11,6 +11,7 @@ export const CopyProvider = ({
   copy?: Copy;
   children: React.ReactNode;
 }) => {
+  // TODO implement deep merge
   //   const value = useMemo(() => deepMerge(defaultCopy, copy), [copy]);
   const value = useMemo(() => copy ?? defaultCopy, [copy]);
 

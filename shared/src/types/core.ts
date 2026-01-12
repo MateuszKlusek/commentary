@@ -35,7 +35,7 @@ export type CommentaryActions = {
     content: string,
     userId: string,
     parentId: string | null
-  ): Promise<void>;
+  ): Promise<CommentData>;
   onUserNameClick?: (userId: string) => void;
 };
 

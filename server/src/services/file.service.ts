@@ -97,7 +97,7 @@ export class FileCommentaryServiceSingleton
     content: string,
     userId: string,
     parentId: string | null
-  ): Promise<void> {
+  ) {
     const commentsJson = await this.readCommentsFile();
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
     const newComment: CommentData = {
@@ -134,6 +134,7 @@ export class FileCommentaryServiceSingleton
       path.join(__dirname, "..", "mocks", "comments.json"),
       JSON.stringify(commentsArray)
     );
+    return newComment;
   }
 
   async updateLike(commentId: string, like: boolean): Promise<void> {

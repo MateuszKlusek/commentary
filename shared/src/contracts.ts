@@ -48,7 +48,7 @@ export const contract = c.router({
       discussionId: z.string().nonempty(),
     }),
     responses: {
-      200: z.object({}),
+      200: CommentDataSchema,
     },
   },
 });

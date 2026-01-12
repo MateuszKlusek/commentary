@@ -81,7 +81,7 @@ export class GenericRestClient implements CommentaryActions {
     });
 
     if (res.status === 200) {
-      return;
+      return res.body;
     }
     throw new Error("Failed to add comment");
   };

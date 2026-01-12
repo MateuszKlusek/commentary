@@ -1,5 +1,6 @@
 import type { CommentaryAPI } from "@shared/src/types/core";
 import { useCopy } from "../../copy/CopyContext";
+import { handlePluralization } from "../../copy/utils";
 import { HStack } from "../layout/HStack";
 import { AddCommentBlock } from "./AddCommentBlock";
 import { SelectComponent } from "./atoms/Select";
@@ -18,14 +19,15 @@ export const HeaderSection = <T,>({
   setSortBy,
 }: Props<T>) => {
   const { comment: commentCopy } = useCopy();
-  console.log(commentCopy);
   return (
     <commentary-header>
       <section>
         <HStack className="gap-4">
           <div>
-            {/* TODO Add range handling generic function */}
-            {commentsCount} {commentCopy[0].label}
+            {handlePluralization({
+              quantity: commentsCount,
+              rules: commentCopy,
+            })}
           </div>
           <div> Sort By</div>
           <SelectComponent
