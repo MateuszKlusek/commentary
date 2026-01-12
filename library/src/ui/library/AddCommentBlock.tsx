@@ -38,7 +38,7 @@ export const AddCommentBlock = ({
   return (
     <div className="w-full">
       <AutoTextarea
-        placeholder={placeholder}
+        placeholder={commentBlockStatus === "closed" ? placeholder : ""}
         value={replyComment}
         id="reply-textarea"
         onChange={(e) => setReplyComment(e.target.value)}
@@ -47,8 +47,14 @@ export const AddCommentBlock = ({
       />
       {commentBlockStatus === "open-focused" && (
         <div className="flex justify-end gap-2">
-          <button onClick={handleCancel}>{cancelButtonLabel}</button>
           <button
+            className="text-[#ffffff] cursor-pointer"
+            onClick={handleCancel}
+          >
+            {cancelButtonLabel}
+          </button>
+          <button
+            className="text-[#ffffff] cursor-pointer"
             onClick={() =>
               addComment(replyComment, user?.userId || "", parentId)
             }

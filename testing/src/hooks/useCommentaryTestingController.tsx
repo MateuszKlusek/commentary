@@ -17,7 +17,7 @@ export const useCommentaryTestingController = () => {
   const [userId, setUserId] = useState(CONFIG.userId);
   const [discussionId, setDiscussionId] = useState(CONFIG.discussionId);
   const [userName, setUserName] = useState(CONFIG.userName);
-  const [userAvatarUrl, setUserAvatarUrl] = useState(CONFIG.userAvatarUrl);
+  const [userAvatarUrl, _] = useState(CONFIG.userAvatarUrl);
 
   const Component = useMemo(() => {
     return (

@@ -26,7 +26,7 @@ export const CommentContent = ({
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
 
-  const { getReplies, onUserNameClick, updateLike } = useCommentaryAPI();
+  const { getReplies, onUserNameClick, updateLike, user } = useCommentaryAPI();
   const {
     addReplyButtonLabel,
     addReplyCancelButtonLabel,
@@ -61,7 +61,7 @@ export const CommentContent = ({
   };
 
   return (
-    <div className={cn("w-full p-2 flex gap-4")}>
+    <div className="w-full flex gap-4 pb-4">
       <ImageWithLoader
         src={comment.author.avatarUrl || ""}
         alt={comment.author.id}
@@ -101,13 +101,19 @@ export const CommentContent = ({
             </div>
           </div>
           {replyInputShown ? (
-            <AddCommentBlock
-              parentId={comment.commentId}
-              placeholder={addReplyPlaceholder}
-              actionButtonLabel={addReplyButtonLabel}
-              cancelButtonLabel={addReplyCancelButtonLabel}
-              setReplyInputShown={setReplyInputShown}
-            />
+            <div className="flex gap-4">
+              <ImageWithLoader
+                src={user?.avatarUrl || ""}
+                className="rounded-full w-6 h-6"
+              />
+              <AddCommentBlock
+                parentId={comment.commentId}
+                placeholder={addReplyPlaceholder}
+                actionButtonLabel={addReplyButtonLabel}
+                cancelButtonLabel={addReplyCancelButtonLabel}
+                setReplyInputShown={setReplyInputShown}
+              />
+            </div>
           ) : null}
         </div>
 
@@ -125,13 +131,15 @@ export const CommentContent = ({
           </div>
         ) : null}
 
-        <div className="ml-4">
+        <div className="">
           {items?.map((reply) => (
             <Comment key={reply.id} comment={reply} type="reply" />
           ))}
-          {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
+          {hasMore && (
+            <div ref={sentinelRef} className="h-0.5 bg-red-100 opacity-20" />
+          )}
 
-          {loading && <CommentLoader count={2} />}
+          {loading && <CommentLoader count={3} />}
         </div>
       </div>
     </div>

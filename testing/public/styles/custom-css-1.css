@@ -3,8 +3,10 @@
 }
 
 commentary-container {
-  background-color: #000000;
+  background-color: rgb(15, 15, 15);
   font-family: var(--comment-font-family);
+  padding: 12px;
+  border-radius: 8px;
 }
 
 /* to target the comment render component */

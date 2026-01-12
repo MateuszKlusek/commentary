@@ -37,31 +37,29 @@ export const HeaderSectionContent = <T,>({
 
   return (
     <commentary-header>
-      <section>
-        <HStack className="gap-4">
-          <div>
+      <section className="pb-8">
+        <HStack className="gap-4 items-center h-7 mb-6">
+          <div className="text-[20px] text-[#ffffff] font-bold">
             {handlePluralization({
               quantity: commentsCount,
               rules: commentCopy,
             })}
           </div>
-          <div>{sortByLabel}</div>
           <SelectComponent
             options={sortingOptions}
             value={sortBy?.toString()}
             onValueChange={(value) => setSortBy(value as T)}
           />
+          <div>{sortByLabel}</div>
         </HStack>
         <HStack className="w-full gap-4 px-2">
-          {
-            <ImageWithLoader
-              src={user?.avatarUrl || ""}
-              className={cn(
-                "rounded-full",
-                commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
-              )}
-            />
-          }
+          <ImageWithLoader
+            src={user?.avatarUrl || ""}
+            className={cn(
+              "rounded-full",
+              commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
+            )}
+          />
           <AddCommentBlock
             parentId={null}
             placeholder={addCommentPlaceholder}

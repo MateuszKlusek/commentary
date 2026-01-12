@@ -1,28 +1,32 @@
+import { cn } from "../../../utils/style";
+
 type Props = {
   count?: number;
+  colorFrom?: string;
+  colorTo?: string;
 };
 
-const CommentLoader = ({ count = 3 }: Props) => {
+const CommentLoader = ({ count = 3, colorTo = "bg-[#ffffff33]" }: Props) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-2">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="flex space-x-3 animate-pulse">
-          {/* Avatar */}
-          <div className="h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+        <div key={i} className="flex animate-pulse ">
+          <div className="flex gap-4 w-full">
+            {/* Avatar */}
+            <div className={cn("h-9 w-9 rounded-full", colorTo)} />
 
-          {/* Comment content */}
-          <div className="flex-1 space-y-2">
-            {/* Username */}
-            <div className="h-4 w-1/4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+            {/* Comment content */}
+            <div className="flex flex-col gap-1.5 w-full">
+              <div className={cn("h-3.5 w-1/4 rounded", colorTo)} />
 
-            {/* Comment lines */}
-            <div className="space-y-1">
-              <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded"></div>
-              <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded"></div>
+              <div className={cn("h-3.5 w-full rounded", colorTo)} />
+              <div className={cn("h-3.5 w-full rounded", colorTo)} />
+
+              <div className="flex gap-1">
+                <div className={cn("h-3.5 w-1/20 rounded", colorTo)} />
+                <div className={cn("h-3.5 w-1/20 rounded", colorTo)} />
+              </div>
             </div>
-
-            {/* Timestamp */}
-            <div className="h-3 w-1/6 bg-gray-300 dark:bg-gray-700 rounded mt-1"></div>
           </div>
         </div>
       ))}
