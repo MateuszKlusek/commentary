@@ -14,6 +14,7 @@ import { AddCommentBlock } from "./AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
+import CommentLoader from "./misc/CommentLoader";
 
 export const CommentContent = ({
   comment,
@@ -130,7 +131,7 @@ export const CommentContent = ({
           ))}
           {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
 
-          {loading && <div>Loading...</div>}
+          {loading && <CommentLoader count={2} />}
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import "../index.css";
 import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
+import CommentLoader from "./misc/CommentLoader";
 
 const CommentaryComponent = () => {
   const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
@@ -45,7 +46,7 @@ const CommentaryComponent = () => {
         ))}
         {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
 
-        {loading && <div>Loading...</div>}
+        {loading && <CommentLoader count={3} />}
       </Content>
     </commentary-container>
   );
