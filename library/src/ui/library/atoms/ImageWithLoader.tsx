@@ -1,28 +1,27 @@
 import { useState } from "react";
+import { cn } from "../../../utils/style";
 
 type ImageWithLoaderProps = {
   src: string;
   alt?: string;
   className?: string;
+  id?: string;
 };
 
 export default function ImageWithLoader({
   src,
   alt = "",
   className,
+  id,
 }: ImageWithLoaderProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   return (
-    <div style={{ position: "relative", width: "fit-content" }}>
+    <div style={{ position: "relative", width: "fit-content" }} id={id}>
       {loading && !error && <div className={className} />}
 
-      {error && (
-        <div className={className}>
-          <DefaultImage />
-        </div>
-      )}
+      {error && <DefaultImage id={id} className={className} />}
 
       <img
         src={src}
@@ -32,7 +31,7 @@ export default function ImageWithLoader({
           display: loading || error ? "none" : "block",
         }}
         onLoad={() => setLoading(false)}
-        onError={(err) => {
+        onError={() => {
           setLoading(false);
           setError(true);
         }}
@@ -41,11 +40,17 @@ export default function ImageWithLoader({
   );
 }
 
-export const DefaultImage = () => {
+export const DefaultImage = ({
+  id,
+  className,
+}: {
+  id?: string;
+  className?: string;
+}) => {
   return (
-    <div className="w-10 h-10 rounded-full bg-gray-200">
+    <div className={cn("rounded-full bg-gray-200", className)} id={id}>
       <div className="w-full h-full flex items-center justify-center">
-        <div className="w-4 h-4 rounded-full bg-gray-400"></div>
+        <div className="w-3 h-3 rounded-full bg-gray-400"></div>
       </div>
     </div>
   );

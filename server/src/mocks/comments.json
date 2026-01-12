@@ -628,5 +628,41 @@
             "avatarUrl": "https://i.pravatar.cc/150?img=28",
             "name": "User15"
         }
+    },
+    {
+        "id": "b0093287-3b04-482c-ac3c-52cad10ec5c5",
+        "commentId": "f783afa6-caeb-4080-84b0-35670ffbe112",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-12T15:48:46.667Z",
+        "updatedAt": "2026-01-12T15:48:46.667Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "Wow ! It's only when you look back you appreciate how much work you guys have done. It's been relentless, but well worth it. The results are amazing and now all the structural and building work is done you can tackle the rest of the house at an easier pace hopefully. Happy New year to you both , it's so good to have you back.😊",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": null,
+        "author": {
+            "id": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+            "avatarUrl": "https://i.pravatar.cc/150?img=55",
+            "name": "User7"
+        }
+    },
+    {
+        "id": "8c121ecb-dc30-48a5-a06c-798361b0f17d",
+        "commentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+        "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+        "createdAt": "2026-01-12T16:02:35.103Z",
+        "updatedAt": "2026-01-12T16:02:35.103Z",
+        "likes": 0,
+        "dislikes": 0,
+        "replyCount": 0,
+        "content": "My thoughts, hugs and such deep sympathy go to all your family.  My husband passed on the same day as your loving mother.  \nAchievements are not always happy but it is an achievement.  We got thru 2 years of tears and smiles.\nI am so glad your brother and his new wife were able to come and visit.  Your Dad, I'm sure, was so Happy to see you all.\n\n\n\ncontinuing with the test",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "parentId": null,
+        "author": {
+            "id": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+            "name": "User21",
+            "avatarUrl": "https://i.pravatar.cc/150?img=27"
+        }
     }
 ]

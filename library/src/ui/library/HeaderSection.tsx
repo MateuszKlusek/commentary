@@ -1,7 +1,14 @@
+import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
+import {
+  CommentBlockStatusProvider,
+  useCommentBlockStatus,
+} from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../copy/CopyContext";
 import { handlePluralization } from "../../copy/utils";
+import { cn } from "../../utils/style";
 import { HStack } from "../layout/HStack";
 import { AddCommentBlock } from "./AddCommentBlock";
+import ImageWithLoader from "./atoms/ImageWithLoader";
 import { SelectComponent } from "./atoms/Select";
 
 type Props<T> = {
@@ -10,7 +17,7 @@ type Props<T> = {
   setSortBy: (sortBy: T) => void;
 };
 
-export const HeaderSection = <T,>({
+export const HeaderSectionContent = <T,>({
   commentsCount,
   sortBy,
   setSortBy,
@@ -23,6 +30,10 @@ export const HeaderSection = <T,>({
     sortByLabel,
     addCommentPlaceholder,
   } = useCopy();
+
+  const { user } = useCommentaryAPI();
+
+  const { commentBlockStatus } = useCommentBlockStatus();
 
   return (
     <commentary-header>
@@ -42,7 +53,15 @@ export const HeaderSection = <T,>({
           />
         </HStack>
         <HStack className="w-full gap-4 px-2">
-          <div>P</div>
+          {
+            <ImageWithLoader
+              src={user?.avatarUrl || ""}
+              className={cn(
+                "rounded-full",
+                commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
+              )}
+            />
+          }
           <AddCommentBlock
             parentId={null}
             placeholder={addCommentPlaceholder}
@@ -52,5 +71,21 @@ export const HeaderSection = <T,>({
         </HStack>
       </section>
     </commentary-header>
+  );
+};
+
+export const HeaderSection = <T,>({
+  commentsCount,
+  sortBy,
+  setSortBy,
+}: Props<T>) => {
+  return (
+    <CommentBlockStatusProvider>
+      <HeaderSectionContent
+        commentsCount={commentsCount}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
+    </CommentBlockStatusProvider>
   );
 };

@@ -1,15 +1,27 @@
+import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import type { CommentData } from "@shared/src/types/core";
 import { useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
+import {
+  CommentBlockStatusProvider,
+  useCommentBlockStatus,
+} from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../copy/CopyContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
 import { AddCommentBlock } from "./AddCommentBlock";
+import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 
-export const Comment = ({ comment }: { comment: CommentData }) => {
+export const CommentContent = ({
+  comment,
+  type,
+}: {
+  comment: CommentData;
+  type: "comment" | "reply";
+}) => {
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
 
@@ -19,10 +31,6 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
     addReplyCancelButtonLabel,
     addReplyPlaceholder,
   } = useCopy();
-
-  const handleReplyClick = async () => {
-    setRepliesShown(true);
-  };
 
   const { items, loadMore, loading, hasMore } = useInfiniteQuery(
     (params) =>
@@ -39,25 +47,31 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
     hasMore && repliesShown
   );
 
+  const { setCommentBlockStatus } = useCommentBlockStatus();
+
+  const handleReplyClick = () => {
+    setCommentBlockStatus("open-focused");
+    setReplyInputShown(true);
+  };
+
   return (
-    <div className="w-full p-2 flex gap-2">
+    <div className={cn("w-full p-2 flex gap-4")}>
       <ImageWithLoader
         src={comment.author.avatarUrl || ""}
         alt={comment.author.id}
-        className="w-10 h-10 rounded-full"
+        className={cn(
+          " rounded-full",
+          type === "comment" && "w-9 h-9",
+          type === "reply" && "w-6 h-6"
+        )}
+        id={type === "comment" ? "comment-avatar" : "reply-avatar"}
       />
 
       <div className="flex flex-col gap-2 w-full">
-        <div className="flex items-center gap-2">
-          <div
-            className={cn("font-bold", onUserNameClick && "cursor-pointer")}
-            onClick={() => onUserNameClick?.(comment.author.id)}
-          >
-            @{comment.author.name}
-          </div>
-
-          <div>{new Date(comment.createdAt).toLocaleDateString()}</div>
-        </div>
+        <CommentHeader
+          comment={comment}
+          onUserNameClick={() => onUserNameClick?.(comment.author.id)}
+        />
 
         <CommentRender text={comment.content} />
 
@@ -77,7 +91,7 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
               <div>{comment.dislikes}</div>
             </div>
             <div className="flex gap-1">
-              <button onClick={() => setReplyInputShown(true)}>Reply</button>
+              <button onClick={handleReplyClick}>Reply</button>
             </div>
           </div>
           {replyInputShown ? (
@@ -93,16 +107,21 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
 
         {comment.replyCount > 0 && !repliesShown ? (
           <div
-            className="cursor-pointer text-amber-600 w-fit"
+            className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium"
             onClick={handleReplyClick}
           >
-            Replies {comment.replyCount}
+            <span>Replies {comment.replyCount}</span>
+            {repliesShown ? (
+              <ChevronUpIcon width={24} height={24} strokeWidth={2} />
+            ) : (
+              <ChevronDownIcon width={24} height={24} strokeWidth={4} />
+            )}
           </div>
         ) : null}
 
         <div className="ml-4">
           {items?.map((reply) => (
-            <Comment key={reply.id} comment={reply} />
+            <Comment key={reply.id} comment={reply} type="reply" />
           ))}
           {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
 
@@ -110,5 +129,19 @@ export const Comment = ({ comment }: { comment: CommentData }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const Comment = ({
+  comment,
+  type,
+}: {
+  comment: CommentData;
+  type: "comment" | "reply";
+}) => {
+  return (
+    <CommentBlockStatusProvider>
+      <CommentContent comment={comment} type={type} />
+    </CommentBlockStatusProvider>
   );
 };

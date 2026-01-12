@@ -13,7 +13,7 @@ import { HeaderSection } from "./HeaderSection";
 const CommentaryComponent = () => {
   const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
 
-  const { getTopLevelComments, userId, discussionId, customCss } =
+  const { getTopLevelComments, user, discussionId, customCss } =
     useCommentaryAPI();
 
   const { items, loadMore, loading, hasMore, totalCount, reset } =
@@ -24,7 +24,7 @@ const CommentaryComponent = () => {
 
   useEffect(() => {
     reset();
-  }, [sortBy, userId, discussionId]);
+  }, [sortBy, user?.userId, discussionId]);
 
   const sentinelRef = useIntersectionObserver(loadMore, hasMore);
   const { isReady } = useDynamicCss(customCss);

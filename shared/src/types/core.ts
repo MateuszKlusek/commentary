@@ -41,7 +41,11 @@ export type CommentaryActions = {
 
 export type CommentaryConfig = {
   discussionId: string | null | undefined;
-  userId: string | null | undefined;
+  user?: {
+    userId: string;
+    name: string;
+    avatarUrl: string;
+  };
   validationMode?: "warn" | "strict" | "silent";
   customCss?: string;
   copy?: Copy;

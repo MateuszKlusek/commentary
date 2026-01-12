@@ -1,3 +1,14 @@
-commentary-container {
-  background-color: #0f0f0f;
+:root {
+  --comment-font-family: "Roboto", sans-serif;
 }
+
+commentary-container {
+  background-color: #000000;
+  font-family: var(--comment-font-family);
+}
+
+/* to target the comment render component */
+
+/* 
+#comment-render {} 
+*/

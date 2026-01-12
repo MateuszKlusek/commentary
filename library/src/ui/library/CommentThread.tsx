@@ -4,7 +4,7 @@ import { Comment } from "./Comment";
 export const CommentThread = ({ comment }: { comment: CommentData }) => {
   return (
     <commentary-thread>
-      <Comment comment={comment} />
+      <Comment comment={comment} type="comment" />
     </commentary-thread>
   );
 };

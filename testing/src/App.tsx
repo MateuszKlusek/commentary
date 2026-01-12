@@ -5,7 +5,7 @@ import { useCommentaryTestingController } from "./hooks/useCommentaryTestingCont
 import customCss from "/styles/custom-css-1.css?url";
 
 function App() {
-  const { userId, discussionId, baseUrl, TestingController } =
+  const { user, discussionId, baseUrl, TestingController } =
     useCommentaryTestingController();
 
   const client = useMemo(() => {
@@ -30,12 +30,12 @@ function App() {
           // TODO: implement
           updateLike={() => Promise.resolve()}
           //
+          onUserNameClick={handleUserNameClick}
+          user={user}
           discussionId={discussionId}
-          userId={userId}
           customCss={customCss}
           // just for rerendering
-          key={`${userId}-${discussionId}`}
-          onUserNameClick={handleUserNameClick}
+          key={`${user.name}-${discussionId}`}
         />
       </div>
     </>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import { AutoTextarea } from "./AutoTextarea";
+import { useCommentBlockStatus } from "../../context/CommentBlockStatusContext";
 
 type Props = {
   parentId: string | null;
@@ -18,8 +19,21 @@ export const AddCommentBlock = ({
   placeholder,
 }: Props) => {
   const [replyComment, setReplyComment] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
-  const { addComment, userId } = useCommentaryAPI();
+  const { addComment, user } = useCommentaryAPI();
+  const { commentBlockStatus, setCommentBlockStatus } = useCommentBlockStatus();
+  const handleCancel = () => {
+    setReplyInputShown?.(false);
+    setCommentBlockStatus?.("closed");
+  };
+
+  const handleOnFocus = () => {
+    setCommentBlockStatus?.("open-focused");
+  };
+
+  const handleOnBlur = () => {
+    setCommentBlockStatus?.("open-blurred");
+  };
+
   return (
     <div className="w-full">
       <AutoTextarea
@@ -27,16 +41,16 @@ export const AddCommentBlock = ({
         value={replyComment}
         id="reply-textarea"
         onChange={(e) => setReplyComment(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={handleOnFocus}
+        onBlur={handleOnBlur}
       />
-      {isFocused && (
+      {commentBlockStatus === "open-focused" && (
         <div className="flex justify-end gap-2">
-          <button onClick={() => setReplyInputShown?.(false)}>
-            {cancelButtonLabel}
-          </button>
+          <button onClick={handleCancel}>{cancelButtonLabel}</button>
           <button
-            onClick={() => addComment(replyComment, userId || "", parentId)}
+            onClick={() =>
+              addComment(replyComment, user?.userId || "", parentId)
+            }
           >
             {actionButtonLabel}
           </button>
