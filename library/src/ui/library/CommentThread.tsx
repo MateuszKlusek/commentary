@@ -1,16 +1,10 @@
-import type { CommentaryAPI, CommentData } from "@shared/src/types/core";
+import type { CommentData } from "@shared/src/types/core";
 import { Comment } from "./Comment";
 
-export const CommentThread = ({
-  commentaryProps,
-  comment,
-}: {
-  commentaryProps: CommentaryAPI;
-  comment: CommentData;
-}) => {
+export const CommentThread = ({ comment }: { comment: CommentData }) => {
   return (
     <commentary-thread>
-      <Comment commentaryProps={commentaryProps} comment={comment} />
+      <Comment comment={comment} />
     </commentary-thread>
   );
 };

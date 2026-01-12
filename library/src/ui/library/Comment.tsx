@@ -1,20 +1,17 @@
-import type { CommentaryAPI, CommentData } from "@shared/src/types/core";
+import type { CommentData } from "@shared/src/types/core";
 import { useState } from "react";
+import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
 import { AddCommentBlock } from "./AddCommentBlock";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 
-export const Comment = ({
-  commentaryProps,
-  comment,
-}: {
-  commentaryProps: CommentaryAPI;
-  comment: CommentData;
-}) => {
+export const Comment = ({ comment }: { comment: CommentData }) => {
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
+
+  const { getReplies, onUserNameClick, updateLike } = useCommentaryAPI();
 
   const handleReplyClick = async () => {
     setRepliesShown(true);
@@ -22,7 +19,7 @@ export const Comment = ({
 
   const { items, loadMore, loading, hasMore } = useInfiniteQuery(
     (params) =>
-      commentaryProps.getReplies({
+      getReplies({
         parentId: comment.commentId,
         ...params,
       }),
@@ -46,11 +43,8 @@ export const Comment = ({
       <div className="flex flex-col gap-2 w-full">
         <div className="flex items-center gap-2">
           <div
-            className={cn(
-              "font-bold",
-              commentaryProps.onUserNameClick && "cursor-pointer"
-            )}
-            onClick={() => commentaryProps.onUserNameClick?.(comment.author.id)}
+            className={cn("font-bold", onUserNameClick && "cursor-pointer")}
+            onClick={() => onUserNameClick?.(comment.author.id)}
           >
             @{comment.author.name}
           </div>
@@ -65,21 +59,13 @@ export const Comment = ({
         <div className="flex gap-2 flex-col">
           <div className="flex gap-1">
             <div className="flex gap-1">
-              <button
-                onClick={() =>
-                  commentaryProps.updateLike(comment.commentId, true)
-                }
-              >
+              <button onClick={() => updateLike(comment.commentId, true)}>
                 Like{" "}
               </button>
               <div>{comment.likes}</div>
             </div>
             <div className="flex gap-1">
-              <button
-                onClick={() =>
-                  commentaryProps.updateLike(comment.commentId, false)
-                }
-              >
+              <button onClick={() => updateLike(comment.commentId, false)}>
                 Dislike{" "}
               </button>
               <div>{comment.dislikes}</div>
@@ -90,7 +76,6 @@ export const Comment = ({
           </div>
           {replyInputShown ? (
             <AddCommentBlock
-              commentaryProps={commentaryProps}
               parentId={comment.commentId}
               setReplyInputShown={setReplyInputShown}
             />
@@ -108,11 +93,7 @@ export const Comment = ({
 
         <div className="ml-4">
           {items?.map((reply) => (
-            <Comment
-              key={reply.id}
-              commentaryProps={commentaryProps}
-              comment={reply}
-            />
+            <Comment key={reply.id} comment={reply} />
           ))}
           {hasMore && <div ref={sentinelRef} className="h-0.5 bg-red-100" />}
 

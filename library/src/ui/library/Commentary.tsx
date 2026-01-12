@@ -1,5 +1,5 @@
 import type { CommentaryAPI, SortingStrategy } from "@shared/src/types/core";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useState } from "react";
 import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
@@ -7,50 +7,55 @@ import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
 
-import { CopyProvider } from "../../copy/CopyContext";
+import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
+import { ContextWrapper } from "../../context/ContextWrapper";
 import "../index.css";
 
-export function Commentary(props: CommentaryAPI): JSX.Element {
+const CommentaryComponent = () => {
   const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
+
+  const { getTopLevelComments, userId, discussionId, customCss } =
+    useCommentaryAPI();
 
   const { items, loadMore, loading, hasMore, totalCount, reset } =
     useInfiniteQuery(
-      (params) => props.getTopLevelComments({ sortBy, ...params }),
+      (params) => getTopLevelComments({ sortBy, ...params }),
       10
     );
 
   useEffect(() => {
     reset();
-  }, [sortBy, props.userId, props.discussionId]);
+  }, [sortBy, userId, discussionId]);
 
   const sentinelRef = useIntersectionObserver(loadMore, hasMore);
 
-  const { isReady } = useDynamicCss(props.customCss);
+  const { isReady } = useDynamicCss(customCss);
   // TODO add loader
   if (!isReady) return <div>Loading...</div>;
 
   return (
-    <CopyProvider copy={props.copy}>
-      <commentary-container>
-        <HeaderSection
-          commentsCount={totalCount}
-          commentaryProps={props}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
-        <Content>
-          {items?.map((comment) => (
-            <CommentThread
-              key={comment.id}
-              commentaryProps={props}
-              comment={comment}
-            />
-          ))}
-          {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
+    <commentary-container>
+      <HeaderSection
+        commentsCount={totalCount}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
+      <Content>
+        {items?.map((comment) => (
+          <CommentThread key={comment.id} comment={comment} />
+        ))}
+        {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
 
-          {loading && <div>Loading...</div>}
-        </Content>
-      </commentary-container>
-    </CopyProvider>
+        {loading && <div>Loading...</div>}
+      </Content>
+    </commentary-container>
   );
-}
+};
+
+export const Commentary = (commentaryAPI: CommentaryAPI) => {
+  return (
+    <ContextWrapper commentaryAPI={commentaryAPI}>
+      <CommentaryComponent />
+    </ContextWrapper>
+  );
+};

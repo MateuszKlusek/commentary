@@ -15,3 +15,10 @@ export const CopySchema = z.object({
 });
 
 export type Copy = z.infer<typeof CopySchema>;
+
+/**
+ * A string that must contain both {quantity} and {label}
+ */
+export type PluralizationTemplate =
+  | `${string}{quantity}${string}{label}${string}`
+  | `${string}{label}${string}{quantity}${string}`;
