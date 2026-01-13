@@ -97,7 +97,12 @@ export const CommentContent = ({
               <div>{comment.dislikes}</div>
             </div>
             <div className="flex gap-1">
-              <button onClick={handleReplyClick}>Reply</button>
+              <button
+                onClick={handleReplyClick}
+                className="text-[#ffffff] cursor-pointer"
+              >
+                Reply
+              </button>
             </div>
           </div>
           {replyInputShown ? (
