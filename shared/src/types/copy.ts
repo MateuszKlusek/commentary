@@ -28,6 +28,10 @@ export const CopySchema = z.object({
     showMoreReplies: z.string().nonempty(),
     repliesCount: QuantityRangeRuleSchema,
   }),
+  readMoreActionLabels: z.object({
+    readMore: z.string().nonempty(),
+    showLess: z.string().nonempty(),
+  }),
 });
 
 export type Copy = z.infer<typeof CopySchema>;

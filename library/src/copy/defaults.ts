@@ -37,4 +37,8 @@ export const defaultCopy: Copy = {
       { from: 2, label: "Replies" },
     ],
   },
+  readMoreActionLabels: {
+    readMore: "Read more",
+    showLess: "Show less",
+  },
 };
