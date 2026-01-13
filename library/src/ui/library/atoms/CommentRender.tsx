@@ -1,23 +1,19 @@
 import { useEffect, useRef, useState } from "react";
+import { useCopy } from "../../../copy/CopyContext";
 
 export const CommentRender = ({ text }: { text: string }) => {
   const [expanded, setExpanded] = useState(false);
-  const [overflowing, setOverflowing] = useState(false);
+  const [canExpand, setCanExpand] = useState(false);
+
+  const { readMoreActionLabels } = useCopy();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-
-    setOverflowing(el.scrollHeight > el.clientHeight);
-  }, [text]);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    if (!el || expanded) return;
 
     const checkOverflow = () => {
-      setOverflowing(el.scrollHeight > el.clientHeight);
+      setCanExpand(el.scrollHeight > el.clientHeight);
     };
 
     checkOverflow();
@@ -26,25 +22,27 @@ export const CommentRender = ({ text }: { text: string }) => {
     observer.observe(el);
 
     return () => observer.disconnect();
-  }, [text]);
+  }, [text, expanded]);
 
   return (
     <div>
       <div
         ref={ref}
-        className={`text-[14px] font-normal text-[#f1f1f1] whitespace-pre-line
-        ${expanded ? "" : "line-clamp-5"}
-      `}
+        className={`text-[14px] font-normal text-[#f1f1f1] whitespace-pre-line ${
+          expanded ? "" : "line-clamp-5"
+        }`}
       >
         {text}
       </div>
 
-      {overflowing && (
+      {canExpand && (
         <span
           onClick={() => setExpanded((p) => !p)}
           className="mt-1 text-[14px] text-[#aaa] hover:underline font-medium cursor-pointer"
         >
-          {expanded ? "Show less" : "Read more"}
+          {expanded
+            ? readMoreActionLabels.showLess
+            : readMoreActionLabels.readMore}
         </span>
       )}
     </div>
