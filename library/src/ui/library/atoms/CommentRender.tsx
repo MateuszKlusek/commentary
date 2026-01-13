@@ -41,14 +41,14 @@ export const CommentRender = ({ text }: { text: string }) => {
       </div>
 
       {overflowing && (
-        <button
+        <span
           onClick={() => setExpanded((p) => !p)}
-          className="mt-1 text-xs text-blue-400 hover:underline"
+          className="mt-1 text-[14px] text-[#aaa] hover:underline font-medium cursor-pointer hover:underline"
         >
           {expanded
             ? readMoreActionLabels.showLess
             : readMoreActionLabels.readMore}
-        </button>
+        </span>
       )}
     </div>
   );
