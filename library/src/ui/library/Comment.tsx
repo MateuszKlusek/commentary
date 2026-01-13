@@ -134,7 +134,7 @@ export const CommentContent = ({
           ))}
         </Activity>
 
-        {comment.replyCount > 0 && (
+        {comment.replyCount > 0 && !loading && (
           <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
             {repliesShown ? (
               <button onClick={handleHideReplies}>
