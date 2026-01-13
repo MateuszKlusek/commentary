@@ -1,12 +1,13 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import type { CommentData } from "@shared/src/types/core";
-import { useState } from "react";
+import { Activity, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import {
   CommentBlockStatusProvider,
   useCommentBlockStatus,
 } from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../copy/CopyContext";
+import { handlePluralization } from "../../copy/utils";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
@@ -31,6 +32,7 @@ export const CommentContent = ({
     addReplyButtonLabel,
     addReplyCancelButtonLabel,
     addReplyPlaceholder,
+    commentActionLabels,
   } = useCopy();
 
   const { items, loadMore, loading, hasMore } = useInfiniteQuery(
@@ -58,6 +60,10 @@ export const CommentContent = ({
   const handleShowMoreReplies = () => {
     setCommentBlockStatus("open-focused");
     setRepliesShown(true);
+  };
+
+  const handleHideReplies = () => {
+    setRepliesShown(false);
   };
 
   return (
@@ -122,30 +128,40 @@ export const CommentContent = ({
           ) : null}
         </div>
 
-        {comment.replyCount > 0 && !repliesShown ? (
-          <div
-            className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium"
-            onClick={handleShowMoreReplies}
-          >
-            <span>Replies {comment.replyCount}</span>
+        <Activity mode={repliesShown ? "visible" : "hidden"}>
+          {items?.map((reply) => (
+            <Comment key={reply.id} comment={reply} type="reply" />
+          ))}
+        </Activity>
+
+        {comment.replyCount > 0 && (
+          <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
+            {repliesShown ? (
+              <button onClick={handleHideReplies}>
+                {commentActionLabels.hideReplies}
+              </button>
+            ) : (
+              <button onClick={handleShowMoreReplies}>
+                {handlePluralization({
+                  quantity: comment.replyCount,
+                  rules: commentActionLabels.repliesCount,
+                })}
+              </button>
+            )}
+
             {repliesShown ? (
               <ChevronUpIcon width={24} height={24} strokeWidth={2} />
             ) : (
               <ChevronDownIcon width={24} height={24} strokeWidth={4} />
             )}
           </div>
-        ) : null}
+        )}
 
-        <div className="">
-          {items?.map((reply) => (
-            <Comment key={reply.id} comment={reply} type="reply" />
-          ))}
-          {hasMore && (
-            <div ref={sentinelRef} className="h-0.5 bg-red-100 opacity-20" />
-          )}
+        {hasMore && (
+          <div ref={sentinelRef} className="h-0.5 bg-red-100 opacity-20" />
+        )}
 
-          {loading && <CommentLoader count={3} />}
-        </div>
+        {loading && <CommentLoader count={3} />}
       </div>
     </div>
   );

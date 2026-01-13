@@ -23,6 +23,11 @@ export const CopySchema = z.object({
     z.object({ label: z.string().nonempty(), value: SortingStrategySchema })
   ),
   sortByLabel: z.string().nonempty(),
+  commentActionLabels: z.object({
+    hideReplies: z.string().nonempty(),
+    showMoreReplies: z.string().nonempty(),
+    repliesCount: QuantityRangeRuleSchema,
+  }),
 });
 
 export type Copy = z.infer<typeof CopySchema>;

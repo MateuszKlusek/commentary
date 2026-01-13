@@ -28,4 +28,13 @@ export const defaultCopy: Copy = {
     { label: "Top", value: SortingStrategySchema.enum.top },
   ],
   sortByLabel: "Sort By",
+  commentActionLabels: {
+    hideReplies: "Hide replies",
+    showMoreReplies: "Show more replies",
+    repliesCount: [
+      { from: 0, label: "Replies" },
+      { from: 1, label: "Reply" },
+      { from: 2, label: "Replies" },
+    ],
+  },
 };
