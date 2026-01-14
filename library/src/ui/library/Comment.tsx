@@ -1,4 +1,3 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import type { CommentData } from "@shared/src/types/core";
 import { Activity, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
@@ -7,7 +6,6 @@ import {
   useCommentBlockStatus,
 } from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../copy/CopyContext";
-import { handlePluralization } from "../../copy/utils";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
@@ -16,13 +14,16 @@ import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 import CommentLoader from "./misc/CommentLoader";
+import { RepliesControl } from "./misc/RepliesControl";
 
 export const CommentContent = ({
   comment,
   type,
+  fetchMode,
 }: {
   comment: CommentData;
   type: "comment" | "reply";
+  fetchMode: "auto" | "manual";
 }) => {
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
@@ -32,7 +33,6 @@ export const CommentContent = ({
     addReplyButtonLabel,
     addReplyCancelButtonLabel,
     addReplyPlaceholder,
-    commentActionLabels,
   } = useCopy();
 
   const { items, loadMore, loading, hasMore } = useInfiniteQuery(
@@ -47,7 +47,7 @@ export const CommentContent = ({
 
   const sentinelRef = useIntersectionObserver(
     loadMore,
-    hasMore && repliesShown
+    hasMore && repliesShown && fetchMode === "auto"
   );
 
   const { setCommentBlockStatus } = useCommentBlockStatus();
@@ -72,7 +72,7 @@ export const CommentContent = ({
         src={comment.author.avatarUrl || ""}
         alt={comment.author.id}
         className={cn(
-          " rounded-full",
+          "rounded-full",
           type === "comment" && "w-9 h-9",
           type === "reply" && "w-6 h-6"
         )}
@@ -130,32 +130,22 @@ export const CommentContent = ({
 
         <Activity mode={repliesShown ? "visible" : "hidden"}>
           {items?.map((reply) => (
-            <Comment key={reply.id} comment={reply} type="reply" />
+            <Comment
+              key={reply.id}
+              comment={reply}
+              type="reply"
+              fetchMode="manual"
+            />
           ))}
         </Activity>
 
-        {comment.replyCount > 0 && !loading && (
-          <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
-            {repliesShown ? (
-              <button onClick={handleHideReplies}>
-                {commentActionLabels.hideReplies}
-              </button>
-            ) : (
-              <button onClick={handleShowMoreReplies}>
-                {handlePluralization({
-                  quantity: comment.replyCount,
-                  rules: commentActionLabels.repliesCount,
-                })}
-              </button>
-            )}
-
-            {repliesShown ? (
-              <ChevronUpIcon width={24} height={24} strokeWidth={2} />
-            ) : (
-              <ChevronDownIcon width={24} height={24} strokeWidth={4} />
-            )}
-          </div>
-        )}
+        <RepliesControl
+          comment={comment}
+          loading={loading}
+          repliesShown={repliesShown}
+          handleHideReplies={handleHideReplies}
+          handleShowMoreReplies={handleShowMoreReplies}
+        />
 
         {hasMore && (
           <div ref={sentinelRef} className="h-0.5 bg-red-100 opacity-20" />
@@ -167,16 +157,14 @@ export const CommentContent = ({
   );
 };
 
-export const Comment = ({
-  comment,
-  type,
-}: {
+export const Comment = (props: {
   comment: CommentData;
   type: "comment" | "reply";
+  fetchMode: "auto" | "manual";
 }) => {
   return (
     <CommentBlockStatusProvider>
-      <CommentContent comment={comment} type={type} />
+      <CommentContent {...props} />
     </CommentBlockStatusProvider>
   );
 };
