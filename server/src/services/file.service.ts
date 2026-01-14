@@ -83,33 +83,28 @@ export class FileCommentaryServiceSingleton
       const commentStats = validateCommentStats(commentStatsInvalidated);
       const users = validateUsers(usersInvalidated);
 
-      const topLevelComments = comments.filter(
+      const filteredOutComments = comments.filter(
         (comment) =>
           comment.parentId === parentId && comment.discussionId === discussionId
       );
 
-      const topLevelCommentsSliced = topLevelComments.slice(
-        offset,
-        offset + limit
-      );
+      const commentsSlice = filteredOutComments.slice(offset, offset + limit);
 
-      const topLevelCommentsMapped: CommentData[] = topLevelCommentsSliced.map(
-        (comment) => {
-          return {
-            comment,
-            commentStats: commentStats.filter(
-              (stat) => stat.commentId === comment.commentId
-            )[0],
-            author: users.filter((user) => user.userId === comment.userId)[0],
-            userReaction: userReactions.filter(
-              (reaction) => reaction.commentId === comment.commentId
-            )[0],
-          };
-        }
-      );
+      const finalComments: CommentData[] = commentsSlice.map((comment) => {
+        return {
+          comment,
+          commentStats: commentStats.filter(
+            (stat) => stat.commentId === comment.commentId
+          )[0],
+          author: users.filter((user) => user.userId === comment.userId)[0],
+          userReaction: userReactions.filter(
+            (reaction) => reaction.commentId === comment.commentId
+          )[0],
+        };
+      });
 
       if (sortBy === "newest") {
-        topLevelCommentsMapped.sort(
+        finalComments.sort(
           (a, b) =>
             new Date(b.comment.createdAt).getTime() -
             new Date(a.comment.createdAt).getTime()
@@ -117,8 +112,8 @@ export class FileCommentaryServiceSingleton
       }
 
       return {
-        items: topLevelCommentsMapped,
-        itemsCount: topLevelComments.length,
+        items: finalComments,
+        itemsCount: filteredOutComments.length,
       };
     } catch (error) {
       throw error;
