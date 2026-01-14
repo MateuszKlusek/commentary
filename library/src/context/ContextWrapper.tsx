@@ -1,6 +1,6 @@
-import { CopyProvider } from "../copy/CopyContext";
 import type { CommentaryAPI } from "../embed/react";
 import { CommentaryAPIProvider } from "./CommentaryAPIContext";
+import { CopyProvider } from "./CopyContext";
 
 export const ContextWrapper = ({
   commentaryAPI,

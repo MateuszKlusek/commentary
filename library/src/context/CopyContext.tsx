@@ -1,6 +1,6 @@
 import type { Copy } from "@shared/src/types/copy";
 import { createContext, useContext, useMemo } from "react";
-import { defaultCopy } from "./defaults";
+import { defaultCopy } from "../copy/defaults";
 
 const CopyContext = createContext(defaultCopy);
 

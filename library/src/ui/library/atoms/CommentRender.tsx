@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useCopy } from "../../../copy/CopyContext";
+import { useCopy } from "../../../context/CopyContext";
 
 export const CommentRender = ({ text }: { text: string }) => {
   const [expanded, setExpanded] = useState(false);

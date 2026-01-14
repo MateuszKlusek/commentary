@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import type { CommentData } from "@shared/src/types/core";
-import { useCopy } from "../../../copy/CopyContext";
+import { useCopy } from "../../../context/CopyContext";
 import { handlePluralization } from "../../../copy/utils";
 
 type Props = {

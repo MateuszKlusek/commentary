@@ -5,7 +5,7 @@ import {
   CommentBlockStatusProvider,
   useCommentBlockStatus,
 } from "../../context/CommentBlockStatusContext";
-import { useCopy } from "../../copy/CopyContext";
+import { useCopy } from "../../context/CopyContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";

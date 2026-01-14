@@ -3,7 +3,7 @@ import {
   CommentBlockStatusProvider,
   useCommentBlockStatus,
 } from "../../context/CommentBlockStatusContext";
-import { useCopy } from "../../copy/CopyContext";
+import { useCopy } from "../../context/CopyContext";
 import { handlePluralization } from "../../copy/utils";
 import { cn } from "../../utils/style";
 import { HStack } from "../layout/HStack";
