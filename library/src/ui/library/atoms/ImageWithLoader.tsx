@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { cn } from "../../../utils/style";
+import type { Nullable } from "@shared/src/types/helpers";
 
 type ImageWithLoaderProps = {
-  src: string | undefined | null;
+  src: Nullable<string>;
   alt?: string;
   className?: string;
   id?: string;

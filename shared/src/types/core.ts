@@ -1,47 +1,62 @@
 import z from "zod";
 import type { Copy } from "./copy";
 import {
-  CommentSchema,
+  CommentSliceSchema,
   CommentStatsSchema,
   UserReactionSchema,
   UserSchema,
+  type User,
 } from "./data";
+import type { Nullable } from "./helpers";
 
-export const CommentDataSchema = z.object({
-  comment: CommentSchema,
+export const CommentItemSchema = z.object({
+  comment: CommentSliceSchema,
   commentStats: CommentStatsSchema,
   author: UserSchema,
   userReaction: UserReactionSchema,
 });
 
-export type CommentData = z.infer<typeof CommentDataSchema>;
+export type CommentItem = z.infer<typeof CommentItemSchema>;
+
+export const CommentItemWithIdSchema = z.object({
+  comment: CommentSliceSchema.extend({
+    id: z.string(),
+  }),
+  commentStats: CommentStatsSchema.extend({
+    id: z.string(),
+  }),
+  author: UserSchema.extend({
+    id: z.string(),
+  }),
+  userReaction: UserReactionSchema.extend({
+    id: z.string(),
+  }),
+});
+
+export type CommentItemWithId = z.infer<typeof CommentItemWithIdSchema>;
 
 // actions
 export type CommentaryActions = {
   getTopLevelComments: InfiniteFetcher<
-    CommentData,
+    CommentItem,
     { sortBy: SortingStrategy }
   >;
   getReplies: InfiniteFetcher<
-    CommentData,
+    CommentItem,
     { parentId: string; sortBy: SortingStrategy }
   >;
   updateLike(commentId: string, like: boolean): Promise<void>;
   addComment(
     content: string,
     userId: string,
-    parentId: string | null
-  ): Promise<CommentData>;
+    parentId: Nullable<string>
+  ): Promise<CommentItem>;
   onUserNameClick?: (userId: string) => void;
 };
 
 export type CommentaryConfig = {
-  discussionId: string | null | undefined;
-  user?: {
-    userId: string;
-    name: string;
-    avatarUrl: string;
-  };
+  discussionId: Nullable<string>;
+  user?: User;
   validationMode?: "warn" | "strict" | "silent";
   customCss?: string;
   copy?: Copy;

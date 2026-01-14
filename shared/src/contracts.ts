@@ -1,6 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import z from "zod";
-import { CommentDataSchema, SortingStrategySchema } from "./types/core";
+import { CommentItemSchema, SortingStrategySchema } from "./types/core";
 
 const c = initContract();
 
@@ -16,7 +16,7 @@ export const contract = c.router({
     }),
     responses: {
       200: z.object({
-        items: z.array(CommentDataSchema),
+        items: z.array(CommentItemSchema),
         itemsCount: z.number().int().min(0),
       }),
     },
@@ -34,7 +34,7 @@ export const contract = c.router({
     }),
     responses: {
       200: z.object({
-        items: z.array(CommentDataSchema),
+        items: z.array(CommentItemSchema),
         itemsCount: z.number().int().min(0),
       }),
     },
@@ -45,12 +45,12 @@ export const contract = c.router({
     path: "/comment",
     body: z.object({
       content: z.string().nonempty(),
-      parentId: z.string().nullable(),
+      parentId: z.string().nullish(),
       userId: z.string().nonempty(),
       discussionId: z.string().nonempty(),
     }),
     responses: {
-      200: CommentDataSchema,
+      200: CommentItemSchema,
     },
   },
 });

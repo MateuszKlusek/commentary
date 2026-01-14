@@ -1,13 +1,15 @@
 import type { CommentaryAPI } from "@shared/src/types/core";
+import type { Nullable } from "@shared/src/types/helpers";
 import { createContext, useContext } from "react";
 
-const CommentaryAPIContext = createContext<CommentaryAPI | null>(null);
+const CommentaryAPIContext = createContext<Nullable<CommentaryAPI>>(undefined);
 
 export const CommentaryAPIProvider = ({
   commentaryAPI,
+
   children,
 }: {
-  commentaryAPI: CommentaryAPI;
+  commentaryAPI: Nullable<CommentaryAPI>;
   children: React.ReactNode;
 }) => {
   return (

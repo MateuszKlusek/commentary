@@ -1,10 +1,10 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
-import type { CommentData } from "@shared/src/types/core";
+import type { CommentItem } from "@shared/src/types/core";
 import { useCopy } from "../../../context/CopyContext";
 import { handlePluralization } from "../../../copy/utils";
 
 type Props = {
-  comment: CommentData;
+  comment: CommentItem;
   loading: boolean;
   repliesShown: boolean;
   handleHideReplies: () => void;
@@ -20,7 +20,7 @@ export const RepliesControl = ({
   const { commentActionLabels } = useCopy();
   return (
     <>
-      {comment.commentStats.replyCount > 0 && !loading && (
+      {comment?.commentStats?.replyCount > 0 && !loading && (
         <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
           {repliesShown ? (
             <button onClick={handleHideReplies} className="cursor-pointer">

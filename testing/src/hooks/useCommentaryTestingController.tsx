@@ -5,6 +5,7 @@ import { VStack } from "../../../library/src/ui/layout/VStack";
 
 import { cn } from "../../../library/src/utils/style";
 import { Separator } from "../components/Separator";
+import type { Nullable } from "@shared/src/types/helpers";
 
 const CONFIG = {
   baseUrl: "http://localhost:3000/api/v1/file",
@@ -67,7 +68,7 @@ type ItemControlBlockProps<T> = {
   disabled?: boolean;
 };
 
-const ItemControlBlock = <T extends string | null | undefined>({
+const ItemControlBlock = <T extends Nullable<string>>({
   value,
   onChange,
   title,

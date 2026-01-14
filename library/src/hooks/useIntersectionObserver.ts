@@ -4,7 +4,7 @@ export const useIntersectionObserver = (
   callback: () => void,
   enabled: boolean
 ) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!enabled || !ref.current) return;

@@ -1,6 +1,7 @@
 import type { CommentaryAPI } from "../embed/react";
 import { CommentaryAPIProvider } from "./CommentaryAPIContext";
 import { CopyProvider } from "./CopyContext";
+import { UserProvider } from "./UserContext";
 
 export const ContextWrapper = ({
   commentaryAPI,
@@ -11,7 +12,9 @@ export const ContextWrapper = ({
 }) => {
   return (
     <CommentaryAPIProvider commentaryAPI={commentaryAPI}>
-      <CopyProvider copy={commentaryAPI.copy}>{children}</CopyProvider>
+      <UserProvider user={commentaryAPI?.user}>
+        <CopyProvider copy={commentaryAPI.copy}>{children}</CopyProvider>
+      </UserProvider>
     </CommentaryAPIProvider>
   );
 };

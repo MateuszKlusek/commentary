@@ -1,15 +1,12 @@
 import type {
   CommentaryActionsWithDiscussionContext,
-  CommentData,
+  CommentItem,
+  CommentItemWithId,
   PaginationParams,
   SortingStrategy,
 } from "@shared/src/types/core";
-import type {
-  Comment,
-  CommentStats,
-  User,
-  UserReaction,
-} from "@shared/src/types/data";
+import type { CommentStats, User, UserReaction } from "@shared/src/types/data";
+import type { Nullable } from "@shared/src/types/helpers";
 import {
   validateComments,
   validateCommentStats,
@@ -56,7 +53,7 @@ export class FileCommentaryServiceSingleton
     params,
   }: {
     discussionId: string;
-    parentId: string | null;
+    parentId: Nullable<string>;
     params: PaginationParams & { sortBy: SortingStrategy };
   }) {
     const { offset, limit, sortBy } = params;
@@ -69,7 +66,7 @@ export class FileCommentaryServiceSingleton
           this.readMockFile("users"),
         ]);
 
-      const commentsInvalidated = JSON.parse(commentsJson) as Comment[];
+      const commentsInvalidated = JSON.parse(commentsJson) as CommentItem[];
       const userReactionsInvalidated = JSON.parse(
         userReactionsJson
       ) as UserReaction[];
@@ -90,7 +87,7 @@ export class FileCommentaryServiceSingleton
 
       const commentsSlice = filteredOutComments.slice(offset, offset + limit);
 
-      const finalComments: CommentData[] = commentsSlice.map((comment) => {
+      const finalComments: CommentItem[] = commentsSlice.map((comment) => {
         return {
           comment,
           commentStats: commentStats.filter(
@@ -144,13 +141,13 @@ export class FileCommentaryServiceSingleton
     discussionId: string,
     content: string,
     userId: string,
-    parentId: string | null
+    parentId: Nullable<string>
   ) {
     const commentsJson = await this.readMockFile("comments");
-    const commentsArray = JSON.parse(commentsJson) as CommentData[];
+    const commentsArray = JSON.parse(commentsJson);
     const commentId = crypto.randomUUID();
 
-    const newComment: CommentData = {
+    const newComment: CommentItemWithId = {
       comment: {
         id: crypto.randomUUID(),
         commentId,
@@ -195,8 +192,8 @@ export class FileCommentaryServiceSingleton
     return;
   }
 
-  slug: string | null | undefined;
-  userId: string | null | undefined;
+  slug: Nullable<string>;
+  userId: Nullable<string>;
 }
 
 const fileCommentaryService = FileCommentaryServiceSingleton.getInstance();

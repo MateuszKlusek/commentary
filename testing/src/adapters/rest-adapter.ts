@@ -1,6 +1,7 @@
 import { contract } from "@shared/src/contracts";
 import type { CommentaryActions, GetParams } from "@shared/src/types/core";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
+import type { Nullable } from "@shared/src/types/helpers";
 
 export class GenericRestClient implements CommentaryActions {
   private discussionId: string;
@@ -77,7 +78,7 @@ export class GenericRestClient implements CommentaryActions {
   addComment = async (
     content: string,
     userId: string,
-    parentId: string | null
+    parentId: Nullable<string>
   ) => {
     const res = await this.client.addComment({
       body: { content, userId, parentId, discussionId: this.discussionId },
@@ -94,6 +95,6 @@ export class GenericRestClient implements CommentaryActions {
     void like;
     return Promise.resolve();
   }
-  slug: string | null | undefined;
-  userId: string | null | undefined;
+  slug: Nullable<string>;
+  userId: Nullable<string>;
 }

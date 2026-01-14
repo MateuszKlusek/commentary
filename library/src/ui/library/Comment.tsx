@@ -1,4 +1,4 @@
-import type { CommentData } from "@shared/src/types/core";
+import type { CommentItem } from "@shared/src/types/core";
 import { Activity, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import {
@@ -21,7 +21,7 @@ export const CommentContent = ({
   type,
   fetchMode,
 }: {
-  comment: CommentData;
+  comment: CommentItem;
   type: "comment" | "reply";
   fetchMode: "auto" | "manual";
 }) => {
@@ -74,7 +74,7 @@ export const CommentContent = ({
     <div className="w-full flex gap-4 pb-4">
       <ImageWithLoader
         src={comment.author?.avatarUrl}
-        alt={comment.author?.id || ""}
+        alt={comment.author?.userId || ""}
         className={cn(
           "rounded-full",
           type === "comment" && "w-9 h-9",
@@ -86,7 +86,9 @@ export const CommentContent = ({
       <div className="flex flex-col gap-2 w-full">
         <CommentHeader
           comment={comment}
-          onUserNameClick={() => onUserNameClick?.(comment.author?.id || "")}
+          onUserNameClick={() =>
+            onUserNameClick?.(comment.author?.userId || "")
+          }
         />
 
         <CommentRender text={comment.comment.content} />
@@ -139,7 +141,7 @@ export const CommentContent = ({
         <Activity mode={repliesShown ? "visible" : "hidden"}>
           {items?.map((reply) => (
             <Comment
-              key={reply.comment.id}
+              key={reply.comment.commentId}
               comment={reply}
               type="reply"
               fetchMode="manual"
@@ -166,7 +168,7 @@ export const CommentContent = ({
 };
 
 export const Comment = (props: {
-  comment: CommentData;
+  comment: CommentItem;
   type: "comment" | "reply";
   fetchMode: "auto" | "manual";
 }) => {

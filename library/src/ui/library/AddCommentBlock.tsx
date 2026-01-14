@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import { useCommentBlockStatus } from "../../context/CommentBlockStatusContext";
 import { AutoTextarea } from "./AutoTextarea";
+import type { Nullable } from "@shared/src/types/helpers";
 
 type Props = {
-  parentId: string | null;
+  parentId: Nullable<string>;
   setReplyInputShown?: (shown: boolean) => void;
   placeholder: string;
   actionButtonLabel: string;

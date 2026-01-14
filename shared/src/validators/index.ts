@@ -1,23 +1,23 @@
 import z from "zod";
+import { CommentItemSchema, type CommentItem } from "../types/core";
 import {
-  CommentSchema,
+  CommentSliceSchema,
   CommentStatsSchema,
   UserReactionSchema,
   UserSchema,
-  type Comment,
+  type CommentSlice,
   type CommentStats,
   type User,
   type UserReaction,
 } from "../types/data";
-import { CommentDataSchema, type CommentData } from "../types/core";
 
 // --------------------------- comments ---------------------------
-export function validateComments(data: unknown): Comment[] {
-  return z.array(CommentSchema).parse(data);
+export function validateComments(data: unknown): CommentSlice[] {
+  return z.array(CommentSliceSchema).parse(data);
 }
 
 export function safeValidateComments(data: unknown) {
-  return z.array(CommentSchema).safeParse(data);
+  return z.array(CommentSliceSchema).safeParse(data);
 }
 
 // --------------------------- comment stats ---------------------------
@@ -48,10 +48,10 @@ export function safeValidateUserReactions(data: unknown) {
 }
 
 // --------------------------- comment data ---------------------------
-export function validateCommentData(data: unknown): CommentData[] {
-  return z.array(CommentDataSchema).parse(data);
+export function validateCommentData(data: unknown): CommentItem[] {
+  return z.array(CommentItemSchema).parse(data);
 }
 
 export function safeValidateCommentData(data: unknown) {
-  return z.array(CommentDataSchema).safeParse(data);
+  return z.array(CommentSliceSchema).safeParse(data);
 }

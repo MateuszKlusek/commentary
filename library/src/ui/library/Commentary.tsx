@@ -42,7 +42,7 @@ const CommentaryComponent = () => {
       />
       <Content>
         {items?.map((comment) => (
-          <CommentThread key={comment.comment.id} comment={comment} />
+          <CommentThread key={comment.comment.commentId} comment={comment} />
         ))}
         {hasMore && <div ref={sentinelRef} className="h-1 bg-red-500" />}
 

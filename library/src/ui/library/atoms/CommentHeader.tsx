@@ -1,8 +1,8 @@
-import type { CommentData } from "@shared/src/types/core";
+import type { CommentItem } from "@shared/src/types/core";
 import { cn } from "../../../utils/style";
 
 type Props = {
-  comment: CommentData;
+  comment: CommentItem;
   onUserNameClick?: (userId: string) => void;
 };
 export const CommentHeader = ({ comment, onUserNameClick }: Props) => {
