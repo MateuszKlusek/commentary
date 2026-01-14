@@ -28,7 +28,7 @@ const tsRestRouter = s.router(contract, {
     query: { parentId, offset, limit, discussionId, sortBy },
   }) => {
     const replies = await commentaryService.getReplies(discussionId, {
-     parentId,
+      parentId,
       offset,
       limit,
       sortBy,

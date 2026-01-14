@@ -153,21 +153,28 @@ export class FileCommentaryServiceSingleton
   ) {
     const commentsJson = await this.readMockFile("comments");
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
+    const commentId = crypto.randomUUID();
     const newComment: CommentData = {
-      id: crypto.randomUUID(),
-      commentId: crypto.randomUUID(),
-      discussionId,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      likes: 0,
-      dislikes: 0,
-      replyCount: 0,
-      content,
-      userId,
-      parentId,
-      author: {
-        userId,
+      comment: {
         id: crypto.randomUUID(),
+        commentId,
+        discussionId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        content,
+        userId,
+        parentId,
+      },
+      commentStats: {
+        id: crypto.randomUUID(),
+        commentId,
+        likeCount: 0,
+        dislikeCount: 0,
+        replyCount: 0,
+      },
+      author: {
+        id: crypto.randomUUID(),
+        userId,
         avatarUrl: `https://i.pravatar.cc/150?img=${Math.floor(
           Math.random() * 100
         )}`,
