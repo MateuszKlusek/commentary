@@ -1,6 +1,7 @@
 import type {
   CommentaryActionsWithDiscussionContext,
   CommentData,
+  PaginationParams,
   SortingStrategy,
 } from "@shared/src/types/core";
 import type {
@@ -49,12 +50,15 @@ export class FileCommentaryServiceSingleton
     return this.readFile(path.join(__dirname, "..", "mocks", `${name}.json`));
   }
 
-  // ---------------------- CommentaryAPI methods ------------------------
-
-  async getTopLevelComments(
-    discussionId: string,
-    params: { offset: number; limit: number; sortBy: SortingStrategy }
-  ) {
+  private async fetchComments({
+    discussionId,
+    parentId,
+    params,
+  }: {
+    discussionId: string;
+    parentId: string | null;
+    params: PaginationParams & { sortBy: SortingStrategy };
+  }) {
     const { offset, limit, sortBy } = params;
     try {
       const [commentsJson, userReactionsJson, commentStatsJson, usersJson] =
@@ -81,7 +85,7 @@ export class FileCommentaryServiceSingleton
 
       const topLevelComments = comments.filter(
         (comment) =>
-          comment.parentId === null && comment.discussionId === discussionId
+          comment.parentId === parentId && comment.discussionId === discussionId
       );
 
       const topLevelCommentsSliced = topLevelComments.slice(
@@ -121,24 +125,24 @@ export class FileCommentaryServiceSingleton
     }
   }
 
-  async getReplies(params: {
-    offset: number;
-    limit: number;
-    parentId: string;
-  }) {
-    const { offset, limit, parentId } = params;
-    const commentsJson = await this.readMockFile("comments");
-    const commentsArray = JSON.parse(commentsJson) as CommentData[];
-    const result = validateComments(commentsArray);
+  // ---------------------- CommentaryAPI methods ------------------------
 
-    const replies = result
-      .filter((comment) => comment.parentId === parentId)
-      .slice(offset, offset + limit);
+  async getTopLevelComments(
+    discussionId: string,
+    params: PaginationParams & { sortBy: SortingStrategy }
+  ) {
+    return this.fetchComments({ discussionId, parentId: null, params });
+  }
 
-    return {
-      items: replies,
-      itemsCount: replies.length,
-    };
+  async getReplies(
+    discussionId: string,
+    params: PaginationParams & { sortBy: SortingStrategy; parentId: string }
+  ) {
+    return this.fetchComments({
+      discussionId,
+      parentId: params.parentId,
+      params,
+    });
   }
 
   async addComment(

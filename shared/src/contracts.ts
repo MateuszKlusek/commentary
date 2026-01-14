@@ -29,6 +29,8 @@ export const contract = c.router({
       offset: z.coerce.number(),
       limit: z.coerce.number(),
       parentId: z.string().nonempty(),
+      discussionId: z.string().nonempty(),
+      sortBy: SortingStrategySchema,
     }),
     responses: {
       200: z.object({

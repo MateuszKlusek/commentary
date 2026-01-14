@@ -35,6 +35,7 @@ export const CopySchema = z.object({
 });
 
 export type Copy = z.infer<typeof CopySchema>;
+export type PartialCopy = Partial<Copy>;
 
 /**
  * A string that must contain both {quantity} and {label}

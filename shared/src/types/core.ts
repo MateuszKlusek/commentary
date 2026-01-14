@@ -23,7 +23,10 @@ export type CommentaryActions = {
     CommentData,
     { sortBy: SortingStrategy }
   >;
-  getReplies: InfiniteFetcher<CommentData, { parentId: string }>;
+  getReplies: InfiniteFetcher<
+    CommentData,
+    { parentId: string; sortBy: SortingStrategy }
+  >;
   updateLike(commentId: string, like: boolean): Promise<void>;
   addComment(
     content: string,
@@ -56,7 +59,7 @@ export type WithDiscussionId<T, I extends any, K extends keyof T> = {
 export type CommentaryActionsWithDiscussionContext = WithDiscussionId<
   CommentaryActions,
   string,
-  "getTopLevelComments" | "addComment"
+  "getTopLevelComments" | "addComment" | "getReplies"
 >;
 
 export type CommentaryAPI = CommentaryActions & CommentaryConfig;

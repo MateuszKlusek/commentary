@@ -24,11 +24,14 @@ const tsRestRouter = s.router(contract, {
     };
   },
 
-  getReplies: async ({ query: { parentId, offset, limit } }) => {
-    const replies = await commentaryService.getReplies({
-      parentId,
+  getReplies: async ({
+    query: { parentId, offset, limit, discussionId, sortBy },
+  }) => {
+    const replies = await commentaryService.getReplies(discussionId, {
+     parentId,
       offset,
       limit,
+      sortBy,
     });
     return {
       status: 200,
