@@ -35,7 +35,7 @@ export const CommentContent = ({
     addReplyPlaceholder,
   } = useCopy();
 
-  const { items, loadMore, loading, hasMore } = useInfiniteQuery(
+  const { items, loadMore, loading, hasMore, offset } = useInfiniteQuery(
     (params) =>
       getReplies({
         parentId: comment.commentId,
@@ -47,7 +47,10 @@ export const CommentContent = ({
 
   const sentinelRef = useIntersectionObserver(
     loadMore,
-    hasMore && repliesShown && fetchMode === "auto"
+    hasMore &&
+      repliesShown &&
+      // allow autofetch for top-level comments and for first page of replies
+      (fetchMode === "auto" || offset === 0)
   );
 
   const { setCommentBlockStatus } = useCommentBlockStatus();

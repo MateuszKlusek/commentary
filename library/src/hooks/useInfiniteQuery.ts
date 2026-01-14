@@ -54,6 +54,7 @@ export function useInfiniteQuery<T>(
   }, [initialFetch, enabled]);
 
   return {
+    offset,
     items,
     loading,
     hasMore,

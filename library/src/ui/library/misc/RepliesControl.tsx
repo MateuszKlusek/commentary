@@ -23,11 +23,11 @@ export const RepliesControl = ({
       {comment.replyCount > 0 && !loading && (
         <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
           {repliesShown ? (
-            <button onClick={handleHideReplies}>
+            <button onClick={handleHideReplies} className="cursor-pointer">
               {commentActionLabels.hideReplies}
             </button>
           ) : (
-            <button onClick={handleShowMoreReplies}>
+            <button onClick={handleShowMoreReplies} className="cursor-pointer">
               {handlePluralization({
                 quantity: comment.replyCount,
                 rules: commentActionLabels.repliesCount,
