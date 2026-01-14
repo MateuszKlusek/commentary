@@ -18,11 +18,7 @@ const tsRestRouter = s.router(contract, {
     return {
       status: 200,
       body: {
-        items: comments.items.map((comment) => ({
-          ...comment,
-          createdAt: comment.createdAt.toISOString(),
-          updatedAt: comment.updatedAt.toISOString(),
-        })),
+        items: comments.items,
         itemsCount: comments.itemsCount,
       },
     };
@@ -37,11 +33,7 @@ const tsRestRouter = s.router(contract, {
     return {
       status: 200,
       body: {
-        items: replies.items.map((reply) => ({
-          ...reply,
-          createdAt: reply.createdAt.toISOString(),
-          updatedAt: reply.updatedAt.toISOString(),
-        })),
+        items: replies.items,
         itemsCount: replies.itemsCount,
       },
     };
@@ -58,8 +50,6 @@ const tsRestRouter = s.router(contract, {
       status: 200,
       body: {
         ...res,
-        createdAt: res.createdAt.toISOString(),
-        updatedAt: res.updatedAt.toISOString(),
       },
     };
   },

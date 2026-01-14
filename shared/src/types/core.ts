@@ -1,23 +1,17 @@
 import z from "zod";
 import type { Copy } from "./copy";
+import {
+  CommentSchema,
+  CommentStatsSchema,
+  UserReactionSchema,
+  UserSchema,
+} from "./data";
 
 export const CommentDataSchema = z.object({
-  id: z.string(),
-  discussionId: z.string().nonempty(),
-  commentId: z.string().nonempty(),
-  parentId: z.string().nullable(),
-  createdAt: z.string().transform((str) => new Date(str)),
-  updatedAt: z.string().transform((str) => new Date(str)),
-  likes: z.number().int().min(0),
-  dislikes: z.number().int().min(0),
-  replyCount: z.number().int().min(0),
-  content: z.string(),
-  userId: z.string(),
-  author: z.object({
-    id: z.uuid().nonempty(),
-    avatarUrl: z.url().nullable(),
-    name: z.string().nullable(),
-  }),
+  comment: CommentSchema,
+  commentStats: CommentStatsSchema.nullish(),
+  author: UserSchema.nullish(),
+  userReaction: UserReactionSchema.nullish(),
 });
 
 export type CommentData = z.infer<typeof CommentDataSchema>;

@@ -1,92 +1,30 @@
 [
     {
-        "commentId": 101,
-        "userId": 1,
+        "id": "1f9e07fd-39be-42c7-8592-401926746017",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32",
         "reaction": 1,
-        "createdAt": "2026-01-04T10:00:00Z"
+        "createdAt": "2025-12-02T14:12:00Z"
     },
     {
-        "commentId": 101,
-        "userId": 2,
-        "reaction": -1,
-        "createdAt": "2026-01-04T10:05:00Z"
-    },
-    {
-        "commentId": 102,
-        "userId": 3,
+        "id": "5ad97e79-1a06-47ae-bd5f-9e29cc4c0119",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-e730fc92224e",
         "reaction": 1,
-        "createdAt": "2026-01-04T10:10:00Z"
+        "createdAt": "2025-11-22T18:42:00Z"
     },
     {
-        "commentId": 103,
-        "userId": 4,
+        "id": "0154c92e-1c18-4fbf-b276-a28f13ec7e8d",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-9e96569ac7a0",
         "reaction": 1,
-        "createdAt": "2026-01-04T10:15:00Z"
+        "createdAt": "2025-11-19T22:45:00Z"
     },
     {
-        "commentId": 104,
-        "userId": 5,
-        "reaction": -1,
-        "createdAt": "2026-01-04T10:20:00Z"
-    },
-    {
-        "commentId": 105,
-        "userId": 6,
+        "id": "1baa97c1-66be-476c-9e65-40dd3cbb92eb",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-a3d0065e632b",
         "reaction": 1,
-        "createdAt": "2026-01-04T10:25:00Z"
-    },
-    {
-        "commentId": 106,
-        "userId": 7,
-        "reaction": 1,
-        "createdAt": "2026-01-04T10:30:00Z"
-    },
-    {
-        "commentId": 107,
-        "userId": 8,
-        "reaction": -1,
-        "createdAt": "2026-01-04T10:35:00Z"
-    },
-    {
-        "commentId": 108,
-        "userId": 9,
-        "reaction": 1,
-        "createdAt": "2026-01-04T10:40:00Z"
-    },
-    {
-        "commentId": 109,
-        "userId": 10,
-        "reaction": 1,
-        "createdAt": "2026-01-04T10:45:00Z"
-    },
-    {
-        "commentId": 110,
-        "userId": 11,
-        "reaction": -1,
-        "createdAt": "2026-01-04T10:50:00Z"
-    },
-    {
-        "commentId": 111,
-        "userId": 12,
-        "reaction": 1,
-        "createdAt": "2026-01-04T10:55:00Z"
-    },
-    {
-        "commentId": 112,
-        "userId": 13,
-        "reaction": 1,
-        "createdAt": "2026-01-04T11:00:00Z"
-    },
-    {
-        "commentId": 113,
-        "userId": 14,
-        "reaction": -1,
-        "createdAt": "2026-01-04T11:05:00Z"
-    },
-    {
-        "commentId": 114,
-        "userId": 15,
-        "reaction": 1,
-        "createdAt": "2026-01-04T11:10:00Z"
+        "createdAt": "2025-12-01T18:05:00Z"
     }
 ]

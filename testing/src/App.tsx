@@ -10,8 +10,8 @@ function App() {
 
   const client = useMemo(() => {
     return new GenericRestClient({
-      baseUrl: baseUrl,
-      discussionId: discussionId ?? "",
+      baseUrl,
+      discussionId,
     });
   }, [discussionId, baseUrl]);
 

@@ -3,13 +3,26 @@ import type {
   CommentData,
   SortingStrategy,
 } from "@shared/src/types/core";
-import { validateComments } from "@shared/src/validators";
+import type {
+  Comment,
+  CommentStats,
+  User,
+  UserReaction,
+} from "@shared/src/types/data";
+import {
+  validateComments,
+  validateCommentStats,
+  validateUserReactions,
+  validateUsers,
+} from "@shared/src/validators";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+type MockFileName = "comments" | "user-reactions" | "comment-stats" | "users";
 
 export class FileCommentaryServiceSingleton
   implements CommentaryActionsWithDiscussionContext
@@ -32,14 +45,8 @@ export class FileCommentaryServiceSingleton
     return fs.readFileSync(path, "utf8");
   }
 
-  private async readCommentsFile() {
-    return this.readFile(path.join(__dirname, "..", "mocks", "comments.json"));
-  }
-
-  private async readUserReactionsFile() {
-    return this.readFile(
-      path.join(__dirname, "..", "mocks", "user-reactions.json")
-    );
+  private async readMockFile(name: MockFileName) {
+    return this.readFile(path.join(__dirname, "..", "mocks", `${name}.json`));
   }
 
   // ---------------------- CommentaryAPI methods ------------------------
@@ -50,21 +57,63 @@ export class FileCommentaryServiceSingleton
   ) {
     const { offset, limit, sortBy } = params;
     try {
-      const commentsJson = await this.readCommentsFile();
-      const commentsArray = JSON.parse(commentsJson) as CommentData[];
-      const result = validateComments(commentsArray);
-      const topLevelComments = result.filter(
+      const [commentsJson, userReactionsJson, commentStatsJson, usersJson] =
+        await Promise.all([
+          this.readMockFile("comments"),
+          this.readMockFile("user-reactions"),
+          this.readMockFile("comment-stats"),
+          this.readMockFile("users"),
+        ]);
+
+      const commentsInvalidated = JSON.parse(commentsJson) as Comment[];
+      const userReactionsInvalidated = JSON.parse(
+        userReactionsJson
+      ) as UserReaction[];
+      const commentStatsInvalidated = JSON.parse(
+        commentStatsJson
+      ) as CommentStats[];
+      const usersInvalidated = JSON.parse(usersJson) as User[];
+
+      const comments = validateComments(commentsInvalidated);
+      const userReactions = validateUserReactions(userReactionsInvalidated);
+      const commentStats = validateCommentStats(commentStatsInvalidated);
+      const users = validateUsers(usersInvalidated);
+
+      const topLevelComments = comments.filter(
         (comment) =>
           comment.parentId === null && comment.discussionId === discussionId
       );
+
+      const topLevelCommentsSliced = topLevelComments.slice(
+        offset,
+        offset + limit
+      );
+
+      const topLevelCommentsMapped: CommentData[] = topLevelCommentsSliced.map(
+        (comment) => {
+          return {
+            comment,
+            commentStats: commentStats.find(
+              (stat) => stat.commentId === comment.commentId
+            ),
+            author: users.find((user) => user.userId === comment.userId),
+            userReaction: userReactions.find(
+              (reaction) => reaction.commentId === comment.commentId
+            ),
+          };
+        }
+      );
+
       if (sortBy === "newest") {
-        topLevelComments.sort(
-          (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+        topLevelCommentsMapped.sort(
+          (a, b) =>
+            new Date(b.comment.createdAt).getTime() -
+            new Date(a.comment.createdAt).getTime()
         );
       }
 
       return {
-        items: topLevelComments.slice(offset, offset + limit),
+        items: topLevelCommentsMapped,
         itemsCount: topLevelComments.length,
       };
     } catch (error) {
@@ -78,7 +127,7 @@ export class FileCommentaryServiceSingleton
     parentId: string;
   }) {
     const { offset, limit, parentId } = params;
-    const commentsJson = await this.readCommentsFile();
+    const commentsJson = await this.readMockFile("comments");
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
     const result = validateComments(commentsArray);
 
@@ -98,7 +147,7 @@ export class FileCommentaryServiceSingleton
     userId: string,
     parentId: string | null
   ) {
-    const commentsJson = await this.readCommentsFile();
+    const commentsJson = await this.readMockFile("comments");
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
     const newComment: CommentData = {
       id: crypto.randomUUID(),
@@ -113,7 +162,8 @@ export class FileCommentaryServiceSingleton
       userId,
       parentId,
       author: {
-        id: userId,
+        userId,
+        id: crypto.randomUUID(),
         avatarUrl: `https://i.pravatar.cc/150?img=${Math.floor(
           Math.random() * 100
         )}`,
@@ -121,14 +171,6 @@ export class FileCommentaryServiceSingleton
       },
     };
     commentsArray.push(newComment);
-
-    const parentComment = commentsArray.find(
-      (comment) => comment.commentId === parentId
-    );
-
-    if (parentComment) {
-      parentComment.replyCount++;
-    }
 
     await fs.writeFileSync(
       path.join(__dirname, "..", "mocks", "comments.json"),
