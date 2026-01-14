@@ -9,6 +9,7 @@ import {
   type User,
   type UserReaction,
 } from "../types/data";
+import { CommentDataSchema, type CommentData } from "../types/core";
 
 // --------------------------- comments ---------------------------
 export function validateComments(data: unknown): Comment[] {
@@ -44,4 +45,13 @@ export function validateUserReactions(data: unknown): UserReaction[] {
 
 export function safeValidateUserReactions(data: unknown) {
   return z.array(UserReactionSchema).safeParse(data);
+}
+
+// --------------------------- comment data ---------------------------
+export function validateCommentData(data: unknown): CommentData[] {
+  return z.array(CommentDataSchema).parse(data);
+}
+
+export function safeValidateCommentData(data: unknown) {
+  return z.array(CommentDataSchema).safeParse(data);
 }

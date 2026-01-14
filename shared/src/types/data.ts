@@ -31,7 +31,7 @@ export const UserSchema = z.object({
   id: z.string(),
   userId: z.string(),
   name: z.string(),
-  avatarUrl: z.string().nullable(),
+  avatarUrl: z.string(),
 });
 export type User = z.infer<typeof UserSchema>;
 

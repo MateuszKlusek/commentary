@@ -9,15 +9,14 @@ import {
 
 export const CommentDataSchema = z.object({
   comment: CommentSchema,
-  commentStats: CommentStatsSchema.nullish(),
-  author: UserSchema.nullish(),
-  userReaction: UserReactionSchema.nullish(),
+  commentStats: CommentStatsSchema,
+  author: UserSchema,
+  userReaction: UserReactionSchema,
 });
 
 export type CommentData = z.infer<typeof CommentDataSchema>;
 
 // actions
-
 export type CommentaryActions = {
   getTopLevelComments: InfiniteFetcher<
     CommentData,

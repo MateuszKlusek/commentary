@@ -97,13 +97,13 @@ export class FileCommentaryServiceSingleton
         (comment) => {
           return {
             comment,
-            commentStats: commentStats.find(
+            commentStats: commentStats.filter(
               (stat) => stat.commentId === comment.commentId
-            ),
-            author: users.find((user) => user.userId === comment.userId),
-            userReaction: userReactions.find(
+            )[0],
+            author: users.filter((user) => user.userId === comment.userId)[0],
+            userReaction: userReactions.filter(
               (reaction) => reaction.commentId === comment.commentId
-            ),
+            )[0],
           };
         }
       );
@@ -154,6 +154,7 @@ export class FileCommentaryServiceSingleton
     const commentsJson = await this.readMockFile("comments");
     const commentsArray = JSON.parse(commentsJson) as CommentData[];
     const commentId = crypto.randomUUID();
+
     const newComment: CommentData = {
       comment: {
         id: crypto.randomUUID(),
@@ -180,13 +181,16 @@ export class FileCommentaryServiceSingleton
         )}`,
         name: `User${Math.floor(Math.random() * 70)}`,
       },
+      userReaction: {
+        id: crypto.randomUUID(),
+        commentId,
+        userId,
+        reaction: 0,
+        createdAt: new Date().toISOString(),
+      },
     };
     commentsArray.push(newComment);
 
-    await fs.writeFileSync(
-      path.join(__dirname, "..", "mocks", "comments.json"),
-      JSON.stringify(commentsArray)
-    );
     return newComment;
   }
 
