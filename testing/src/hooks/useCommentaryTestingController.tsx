@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { HStack } from "../../../library/src/ui/layout/HStack";
 import { VStack } from "../../../library/src/ui/layout/VStack";
 
+import { cn } from "../../../library/src/utils/style";
 import { Separator } from "../components/Separator";
 
 const CONFIG = {
@@ -95,7 +96,11 @@ const ItemControlBlock = <T extends string | null | undefined>({
       <Input
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value as T)}
-        className="w-full"
+        className={cn(
+          "w-full",
+          disabled && "[&_input]:opacity-100! [&_input]:text-blue-300! "
+        )}
+        disabled={disabled}
       />
     </VStack>
   );
