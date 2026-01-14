@@ -20,7 +20,7 @@ export const RepliesControl = ({
   const { commentActionLabels } = useCopy();
   return (
     <>
-      {comment.replyCount > 0 && !loading && (
+      {comment.commentStats?.replyCount > 0 && !loading && (
         <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
           {repliesShown ? (
             <button onClick={handleHideReplies} className="cursor-pointer">
@@ -29,7 +29,7 @@ export const RepliesControl = ({
           ) : (
             <button onClick={handleShowMoreReplies} className="cursor-pointer">
               {handlePluralization({
-                quantity: comment.replyCount,
+                quantity: comment.commentStats?.replyCount || 0,
                 rules: commentActionLabels.repliesCount,
               })}
             </button>

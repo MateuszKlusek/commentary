@@ -38,7 +38,7 @@ export const CommentContent = ({
   const { items, loadMore, loading, hasMore, offset } = useInfiniteQuery(
     (params) =>
       getReplies({
-        parentId: comment.commentId,
+        parentId: comment.comment.commentId,
         ...params,
       }),
     10,
@@ -72,8 +72,8 @@ export const CommentContent = ({
   return (
     <div className="w-full flex gap-4 pb-4">
       <ImageWithLoader
-        src={comment.author.avatarUrl || ""}
-        alt={comment.author.id}
+        src={comment.author?.avatarUrl}
+        alt={comment.author?.id || ""}
         className={cn(
           "rounded-full",
           type === "comment" && "w-9 h-9",
@@ -85,25 +85,29 @@ export const CommentContent = ({
       <div className="flex flex-col gap-2 w-full">
         <CommentHeader
           comment={comment}
-          onUserNameClick={() => onUserNameClick?.(comment.author.id)}
+          onUserNameClick={() => onUserNameClick?.(comment.author?.id || "")}
         />
 
-        <CommentRender text={comment.content} />
+        <CommentRender text={comment.comment.content} />
 
         {/* actions */}
         <div className="flex gap-2 flex-col">
           <div className="flex gap-1">
             <div className="flex gap-1">
-              <button onClick={() => updateLike(comment.commentId, true)}>
+              <button
+                onClick={() => updateLike(comment.comment.commentId, true)}
+              >
                 Like{" "}
               </button>
-              <div>{comment.likes}</div>
+              <div>{comment.commentStats?.likeCount || 0}</div>
             </div>
             <div className="flex gap-1">
-              <button onClick={() => updateLike(comment.commentId, false)}>
+              <button
+                onClick={() => updateLike(comment.comment.commentId, false)}
+              >
                 Dislike{" "}
               </button>
-              <div>{comment.dislikes}</div>
+              <div>{comment.commentStats?.dislikeCount || 0}</div>
             </div>
             <div className="flex gap-1">
               <button
@@ -121,7 +125,7 @@ export const CommentContent = ({
                 className="rounded-full w-6 h-6"
               />
               <AddCommentBlock
-                parentId={comment.commentId}
+                parentId={comment.comment.commentId}
                 placeholder={addReplyPlaceholder}
                 actionButtonLabel={addReplyButtonLabel}
                 cancelButtonLabel={addReplyCancelButtonLabel}
@@ -134,7 +138,7 @@ export const CommentContent = ({
         <Activity mode={repliesShown ? "visible" : "hidden"}>
           {items?.map((reply) => (
             <Comment
-              key={reply.id}
+              key={reply.comment.id}
               comment={reply}
               type="reply"
               fetchMode="manual"

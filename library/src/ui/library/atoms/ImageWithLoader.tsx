@@ -2,7 +2,7 @@ import { useState } from "react";
 import { cn } from "../../../utils/style";
 
 type ImageWithLoaderProps = {
-  src: string;
+  src: string | undefined | null;
   alt?: string;
   className?: string;
   id?: string;
@@ -17,11 +17,13 @@ export default function ImageWithLoader({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  if (!src || error) {
+    return <DefaultImage id={id} className={className} />;
+  }
+
   return (
     <div style={{ position: "relative", width: "fit-content" }} id={id}>
       {loading && !error && <div className={className} />}
-
-      {error && <DefaultImage id={id} className={className} />}
 
       <img
         src={src}
