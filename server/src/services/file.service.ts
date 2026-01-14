@@ -186,9 +186,14 @@ export class FileCommentaryServiceSingleton
     return newComment;
   }
 
-  async updateLike(commentId: string, like: boolean): Promise<void> {
+  async handleUserReaction({
+    commentId,
+    userId,
+    reaction,
+  }: Omit<UserReaction, "createdAt">): Promise<void> {
     void commentId;
-    void like;
+    void userId;
+    void reaction;
     return;
   }
 

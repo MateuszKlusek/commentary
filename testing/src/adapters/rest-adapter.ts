@@ -1,7 +1,8 @@
 import { contract } from "@shared/src/contracts";
 import type { CommentaryActions, GetParams } from "@shared/src/types/core";
-import { initClient, type InitClientArgs } from "@ts-rest/core";
+import type { UserReaction } from "@shared/src/types/data";
 import type { Nullable } from "@shared/src/types/helpers";
+import { initClient, type InitClientArgs } from "@ts-rest/core";
 
 export class GenericRestClient implements CommentaryActions {
   private discussionId: string;
@@ -90,9 +91,14 @@ export class GenericRestClient implements CommentaryActions {
     throw new Error("Failed to add comment");
   };
 
-  updateLike(commentId: string, like: boolean): Promise<void> {
+  handleUserReaction({
+    commentId,
+    userId,
+    reaction,
+  }: Omit<UserReaction, "createdAt">): Promise<void> {
     void commentId;
-    void like;
+    void userId;
+    void reaction;
     return Promise.resolve();
   }
   slug: Nullable<string>;

@@ -15,10 +15,6 @@ function App() {
     });
   }, [discussionId, baseUrl]);
 
-  const handleUserNameClick = (userId: string) => {
-    console.log("userId", userId);
-  };
-
   return (
     <>
       <div className="w-full p-10 flex flex-col gap-2 container mx-auto">
@@ -28,9 +24,8 @@ function App() {
           getReplies={client.getReplies}
           addComment={client.addComment}
           // TODO: implement
-          updateLike={() => Promise.resolve()}
+          handleUserReaction={() => Promise.resolve()}
           //
-          onUserNameClick={handleUserNameClick}
           user={user}
           discussionId={discussionId}
           customCss={customCss}

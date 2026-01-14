@@ -6,6 +6,7 @@ import {
   UserReactionSchema,
   UserSchema,
   type User,
+  type UserReaction,
 } from "./data";
 import type { Nullable } from "./helpers";
 
@@ -45,7 +46,11 @@ export type CommentaryActions = {
     CommentItem,
     { parentId: string; sortBy: SortingStrategy }
   >;
-  updateLike(commentId: string, like: boolean): Promise<void>;
+  handleUserReaction({
+    commentId,
+    userId,
+    reaction,
+  }: Omit<UserReaction, "createdAt">): Promise<void>;
   addComment(
     content: string,
     userId: string,
@@ -77,13 +82,6 @@ export type CommentaryActionsWithDiscussionContext = WithDiscussionId<
 >;
 
 export type CommentaryAPI = CommentaryActions & CommentaryConfig;
-
-export type ReactionData = {
-  commentId: number;
-  userId: number;
-  reaction: 1 | -1 | 0; // 1 = like, -1 = dislike, 0 = none
-  createdAt: string;
-};
 
 // TODO: consider using that for Mongodb-like databases with cursor pagination
 // export type InfiniteFetcher<T> =

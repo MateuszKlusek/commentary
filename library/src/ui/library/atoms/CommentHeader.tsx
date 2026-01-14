@@ -13,7 +13,7 @@ export const CommentHeader = ({ comment, onUserNameClick }: Props) => {
           "font-bold text-[13px] text-[#f1f1f1]",
           onUserNameClick && "cursor-pointer"
         )}
-        onClick={() => onUserNameClick?.(comment.author?.id || "")}
+        onClick={() => onUserNameClick?.(comment.author?.userId || "")}
       >
         @{comment.author?.name || "Anonymous"}
       </div>

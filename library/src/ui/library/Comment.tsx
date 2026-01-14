@@ -6,6 +6,7 @@ import {
   useCommentBlockStatus,
 } from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../context/CopyContext";
+import { useUser } from "../../context/UserContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
@@ -28,7 +29,10 @@ export const CommentContent = ({
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
 
-  const { getReplies, onUserNameClick, updateLike, user } = useCommentaryAPI();
+  const { getReplies, onUserNameClick, handleUserReaction } =
+    useCommentaryAPI();
+  const { isUserSet, user } = useUser();
+
   const {
     addReplyButtonLabel,
     addReplyCancelButtonLabel,
@@ -84,12 +88,7 @@ export const CommentContent = ({
       />
 
       <div className="flex flex-col gap-2 w-full">
-        <CommentHeader
-          comment={comment}
-          onUserNameClick={() =>
-            onUserNameClick?.(comment.author?.userId || "")
-          }
-        />
+        <CommentHeader comment={comment} onUserNameClick={onUserNameClick} />
 
         <CommentRender text={comment.comment.content} />
 
@@ -98,7 +97,15 @@ export const CommentContent = ({
           <div className="flex gap-1">
             <div className="flex gap-1">
               <button
-                onClick={() => updateLike(comment.comment.commentId, true)}
+                onClick={() => {
+                  if (isUserSet && user) {
+                    handleUserReaction({
+                      commentId: comment.comment.commentId,
+                      userId: user.userId,
+                      reaction: 1,
+                    });
+                  }
+                }}
               >
                 Like{" "}
               </button>
@@ -106,7 +113,15 @@ export const CommentContent = ({
             </div>
             <div className="flex gap-1">
               <button
-                onClick={() => updateLike(comment.comment.commentId, false)}
+                onClick={() => {
+                  if (isUserSet && user) {
+                    handleUserReaction({
+                      commentId: comment.comment.commentId,
+                      userId: user.userId,
+                      reaction: -1,
+                    });
+                  }
+                }}
               >
                 Dislike{" "}
               </button>
