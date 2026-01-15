@@ -32,6 +32,11 @@ export const CopySchema = z.object({
     readMore: z.string().nonempty(),
     showLess: z.string().nonempty(),
   }),
+  noUserTooltip: z.object({
+    title: z.string().nonempty(),
+    description: z.string().nonempty(),
+    buttonLabel: z.string().nonempty(),
+  }),
 });
 
 export type Copy = z.infer<typeof CopySchema>;

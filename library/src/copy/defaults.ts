@@ -41,4 +41,9 @@ export const defaultCopy: Copy = {
     readMore: "Read more",
     showLess: "Show less",
   },
+  noUserTooltip: {
+    title: "Want to join the conversation?",
+    description: "Sign in to continue",
+    buttonLabel: "Sign in",
+  },
 };
