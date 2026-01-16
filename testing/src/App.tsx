@@ -26,7 +26,7 @@ function App() {
           // TODO: implement
           handleUserReaction={() => Promise.resolve()}
           //
-          // user={user}
+          user={user}
           discussionId={discussionId}
           customCss={customCss}
           // just for rerendering

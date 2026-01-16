@@ -18,29 +18,39 @@ export const RepliesControl = ({
   repliesShown,
 }: Props) => {
   const { commentActionLabels } = useCopy();
+  const handleRepliesToggle = () => {
+    if (repliesShown) {
+      handleHideReplies();
+    } else {
+      handleShowMoreReplies();
+    }
+  };
   return (
     <>
       {comment?.commentStats?.replyCount > 0 && !loading && (
-        <div className="cursor-pointer w-fit flex text-[#ffffff] text-[16px] font-medium">
+        <button
+          className=" w-fit flex text-[#ffffff] cursor-pointer hover:bg-white/20 rounded-full px-2 py-2 gap-1 
+"
+          onClick={handleRepliesToggle}
+        >
+          <div className="text-[14px] font-medium h-[22px]">
+            {repliesShown ? (
+              <div>{commentActionLabels.hideReplies}</div>
+            ) : (
+              <div>
+                {handlePluralization({
+                  quantity: comment.commentStats?.replyCount || 0,
+                  rules: commentActionLabels.repliesCount,
+                })}
+              </div>
+            )}
+          </div>
           {repliesShown ? (
-            <button onClick={handleHideReplies} className="cursor-pointer">
-              {commentActionLabels.hideReplies}
-            </button>
+            <ChevronUpIcon width={22} height={22} strokeWidth={2} />
           ) : (
-            <button onClick={handleShowMoreReplies} className="cursor-pointer">
-              {handlePluralization({
-                quantity: comment.commentStats?.replyCount || 0,
-                rules: commentActionLabels.repliesCount,
-              })}
-            </button>
+            <ChevronDownIcon width={22} height={22} strokeWidth={2} />
           )}
-
-          {repliesShown ? (
-            <ChevronUpIcon width={24} height={24} strokeWidth={2} />
-          ) : (
-            <ChevronDownIcon width={24} height={24} strokeWidth={4} />
-          )}
-        </div>
+        </button>
       )}
     </>
   );

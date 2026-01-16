@@ -35,7 +35,6 @@ export const HeaderSectionContent = <T,>({
 
   const { isUserSet, user } = useUser();
 
-
   const { commentBlockStatus } = useCommentBlockStatus();
   const { NoUserPopover, setIsOpen } = useNoUserPopover({
     mode: "manual",

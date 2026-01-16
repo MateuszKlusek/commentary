@@ -63,7 +63,7 @@ export type CommentaryConfig = {
   discussionId: Nullable<string>;
   user?: User;
   validationMode?: "warn" | "strict" | "silent";
-  customCss?: string;
+  customCss?: Nullable<string>;
   copy?: Copy;
 };
 
