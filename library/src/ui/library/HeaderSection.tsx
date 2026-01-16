@@ -4,6 +4,7 @@ import {
   useCommentBlockStatus,
 } from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../context/CopyContext";
+import { useUser } from "../../context/UserContext";
 import { handlePluralization } from "../../copy/utils";
 import { useNoUserPopover } from "../../hooks/useNoUserPopover";
 import { cn } from "../../utils/style";
@@ -32,10 +33,14 @@ export const HeaderSectionContent = <T,>({
     addCommentPlaceholder,
   } = useCopy();
 
-  const { user } = useCommentaryAPI();
+  const { isUserSet, user } = useUser();
+
 
   const { commentBlockStatus } = useCommentBlockStatus();
-  const { NoUserPopover, setIsOpen } = useNoUserPopover();
+  const { NoUserPopover, setIsOpen } = useNoUserPopover({
+    mode: "manual",
+    enabled: !isUserSet,
+  });
 
   return (
     <commentary-header>

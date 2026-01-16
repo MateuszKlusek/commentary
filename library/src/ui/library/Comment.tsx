@@ -9,6 +9,7 @@ import { useCopy } from "../../context/CopyContext";
 import { useUser } from "../../context/UserContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { useNoUserPopover } from "../../hooks/useNoUserPopover";
 import { cn } from "../../utils/style";
 import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
@@ -59,8 +60,20 @@ export const CommentContent = ({
   );
 
   const { setCommentBlockStatus } = useCommentBlockStatus();
+  const { NoUserPopover: NoUserPopoverLike } = useNoUserPopover({
+    enabled: !isUserSet,
+  });
+  const { NoUserPopover: NoUserPopoverDislike } = useNoUserPopover({
+    enabled: !isUserSet,
+  });
+  const { NoUserPopover: NoUserPopoverReply } = useNoUserPopover({
+    enabled: !isUserSet,
+  });
 
   const handleReplyClick = () => {
+    if (!isUserSet) {
+      return;
+    }
     setCommentBlockStatus("open-focused");
     setReplyInputShown(true);
   };
@@ -95,47 +108,54 @@ export const CommentContent = ({
         {/* actions */}
         <div className="flex gap-2 flex-col">
           <div className="flex gap-1">
-            <div className="flex gap-1">
-              <button
-                onClick={() => {
-                  if (isUserSet && user) {
-                    handleUserReaction({
-                      commentId: comment.comment.commentId,
-                      userId: user.userId,
-                      reaction: 1,
-                    });
-                  }
-                }}
-              >
-                Like{" "}
-              </button>
-              <div>{comment.commentStats?.likeCount || 0}</div>
-            </div>
-            <div className="flex gap-1">
-              <button
-                onClick={() => {
-                  if (isUserSet && user) {
-                    handleUserReaction({
-                      commentId: comment.comment.commentId,
-                      userId: user.userId,
-                      reaction: -1,
-                    });
-                  }
-                }}
-              >
-                Dislike{" "}
-              </button>
-              <div>{comment.commentStats?.dislikeCount || 0}</div>
-            </div>
-            {/* popover for replies */}
-            <div className="flex gap-1">
-              <button
-                onClick={handleReplyClick}
-                className="text-[#ffffff] cursor-pointer"
-              >
-                Reply
-              </button>
-            </div>
+            <NoUserPopoverLike>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => {
+                    if (isUserSet && user) {
+                      handleUserReaction({
+                        commentId: comment.comment.commentId,
+                        userId: user.userId,
+                        reaction: 1,
+                      });
+                    }
+                  }}
+                >
+                  Like{" "}
+                </button>
+                <div>{comment.commentStats?.likeCount || 0}</div>
+              </div>
+            </NoUserPopoverLike>
+
+            <NoUserPopoverDislike>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => {
+                    if (isUserSet && user) {
+                      handleUserReaction({
+                        commentId: comment.comment.commentId,
+                        userId: user.userId,
+                        reaction: -1,
+                      });
+                    }
+                  }}
+                >
+                  Dislike{" "}
+                </button>
+                <div>{comment.commentStats?.dislikeCount || 0}</div>
+              </div>
+            </NoUserPopoverDislike>
+
+            <NoUserPopoverReply>
+              <div className="flex gap-1">
+                <button
+                  onClick={handleReplyClick}
+                  className="text-[#ffffff] cursor-pointer"
+                >
+                  Reply
+                </button>
+              </div>
+            </NoUserPopoverReply>
           </div>
           {replyInputShown ? (
             <div className="flex gap-4">

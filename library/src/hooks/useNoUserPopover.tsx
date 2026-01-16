@@ -2,7 +2,15 @@ import * as Popover from "@radix-ui/react-popover";
 import { useCallback, useState } from "react";
 import { useCopy } from "../context/CopyContext";
 
-export const useNoUserPopover = () => {
+type Props = {
+  mode?: "auto" | "manual";
+  enabled?: boolean;
+};
+
+export const useNoUserPopover = ({
+  mode = "auto",
+  enabled = true,
+}: Props = {}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -11,9 +19,19 @@ export const useNoUserPopover = () => {
 
   const NoUserPopover = useCallback(
     ({ children }: { children: React.ReactNode }) => {
+      if (!enabled) {
+        return <>{children}</>;
+      }
+
       return (
         <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
-          <Popover.Anchor>{children}</Popover.Anchor>
+          <Popover.Anchor
+            onClick={() => {
+              mode === "auto" && setIsOpen(true);
+            }}
+          >
+            {children}
+          </Popover.Anchor>
           <Popover.Content side="bottom" align="start" avoidCollisions>
             <div className="p-6 bg-[#212121] rounded-3xl gap-2 flex flex-col items-center">
               <h3 className="text-[#ffffff] text-[20px] font-bold">{title}</h3>
