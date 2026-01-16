@@ -5,9 +5,10 @@ import {
 } from "../../context/CommentBlockStatusContext";
 import { useCopy } from "../../context/CopyContext";
 import { handlePluralization } from "../../copy/utils";
+import { useNoUserPopover } from "../../hooks/useNoUserPopover";
 import { cn } from "../../utils/style";
 import { HStack } from "../layout/HStack";
-import { AddCommentBlock } from "./AddCommentBlock";
+import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 import { SelectComponent } from "./atoms/Select";
 
@@ -34,6 +35,7 @@ export const HeaderSectionContent = <T,>({
   const { user } = useCommentaryAPI();
 
   const { commentBlockStatus } = useCommentBlockStatus();
+  const { NoUserPopover, setIsOpen } = useNoUserPopover();
 
   return (
     <commentary-header>
@@ -53,18 +55,23 @@ export const HeaderSectionContent = <T,>({
           <div>{sortByLabel}</div>
         </HStack>
         <HStack className="w-full gap-4 px-2">
-          <ImageWithLoader
-            src={user?.avatarUrl || ""}
-            className={cn(
-              "rounded-full",
-              commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
-            )}
-          />
+          <NoUserPopover>
+            <ImageWithLoader
+              src={user?.avatarUrl || ""}
+              className={cn(
+                "rounded-full",
+                commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
+              )}
+            />
+          </NoUserPopover>
+
           <AddCommentBlock
             parentId={null}
             placeholder={addCommentPlaceholder}
             actionButtonLabel={addCommentButtonLabel}
             cancelButtonLabel={addCommentCancelButtonLabel}
+            type="comment"
+            handlePopoverOpen={() => setIsOpen(true)}
           />
         </HStack>
       </section>

@@ -10,7 +10,7 @@ import { useUser } from "../../context/UserContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { cn } from "../../utils/style";
-import { AddCommentBlock } from "./AddCommentBlock";
+import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
@@ -127,6 +127,7 @@ export const CommentContent = ({
               </button>
               <div>{comment.commentStats?.dislikeCount || 0}</div>
             </div>
+            {/* popover for replies */}
             <div className="flex gap-1">
               <button
                 onClick={handleReplyClick}
@@ -148,6 +149,7 @@ export const CommentContent = ({
                 actionButtonLabel={addReplyButtonLabel}
                 cancelButtonLabel={addReplyCancelButtonLabel}
                 setReplyInputShown={setReplyInputShown}
+                type="reply"
               />
             </div>
           ) : null}

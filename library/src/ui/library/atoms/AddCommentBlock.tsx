@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
-import { useCommentBlockStatus } from "../../context/CommentBlockStatusContext";
-import { AutoTextarea } from "./AutoTextarea";
 import type { Nullable } from "@shared/src/types/helpers";
+import { useState } from "react";
+import { useCommentaryAPI } from "../../../context/CommentaryAPIContext";
+import { useCommentBlockStatus } from "../../../context/CommentBlockStatusContext";
+import { useUser } from "../../../context/UserContext";
+import { AutoTextarea } from "../AutoTextarea";
 
 type Props = {
   parentId: Nullable<string>;
@@ -10,6 +11,8 @@ type Props = {
   placeholder: string;
   actionButtonLabel: string;
   cancelButtonLabel: string;
+  type: "comment" | "reply";
+  handlePopoverOpen?: () => void;
 };
 
 export const AddCommentBlock = ({
@@ -18,10 +21,13 @@ export const AddCommentBlock = ({
   actionButtonLabel,
   cancelButtonLabel,
   placeholder,
+  type,
+  handlePopoverOpen,
 }: Props) => {
   const [replyComment, setReplyComment] = useState("");
   const { addComment, user } = useCommentaryAPI();
   const { commentBlockStatus, setCommentBlockStatus } = useCommentBlockStatus();
+  const { isUserSet } = useUser();
 
   const handleCancel = () => {
     setReplyInputShown?.(false);
@@ -29,6 +35,10 @@ export const AddCommentBlock = ({
   };
 
   const handleOnFocus = () => {
+    if (type === "comment" && !isUserSet) {
+      handlePopoverOpen?.();
+      return;
+    }
     setCommentBlockStatus?.("open-focused");
   };
 

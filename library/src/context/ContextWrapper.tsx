@@ -12,7 +12,7 @@ export const ContextWrapper = ({
 }) => {
   return (
     <CommentaryAPIProvider commentaryAPI={commentaryAPI}>
-      <UserProvider user={commentaryAPI?.user}>
+      <UserProvider user={commentaryAPI.user}>
         <CopyProvider copy={commentaryAPI.copy}>{children}</CopyProvider>
       </UserProvider>
     </CommentaryAPIProvider>
