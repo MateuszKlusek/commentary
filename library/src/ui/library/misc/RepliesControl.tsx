@@ -18,6 +18,7 @@ export const RepliesControl = ({
   repliesShown,
 }: Props) => {
   const { commentActionLabels } = useCopy();
+
   const handleRepliesToggle = () => {
     if (repliesShown) {
       handleHideReplies();
@@ -25,6 +26,7 @@ export const RepliesControl = ({
       handleShowMoreReplies();
     }
   };
+
   return (
     <>
       {comment?.commentStats?.replyCount > 0 && !loading && (

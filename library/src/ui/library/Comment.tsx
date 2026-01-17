@@ -18,14 +18,17 @@ import ImageWithLoader from "./atoms/ImageWithLoader";
 import CommentLoader from "./misc/CommentLoader";
 import { RepliesControl } from "./misc/RepliesControl";
 
+type FetchMode = "auto" | "manual";
+export type CommentType = "comment" | "reply";
+
 export const CommentContent = ({
   comment,
   type,
   fetchMode,
 }: {
   comment: CommentItem;
-  type: "comment" | "reply";
-  fetchMode: "auto" | "manual";
+  type: CommentType;
+  fetchMode: FetchMode;
 }) => {
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
@@ -206,8 +209,8 @@ export const CommentContent = ({
 
 export const Comment = (props: {
   comment: CommentItem;
-  type: "comment" | "reply";
-  fetchMode: "auto" | "manual";
+  type: CommentType;
+  fetchMode: FetchMode;
 }) => {
   return (
     <CommentBlockStatusProvider>

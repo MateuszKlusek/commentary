@@ -4,6 +4,7 @@ import { useCommentaryAPI } from "../../../context/CommentaryAPIContext";
 import { useCommentBlockStatus } from "../../../context/CommentBlockStatusContext";
 import { useUser } from "../../../context/UserContext";
 import { AutoTextarea } from "../AutoTextarea";
+import type { CommentType } from "../Comment";
 
 type Props = {
   parentId: Nullable<string>;
@@ -11,7 +12,7 @@ type Props = {
   placeholder: string;
   actionButtonLabel: string;
   cancelButtonLabel: string;
-  type: "comment" | "reply";
+  type: CommentType;
   handlePopoverOpen?: () => void;
 };
 
