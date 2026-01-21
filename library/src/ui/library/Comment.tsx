@@ -57,9 +57,9 @@ export const CommentContent = ({
   const sentinelRef = useIntersectionObserver(
     loadMore,
     hasMore &&
-      repliesShown &&
-      // allow autofetch for top-level comments and for first page of replies
-      (fetchMode === "auto" || offset === 0)
+    repliesShown &&
+    // allow autofetch for top-level comments and for first page of replies
+    (fetchMode === "auto" || offset === 0)
   );
 
   const { setCommentBlockStatus } = useCommentBlockStatus();
@@ -197,9 +197,8 @@ export const CommentContent = ({
           handleShowMoreReplies={handleShowMoreReplies}
         />
 
-        {hasMore && (
-          <div ref={sentinelRef} className="h-0.5 bg-red-100 opacity-20" />
-        )}
+        {/* TODO: rethink approach */}
+        {hasMore && <div ref={sentinelRef} className="h-0.5" />}
 
         {loading && <CommentLoader count={3} />}
       </div>
