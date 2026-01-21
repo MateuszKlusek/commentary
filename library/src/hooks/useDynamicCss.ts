@@ -1,6 +1,7 @@
+import type { Nullable } from "@shared/src/types/helpers";
 import { useEffect, useState } from "react";
 
-export const useDynamicCss = (url?: string) => {
+export const useDynamicCss = (url: Nullable<string>) => {
   const [isReady, setIsReady] = useState(!url);
 
   useEffect(() => {
