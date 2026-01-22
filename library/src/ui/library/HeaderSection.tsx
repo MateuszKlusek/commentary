@@ -1,4 +1,3 @@
-import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import {
   CommentBlockStatusProvider,
   useCommentBlockStatus,
@@ -11,7 +10,7 @@ import { cn } from "../../utils/style";
 import { HStack } from "../layout/HStack";
 import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import ImageWithLoader from "./atoms/ImageWithLoader";
-import { SelectComponent } from "./atoms/Select";
+import { SortingStrategySelector } from "./atoms/SortingStrategySelector";
 
 type Props<T> = {
   commentsCount: number;
@@ -51,12 +50,12 @@ export const HeaderSectionContent = <T,>({
               rules: commentCopy,
             })}
           </div>
-          <SelectComponent
+          <SortingStrategySelector
             options={sortingOptions}
             value={sortBy?.toString()}
             onValueChange={(value) => setSortBy(value as T)}
           />
-          <div>{sortByLabel}</div>
+          <span className="text-[14px] text-[#f1f1f1] font-medium">{sortByLabel}</span>
         </HStack>
         <HStack className="w-full gap-4 px-2">
           <NoUserPopover>

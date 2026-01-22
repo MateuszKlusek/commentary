@@ -8,7 +8,7 @@ export const useDynamicCss = (url: Nullable<string>) => {
     if (!url) return;
 
     const existingLink = document.querySelector<HTMLLinkElement>(
-      `link[href="${url}"]`
+      `link[href="${url}"]`,
     );
     if (existingLink) {
       console.log("CSS already loaded");

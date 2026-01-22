@@ -5,7 +5,7 @@ export const QuantityRangeRuleSchema = z.array(
   z.object({
     from: z.number().int().nonnegative(),
     label: z.string(),
-  })
+  }),
 );
 
 export type QuantityRangeRule = z.infer<typeof QuantityRangeRuleSchema>;
@@ -20,7 +20,11 @@ export const CopySchema = z.object({
   addCommentCancelButtonLabel: z.string().nonempty(),
   addReplyCancelButtonLabel: z.string().nonempty(),
   sortingOptions: z.array(
-    z.object({ label: z.string().nonempty(), value: SortingStrategySchema })
+    z.object({
+      title: z.string().nonempty(),
+      subtitle: z.string().nonempty(),
+      value: SortingStrategySchema,
+    }),
   ),
   sortByLabel: z.string().nonempty(),
   commentActionLabels: z.object({

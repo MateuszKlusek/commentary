@@ -24,10 +24,18 @@ export const defaultCopy: Copy = {
   addReplyCancelButtonLabel: "Cancel",
   addReplyPlaceholder: "",
   sortingOptions: [
-    { label: "Newest", value: SortingStrategySchema.enum.newest },
-    { label: "Top", value: SortingStrategySchema.enum.top },
+    {
+      title: "Top",
+      subtitle: "Show featured comments",
+      value: SortingStrategySchema.enum.top,
+    },
+    {
+      title: "Newest",
+      subtitle: "Show recent comments, including potential spam",
+      value: SortingStrategySchema.enum.newest,
+    },
   ],
-  sortByLabel: "Sort By",
+  sortByLabel: "Sort by",
   commentActionLabels: {
     hideReplies: "Hide replies",
     showMoreReplies: "Show more replies",
