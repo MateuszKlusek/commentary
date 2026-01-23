@@ -30,9 +30,16 @@ export class GenericRestClient implements CommentaryActions {
     offset,
     limit,
     sortBy,
+    userId,
   }: GetParams<CommentaryActions["getTopLevelComments"]>) => {
     const res = await this.client.getTopLevelComments({
-      query: { offset, limit, discussionId: this.discussionId, sortBy },
+      query: {
+        offset,
+        limit,
+        discussionId: this.discussionId,
+        sortBy,
+        userId,
+      },
     });
 
     if (res.status === 200) {

@@ -39,7 +39,7 @@ export type CommentItemWithId = z.infer<typeof CommentItemWithIdSchema>;
 export type CommentaryActions = {
   getTopLevelComments: InfiniteFetcher<
     CommentItem,
-    { sortBy: SortingStrategy }
+    { sortBy: SortingStrategy } & { userId: Nullable<User["userId"]> }
   >;
   getReplies: InfiniteFetcher<
     CommentItem,

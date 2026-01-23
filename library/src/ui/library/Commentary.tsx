@@ -19,7 +19,7 @@ const CommentaryComponent = () => {
 
   const { items, loadMore, loading, hasMore, totalCount, reset } =
     useInfiniteQuery(
-      (params) => getTopLevelComments({ sortBy, ...params }),
+      (params) => getTopLevelComments({ sortBy, userId: user?.userId, ...params, }),
       10
     );
 

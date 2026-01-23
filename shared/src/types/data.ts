@@ -37,6 +37,5 @@ export const UserReactionSchema = z.object({
   userId: z.string(),
   commentId: z.string(),
   reaction: z.union([z.literal(1), z.literal(-1), z.literal(0)]),
-  createdAt: z.string(),
 });
 export type UserReaction = z.infer<typeof UserReactionSchema>;

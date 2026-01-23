@@ -8,6 +8,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+
 app.use((_req, _res, next) => {
   const delayMs = Math.floor(Math.random() * 200) + 150;
   console.log(`Delaying for ${delayMs}ms`);

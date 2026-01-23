@@ -14,6 +14,7 @@ export const contract = c.router({
       limit: z.coerce.number().min(1),
       discussionId: z.string().nonempty(),
       sortBy: SortingStrategySchema,
+      userId: UserSchema.shape.userId.nullish(),
     }),
     responses: {
       200: z.object({
