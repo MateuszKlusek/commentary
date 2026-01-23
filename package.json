@@ -4,7 +4,9 @@
     "version": "0.1.0",
     "scripts": {
         "dev": "concurrently \"pnpm --filter @commentary/server dev\" \"pnpm --filter @commentary dev\" \"pnpm --filter @commentary/testing dev\"",
-        "test": "concurrently \"pnpm --filter @commentary/server test\" \"pnpm --filter @commentary test\" \"pnpm --filter @commentary/testing test\""
+        "test": "concurrently \"pnpm --filter @commentary/server test\" \"pnpm --filter @commentary test\" \"pnpm --filter @commentary/testing test\"",
+        "db:reset": "docker compose down -v && docker compose up -d && pnpm --filter @commentary/server run db:reset",
+        "db:setup": "docker compose up -d && pnpm --filter @commentary/server run db:reset"
     },
     "devDependencies": {
         "concurrently": "^9.1.0",

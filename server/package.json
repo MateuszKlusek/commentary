@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tsx watch src src/index.ts"
+    "dev": "npx tsx watch src src/index.ts",
+    "db:reset": "bash scripts/db-reset.sh"
   },
   "keywords": [],
   "author": "k",
@@ -15,12 +16,14 @@
     "@ts-rest/express": "3.53.0-rc.1",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "pg": "^8.17.2",
     "zod": "^4.3.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^24.10.1",
+    "@types/pg": "^8.16.0",
     "tsx": "^4.19.2"
   }
 }

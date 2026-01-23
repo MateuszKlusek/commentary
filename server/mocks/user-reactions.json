@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1f9e07fd-39be-42c7-8592-401926746017",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-9899d9b9fd32",
+        "reaction": 1,
+        "createdAt": "2025-12-02T14:12:00Z"
+    },
+    {
+        "id": "5ad97e79-1a06-47ae-bd5f-9e29cc4c0119",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-e730fc92224e",
+        "reaction": -1,
+        "createdAt": "2025-11-22T18:42:00Z"
+    },
+    {
+        "id": "0154c92e-1c18-4fbf-b276-a28f13ec7e8d",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-9e96569ac7a0",
+        "reaction": 1,
+        "createdAt": "2025-11-19T22:45:00Z"
+    },
+    {
+        "id": "1baa97c1-66be-476c-9e65-40dd3cbb92eb",
+        "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+        "commentId": "019b8612-41e0-76d8-99f3-a3d0065e632b",
+        "reaction": 1,
+        "createdAt": "2025-12-01T18:05:00Z"
+    }
+]
