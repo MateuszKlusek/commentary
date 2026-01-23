@@ -14,7 +14,7 @@ export const CommentItemSchema = z.object({
   comment: CommentSliceSchema,
   commentStats: CommentStatsSchema,
   author: UserSchema,
-  userReaction: UserReactionSchema,
+  userReaction: UserReactionSchema.nullish(),
 });
 
 export type CommentItem = z.infer<typeof CommentItemSchema>;
@@ -36,7 +36,6 @@ export const CommentItemWithIdSchema = z.object({
 
 export type CommentItemWithId = z.infer<typeof CommentItemWithIdSchema>;
 
-// actions
 export type CommentaryActions = {
   getTopLevelComments: InfiniteFetcher<
     CommentItem,
@@ -53,8 +52,8 @@ export type CommentaryActions = {
   }: Omit<UserReaction, "createdAt">): Promise<void>;
   addComment(
     content: string,
-    userId: string,
-    parentId: Nullable<string>
+    user: User,
+    parentId: Nullable<string>,
   ): Promise<CommentItem>;
   onUserNameClick?: (userId: string) => void;
 };

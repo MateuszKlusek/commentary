@@ -1,6 +1,6 @@
 import { contract } from "@shared/src/contracts";
 import type { CommentaryActions, GetParams } from "@shared/src/types/core";
-import type { UserReaction } from "@shared/src/types/data";
+import type { User, UserReaction } from "@shared/src/types/data";
 import type { Nullable } from "@shared/src/types/helpers";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
 
@@ -78,16 +78,17 @@ export class GenericRestClient implements CommentaryActions {
 
   addComment = async (
     content: string,
-    userId: string,
-    parentId: Nullable<string>
+    user: User,
+    parentId: Nullable<string>,
   ) => {
     const res = await this.client.addComment({
-      body: { content, userId, parentId, discussionId: this.discussionId },
+      body: { content, user, parentId, discussionId: this.discussionId },
     });
 
     if (res.status === 200) {
       return res.body;
     }
+
     throw new Error("Failed to add comment");
   };
 

@@ -27,7 +27,7 @@ const CommentaryComponent = () => {
     reset();
   }, [sortBy, user?.userId, discussionId]);
 
-  const sentinelRef = useIntersectionObserver(loadMore, hasMore);
+  const ref = useIntersectionObserver(loadMore, hasMore);
   const { isReady } = useDynamicCss(customCss);
 
   // TODO add loader
@@ -47,7 +47,7 @@ const CommentaryComponent = () => {
 
 
         {/* TODO: rethink approach */}
-        {hasMore && <div ref={sentinelRef} className="h-0.5" />}
+        {hasMore && <div ref={ref} className="h-0.5" />}
 
         {loading && <CommentLoader count={3} />}
       </Content>

@@ -1,6 +1,7 @@
 import { initContract } from "@ts-rest/core";
 import z from "zod";
 import { CommentItemSchema, SortingStrategySchema } from "./types/core";
+import { UserSchema } from "./types/data";
 
 const c = initContract();
 
@@ -46,7 +47,7 @@ export const contract = c.router({
     body: z.object({
       content: z.string().nonempty(),
       parentId: z.string().nullish(),
-      userId: z.string().nonempty(),
+      user: UserSchema,
       discussionId: z.string().nonempty(),
     }),
     responses: {

@@ -42,12 +42,12 @@ const tsRestRouter = s.router(contract, {
     };
   },
 
-  addComment: async ({ body: { content, userId, parentId, discussionId } }) => {
+  addComment: async ({ body: { content, user, parentId, discussionId } }) => {
     const res = await commentaryService.addComment(
       discussionId,
       content,
-      userId,
-      parentId
+      user,
+      parentId,
     );
     return {
       status: 200,

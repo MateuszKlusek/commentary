@@ -1,11 +1,15 @@
 import type {
   CommentaryActionsWithDiscussionContext,
   CommentItem,
-  CommentItemWithId,
   PaginationParams,
   SortingStrategy,
 } from "@shared/src/types/core";
-import type { CommentStats, User, UserReaction } from "@shared/src/types/data";
+import type {
+  CommentSlice,
+  CommentStats,
+  User,
+  UserReaction,
+} from "@shared/src/types/data";
 import type { Nullable } from "@shared/src/types/helpers";
 import {
   validateComments,
@@ -22,9 +26,7 @@ const __dirname = path.dirname(__filename);
 
 type MockFileName = "comments" | "user-reactions" | "comment-stats" | "users";
 
-export class FileCommentaryServiceSingleton
-  implements CommentaryActionsWithDiscussionContext
-{
+export class FileCommentaryServiceSingleton implements CommentaryActionsWithDiscussionContext {
   private static instance: FileCommentaryServiceSingleton;
 
   private constructor() {}
@@ -43,8 +45,22 @@ export class FileCommentaryServiceSingleton
     return fs.readFileSync(path, "utf8");
   }
 
-  private async readMockFile(name: MockFileName) {
-    return this.readFile(path.join(__dirname, "..", "mocks", `${name}.json`));
+  private async readMockFile<T>(name: MockFileName): Promise<T> {
+    try {
+      const file = await this.readFile(
+        path.join(__dirname, "..", "mocks", `${name}.json`),
+      );
+      return JSON.parse(file) as T;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async writeMockFile(name: MockFileName, data: unknown) {
+    return fs.writeFileSync(
+      path.join(__dirname, "..", "mocks", `${name}.json`),
+      JSON.stringify(data, null, 2),
+    );
   }
 
   private async fetchComments({
@@ -60,42 +76,40 @@ export class FileCommentaryServiceSingleton
     try {
       const [commentsJson, userReactionsJson, commentStatsJson, usersJson] =
         await Promise.all([
-          this.readMockFile("comments"),
-          this.readMockFile("user-reactions"),
-          this.readMockFile("comment-stats"),
-          this.readMockFile("users"),
+          this.readMockFile<CommentItem[]>("comments"),
+          this.readMockFile<UserReaction[]>("user-reactions"),
+          this.readMockFile<CommentStats[]>("comment-stats"),
+          this.readMockFile<User[]>("users"),
         ]);
 
-      const commentsInvalidated = JSON.parse(commentsJson) as CommentItem[];
-      const userReactionsInvalidated = JSON.parse(
-        userReactionsJson
-      ) as UserReaction[];
-      const commentStatsInvalidated = JSON.parse(
-        commentStatsJson
-      ) as CommentStats[];
-      const usersInvalidated = JSON.parse(usersJson) as User[];
-
-      const comments = validateComments(commentsInvalidated);
-      const userReactions = validateUserReactions(userReactionsInvalidated);
-      const commentStats = validateCommentStats(commentStatsInvalidated);
-      const users = validateUsers(usersInvalidated);
+      const comments = validateComments(commentsJson);
+      const userReactions = validateUserReactions(userReactionsJson);
+      const commentStats = validateCommentStats(commentStatsJson);
+      const users = validateUsers(usersJson);
 
       const filteredOutComments = comments.filter(
         (comment) =>
-          comment.parentId === parentId && comment.discussionId === discussionId
+          comment.parentId === parentId &&
+          comment.discussionId === discussionId,
       );
 
-      const commentsSlice = filteredOutComments.slice(offset, offset + limit);
+      const sortedComments = filteredOutComments.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+
+      const commentsSlice = sortedComments.slice(offset, offset + limit);
 
       const finalComments: CommentItem[] = commentsSlice.map((comment) => {
         return {
           comment,
           commentStats: commentStats.filter(
-            (stat) => stat.commentId === comment.commentId
+            (stat) => stat.commentId === comment.commentId,
           )[0],
           author: users.filter((user) => user.userId === comment.userId)[0],
           userReaction: userReactions.filter(
-            (reaction) => reaction.commentId === comment.commentId
+            (reaction) => reaction.commentId === comment.commentId,
           )[0],
         };
       });
@@ -104,7 +118,7 @@ export class FileCommentaryServiceSingleton
         finalComments.sort(
           (a, b) =>
             new Date(b.comment.createdAt).getTime() -
-            new Date(a.comment.createdAt).getTime()
+            new Date(a.comment.createdAt).getTime(),
         );
       }
 
@@ -121,14 +135,14 @@ export class FileCommentaryServiceSingleton
 
   async getTopLevelComments(
     discussionId: string,
-    params: PaginationParams & { sortBy: SortingStrategy }
+    params: PaginationParams & { sortBy: SortingStrategy },
   ) {
     return this.fetchComments({ discussionId, parentId: null, params });
   }
 
   async getReplies(
     discussionId: string,
-    params: PaginationParams & { sortBy: SortingStrategy; parentId: string }
+    params: PaginationParams & { sortBy: SortingStrategy; parentId: string },
   ) {
     return this.fetchComments({
       discussionId,
@@ -140,48 +154,56 @@ export class FileCommentaryServiceSingleton
   async addComment(
     discussionId: string,
     content: string,
-    userId: string,
-    parentId: Nullable<string>
+    user: User,
+    parentId: Nullable<string>,
   ) {
-    const commentsJson = await this.readMockFile("comments");
-    const commentsArray = JSON.parse(commentsJson);
-    const commentId = crypto.randomUUID();
+    const [commentsJson, commentStatsJson, usersJson] = await Promise.all([
+      this.readMockFile<CommentItem[]>("comments"),
+      this.readMockFile<CommentStats[]>("comment-stats"),
+      this.readMockFile<User[]>("users"),
+    ]);
 
-    const newComment: CommentItemWithId = {
-      comment: {
-        id: crypto.randomUUID(),
-        commentId,
-        discussionId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        content,
-        userId,
-        parentId,
-      },
-      commentStats: {
-        id: crypto.randomUUID(),
-        commentId,
-        likeCount: 0,
-        dislikeCount: 0,
-        replyCount: 0,
-      },
-      author: {
-        id: crypto.randomUUID(),
-        userId,
-        avatarUrl: `https://i.pravatar.cc/150?img=${Math.floor(
-          Math.random() * 100
-        )}`,
-        name: `User${Math.floor(Math.random() * 70)}`,
-      },
-      userReaction: {
-        id: crypto.randomUUID(),
-        commentId,
-        userId,
-        reaction: 0,
-        createdAt: new Date().toISOString(),
-      },
+    const comments = validateComments(commentsJson);
+    const commentStats = validateCommentStats(commentStatsJson);
+    const users = validateUsers(usersJson);
+
+    const newCommentId = crypto.randomUUID();
+
+    const newCommentSlice: CommentSlice = {
+      commentId: newCommentId,
+      discussionId,
+      userId: user.userId,
+      content,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      parentId,
     };
-    commentsArray.push(newComment);
+
+    const newCommentStats: CommentStats = {
+      commentId: newCommentId,
+      likeCount: 0,
+      dislikeCount: 0,
+      replyCount: 0,
+    };
+
+    comments.push(newCommentSlice);
+    commentStats.push(newCommentStats);
+
+    // check if the author exists
+    const author = users.find((user) => user.userId === user.userId);
+    if (!author) {
+      users.push(user);
+      await this.writeMockFile("users", users);
+    }
+    await this.writeMockFile("comments", comments);
+    await this.writeMockFile("comment-stats", commentStats);
+
+    const newComment: CommentItem = {
+      comment: newCommentSlice,
+      commentStats: newCommentStats,
+      author: user,
+      userReaction: null,
+    };
 
     return newComment;
   }

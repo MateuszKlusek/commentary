@@ -54,7 +54,7 @@ export const CommentContent = ({
     { initialFetch: false, enabled: repliesShown }
   );
 
-  const sentinelRef = useIntersectionObserver(
+  const ref = useIntersectionObserver(
     loadMore,
     hasMore &&
     repliesShown &&
@@ -198,7 +198,7 @@ export const CommentContent = ({
         />
 
         {/* TODO: rethink approach */}
-        {hasMore && <div ref={sentinelRef} className="h-0.5" />}
+        {hasMore && <div ref={ref} className="h-0.5" />}
 
         {loading && <CommentLoader count={3} />}
       </div>
