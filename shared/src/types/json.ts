@@ -6,6 +6,7 @@ export type JsonCommentStats = {
 };
 
 export type JsonComment = {
+  commentId: string;
   discussionId: string;
   userId: string;
   parentId: string | null;

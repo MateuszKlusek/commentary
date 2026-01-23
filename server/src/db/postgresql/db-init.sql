@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS comments (
     id SERIAL PRIMARY KEY,
+    comment_id UUID NOT NULL,
     discussion_id UUID NOT NULL,
     user_id UUID NOT NULL,
     parent_id UUID NULL,

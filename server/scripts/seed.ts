@@ -66,21 +66,12 @@ async function main() {
   const client = new Client({ connectionString: DATABASE_URL });
   await client.connect();
 
-  await seedFromJson<JsonCommentStats>({
-    client,
-    jsonPath: "mocks/comment-stats.json",
-    table: "comment_stats",
-    columns: ["comment_id", "like_count", "dislike_count", "reply_count"],
-    mapRow: (c) => [c.commentId, c.likeCount, c.dislikeCount, c.replyCount],
-    emptyMessage: "No comment stats to seed",
-    successMessage: (n) => `Seeded ${n} comment stats`,
-  });
-
   await seedFromJson<JsonComment>({
     client,
     jsonPath: "mocks/comments.json",
     table: "comments",
     columns: [
+      "comment_id",
       "discussion_id",
       "user_id",
       "parent_id",
@@ -89,6 +80,7 @@ async function main() {
       "updated_at",
     ],
     mapRow: (c) => [
+      c.commentId,
       c.discussionId,
       c.userId,
       c.parentId,
@@ -98,6 +90,16 @@ async function main() {
     ],
     emptyMessage: "No comments to seed",
     successMessage: (n) => `Seeded ${n} comments`,
+  });
+
+  await seedFromJson<JsonCommentStats>({
+    client,
+    jsonPath: "mocks/comment-stats.json",
+    table: "comment_stats",
+    columns: ["comment_id", "like_count", "dislike_count", "reply_count"],
+    mapRow: (c) => [c.commentId, c.likeCount, c.dislikeCount, c.replyCount],
+    emptyMessage: "No comment stats to seed",
+    successMessage: (n) => `Seeded ${n} comment stats`,
   });
 
   await seedFromJson<JsonUserReaction>({
