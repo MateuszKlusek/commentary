@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx tsx watch src src/index.ts",
-    "db:reset": "bash scripts/db-reset.sh"
+    "seed:comments": "tsx scripts/seed.ts",
+    "db:reset": "bash scripts/db-reset.sh && pnpm run seed:comments"
   },
   "keywords": [],
   "author": "k",

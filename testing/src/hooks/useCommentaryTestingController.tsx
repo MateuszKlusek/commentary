@@ -8,7 +8,7 @@ import { Separator } from "../components/Separator";
 import type { Nullable } from "@shared/src/types/helpers";
 
 const CONFIG = {
-  baseUrl: "http://localhost:3000/api/v1/file",
+  baseUrl: "http://localhost:3000/api/v1/psql",
   userId: "84233d3d-523b-4373-8c15-5545c6f9d0f1",
   discussionId: "94c61dbf-1680-41c8-9029-ecf0bb301636",
   userName: "TestingUser001",
