@@ -29,13 +29,14 @@ const tsRestRouter = s.router(contract, {
   },
 
   getReplies: async ({
-    query: { parentId, offset, limit, discussionId, sortBy },
+    query: { parentId, offset, limit, discussionId, sortBy, userId },
   }) => {
     const replies = await psqlCommentaryService.getReplies(discussionId, {
       parentId,
       offset,
       limit,
       sortBy,
+      userId,
     });
     return {
       status: 200,

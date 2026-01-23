@@ -21,54 +21,52 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
   }
 
   // ----------------------- helpers methods ------------------------
-
-  // ----------------------- CommentaryAPI methods ------------------------
-
-  async getTopLevelComments(
+  private async getComments(
     discussionId: string,
     params: PaginationParams & { sortBy: SortingStrategy } & {
       userId: Nullable<string>;
+      parentId: Nullable<string>;
     },
   ) {
     const pool = getPool();
-    const { limit, offset, sortBy, userId } = params;
+    const { limit, offset, sortBy, userId, parentId } = params;
 
     const countResult = await pool.query<{ total: string }>(
       `
-        SELECT COUNT(*) as total
-        FROM comments
-        WHERE discussion_id = $1 AND parent_id IS NULL
-        `,
-      [discussionId],
+      SELECT COUNT(*) as total
+      FROM comments
+      WHERE discussion_id = $1 AND parent_id IS NOT DISTINCT FROM $2
+      `,
+      [discussionId, parentId],
     );
     const itemsCount = parseInt(countResult.rows[0].total, 10);
 
     const result = await pool.query(
       `
-        SELECT
-          c.id as comment_id,
-          c.discussion_id,
-          c.user_id,
-          c.parent_id,
-          c.content,
-          c.created_at,
-          c.updated_at,
-          cs.like_count,
-          cs.dislike_count,
-          cs.reply_count,
-          u.user_id as author_user_id,
-          u.name as author_name,
-          u.avatar_url as author_avatar_url,
-          ur.reaction as user_reaction
-        FROM comments c
-        LEFT JOIN comment_stats cs ON cs.comment_id = c.comment_id 
-        LEFT JOIN users u ON u.user_id = c.user_id
-        LEFT JOIN user_reactions ur ON ur.comment_id = c.comment_id AND ur.user_id = $2
-        WHERE c.discussion_id = $1 AND c.parent_id IS NULL
-        ORDER BY c.created_at ${sortBy === "newest" ? "DESC" : "ASC"}
-        LIMIT $3 OFFSET $4
-        `,
-      [discussionId, userId, limit, offset],
+      SELECT
+        c.comment_id as comment_id,
+        c.discussion_id,
+        c.user_id,
+        c.parent_id,
+        c.content,
+        c.created_at,
+        c.updated_at,
+        cs.like_count,
+        cs.dislike_count,
+        cs.reply_count,
+        u.user_id as author_user_id,
+        u.name as author_name,
+        u.avatar_url as author_avatar_url,
+        ur.reaction as user_reaction
+      FROM comments c
+      LEFT JOIN comment_stats cs ON cs.comment_id = c.comment_id 
+      LEFT JOIN users u ON u.user_id = c.user_id
+      LEFT JOIN user_reactions ur ON ur.comment_id = c.comment_id AND ur.user_id = $2
+      WHERE c.discussion_id = $1 AND c.parent_id IS NOT DISTINCT FROM $3
+      ORDER BY c.created_at ${sortBy === "newest" ? "DESC" : "ASC"}
+      LIMIT $4 OFFSET $5
+      `,
+      [discussionId, userId, parentId, limit, offset],
     );
 
     const rows: CommentItem[] = result.rows.map((row) => {
@@ -101,7 +99,42 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
       };
     });
 
-    return { items: rows, itemsCount: itemsCount };
+    return { items: rows, itemsCount };
+  }
+  // ----------------------- CommentaryAPI methods ------------------------
+
+  async getTopLevelComments(
+    discussionId: string,
+    params: PaginationParams & { sortBy: SortingStrategy } & {
+      userId: Nullable<string>;
+    },
+  ) {
+    const { limit, offset, sortBy, userId } = params;
+
+    return this.getComments(discussionId, {
+      limit,
+      offset,
+      sortBy,
+      userId,
+      parentId: null,
+    });
+  }
+
+  async getReplies(
+    discussionId: string,
+    params: PaginationParams & { parentId: string; sortBy: SortingStrategy } & {
+      userId: Nullable<string>;
+    },
+  ) {
+    const { limit, offset, sortBy, userId, parentId } = params;
+
+    return this.getComments(discussionId, {
+      limit,
+      offset,
+      sortBy,
+      userId,
+      parentId,
+    });
   }
 }
 

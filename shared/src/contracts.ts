@@ -10,11 +10,11 @@ export const contract = c.router({
     method: "GET",
     path: "/comments/top-level",
     query: z.object({
+      discussionId: z.string().nonempty(),
+      userId: UserSchema.shape.userId.nullish(),
+      sortBy: SortingStrategySchema,
       offset: z.coerce.number().min(0),
       limit: z.coerce.number().min(1),
-      discussionId: z.string().nonempty(),
-      sortBy: SortingStrategySchema,
-      userId: UserSchema.shape.userId.nullish(),
     }),
     responses: {
       200: z.object({
@@ -28,11 +28,12 @@ export const contract = c.router({
     method: "GET",
     path: "/comments/replies",
     query: z.object({
-      offset: z.coerce.number(),
-      limit: z.coerce.number(),
       parentId: z.string().nonempty(),
       discussionId: z.string().nonempty(),
+      userId: UserSchema.shape.userId.nullish(),
       sortBy: SortingStrategySchema,
+      offset: z.coerce.number(),
+      limit: z.coerce.number(),
     }),
     responses: {
       200: z.object({

@@ -60,6 +60,7 @@ export class GenericRestClient implements CommentaryActions {
     limit,
     parentId,
     sortBy,
+    userId,
   }: GetParams<CommentaryActions["getReplies"]>) => {
     const res = await this.client.getReplies({
       query: {
@@ -68,6 +69,7 @@ export class GenericRestClient implements CommentaryActions {
         parentId,
         discussionId: this.discussionId,
         sortBy,
+        userId,
       },
     });
     if (res.status === 200) {

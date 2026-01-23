@@ -43,7 +43,9 @@ export type CommentaryActions = {
   >;
   getReplies: InfiniteFetcher<
     CommentItem,
-    { parentId: string; sortBy: SortingStrategy }
+    { parentId: string; sortBy: SortingStrategy } & {
+      userId: Nullable<User["userId"]>;
+    }
   >;
   handleUserReaction({
     commentId,

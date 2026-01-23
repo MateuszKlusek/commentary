@@ -47,6 +47,7 @@ export const CommentContent = ({
     (params) =>
       getReplies({
         parentId: comment.comment.commentId,
+        userId: user?.userId,
         sortBy: "newest",
         ...params,
       }),
