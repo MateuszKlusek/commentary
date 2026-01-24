@@ -66,6 +66,19 @@ async function main() {
   const client = new Client({ connectionString: DATABASE_URL });
   await client.connect();
 
+  // order is important here
+  // USERS -> COMMENTS -> COMMENT_STATS -> USER_REACTIONS
+
+  await seedFromJson<JsonUser>({
+    client,
+    jsonPath: "mocks/users.json",
+    table: "users",
+    columns: ["user_id", "name", "avatar_url"],
+    mapRow: (u) => [u.userId, u.name, u.avatarUrl],
+    emptyMessage: "No users to seed",
+    successMessage: (n) => `Seeded ${n} users`,
+  });
+
   await seedFromJson<JsonComment>({
     client,
     jsonPath: "mocks/comments.json",
@@ -116,16 +129,6 @@ async function main() {
     ],
     emptyMessage: "No user reactions to seed",
     successMessage: (n) => `Seeded ${n} user reactions`,
-  });
-
-  await seedFromJson<JsonUser>({
-    client,
-    jsonPath: "mocks/users.json",
-    table: "users",
-    columns: ["user_id", "name", "avatar_url"],
-    mapRow: (u) => [u.userId, u.name, u.avatarUrl],
-    emptyMessage: "No users to seed",
-    successMessage: (n) => `Seeded ${n} users`,
   });
 
   await client.end();
