@@ -92,7 +92,12 @@ export const CommentContent = ({
   };
 
   return (
-    <div className="w-full flex gap-4">
+    <div className="w-full flex gap-4 relative">
+      {type === "reply" ? (
+        <div className="absolute left-[-34px] top-[12px] w-[34px] h-px bg-white/20" />
+      ) :
+        <div className="absolute left-[18px] top-[36px] bottom-[12px] w-px bg-white/20" />
+      }
       <ImageWithLoader
         src={comment.author?.avatarUrl}
         alt={comment.author?.userId || ""}
@@ -190,13 +195,16 @@ export const CommentContent = ({
           ))}
         </Activity>
 
-        <RepliesControl
-          comment={comment}
-          loading={loading}
-          repliesShown={repliesShown}
-          handleHideReplies={handleHideReplies}
-          handleShowMoreReplies={handleShowMoreReplies}
-        />
+        <div className="relative">
+          <div className="absolute left-[-34px] top-1/2 -translate-y-1/2 w-[34px] h-px bg-white/20" />
+          <RepliesControl
+            comment={comment}
+            loading={loading}
+            repliesShown={repliesShown}
+            handleHideReplies={handleHideReplies}
+            handleShowMoreReplies={handleShowMoreReplies}
+          />
+        </div>
 
         {/* TODO: rethink approach */}
         {hasMore && <div ref={ref} className="h-0.25" />}
