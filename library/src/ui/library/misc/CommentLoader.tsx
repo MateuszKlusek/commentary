@@ -8,7 +8,7 @@ type Props = {
 
 const CommentLoader = ({ count = 3, colorTo = "bg-[#ffffff33]" }: Props) => {
   return (
-    <div className="space-y-4 p-2">
+    <div className="space-y-4">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="flex animate-pulse ">
           <div className="flex gap-4 w-full">
