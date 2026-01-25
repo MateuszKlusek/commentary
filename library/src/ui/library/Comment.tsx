@@ -104,13 +104,13 @@ export const CommentContent = ({
         id={type === "comment" ? "comment-avatar" : "reply-avatar"}
       />
 
-      <div className="flex flex-col gap-2 w-full">
+      <div className="flex flex-col gap-0 w-full">
         <CommentHeader comment={comment} onUserNameClick={onUserNameClick} />
 
         <CommentRender text={comment.comment.content} />
 
         {/* actions */}
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-2 flex-col pb-2">
           <div className="flex gap-1">
             <NoUserPopoverLike>
               <div className="flex gap-1">
@@ -199,9 +199,9 @@ export const CommentContent = ({
         />
 
         {/* TODO: rethink approach */}
-        {hasMore && <div ref={ref} className="h-0.5" />}
+        {hasMore && <div ref={ref} className="h-0.25" />}
 
-        {loading && <CommentLoader count={3} className="pb-4" skeletonAvatarSize={6} />}
+        {loading && <CommentLoader count={3} className="pb-4 " skeletonAvatarSize={6} />}
       </div>
     </div>
   );
