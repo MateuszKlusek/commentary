@@ -92,7 +92,7 @@ export const CommentContent = ({
   };
 
   return (
-    <div className="w-full flex gap-4 pb-4">
+    <div className="w-full flex gap-4">
       <ImageWithLoader
         src={comment.author?.avatarUrl}
         alt={comment.author?.userId || ""}
@@ -201,7 +201,7 @@ export const CommentContent = ({
         {/* TODO: rethink approach */}
         {hasMore && <div ref={ref} className="h-0.5" />}
 
-        {loading && <CommentLoader count={3} />}
+        {loading && <CommentLoader count={3} className="pb-4" />}
       </div>
     </div>
   );

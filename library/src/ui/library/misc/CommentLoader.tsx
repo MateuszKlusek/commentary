@@ -4,11 +4,12 @@ type Props = {
   count?: number;
   colorFrom?: string;
   colorTo?: string;
+  className?: string;
 };
 
-const CommentLoader = ({ count = 3, colorTo = "bg-[#ffffff33]" }: Props) => {
+const CommentLoader = ({ count = 3, colorTo = "bg-[#ffffff33]", className }: Props) => {
   return (
-    <div className="space-y-4">
+    <div className={cn("space-y-4", className)}>
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="flex animate-pulse ">
           <div className="flex gap-4 w-full">

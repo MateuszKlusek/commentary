@@ -6,6 +6,7 @@ import type {
 } from "@shared/src/types/core";
 import type { Nullable } from "@shared/src/types/helpers";
 import { getPool } from "../db/postgresql/connection";
+import type { UserReaction } from "@shared/src/types/data";
 
 export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDiscussionContext {
   private static instance: PsqlCommentaryServiceSingleton;
@@ -191,6 +192,10 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
     } finally {
       connect.release();
     }
+  }
+
+  handleUserReaction({}: Omit<UserReaction, "createdAt">): Promise<void> {
+    return Promise.resolve();
   }
 }
 
