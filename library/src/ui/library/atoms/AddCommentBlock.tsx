@@ -67,7 +67,7 @@ export const AddCommentBlock = ({
           </button>
           <button
             className="text-[#ffffff] cursor-pointer"
-            onClick={() => user && addComment(replyComment, user, parentId)
+            onClick={() => user?.userId && addComment(replyComment, user.userId, parentId)
             }
           >
             {actionButtonLabel}

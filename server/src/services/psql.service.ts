@@ -136,6 +136,38 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
       parentId,
     });
   }
+
+  async addComment(
+    discussionId: string,
+    content: string,
+    userId: string,
+    parentId: Nullable<string>,
+  ) {
+    const pool = getPool();
+    const commentId = crypto.randomUUID();
+
+    await pool.query("BEGIN");
+    const commentResult = await pool.query(
+      `
+      INSERT INTO comments (comment_id, discussion_id, user_id, parent_id, content)
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+      [commentId, discussionId, userId, parentId, content],
+    );
+
+    await pool.query(
+      `
+      INSERT INTO comment_stats (comment_id, like_count, dislike_count, reply_count)
+      VALUES ($1, 0, 0, 0)
+      ON CONFLICT (comment_id) 
+      DO UPDATE SET reply_count = comment_stats.reply_count + 1
+      `,
+      [parentId || commentId],
+    );
+
+    await pool.query("COMMIT");
+    return commentResult.rows[0];
+  }
 }
 
 const psqlCommentaryService = PsqlCommentaryServiceSingleton.getInstance();

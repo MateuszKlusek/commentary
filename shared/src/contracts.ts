@@ -49,7 +49,7 @@ export const contract = c.router({
     body: z.object({
       content: z.string().nonempty(),
       parentId: z.string().nullish(),
-      user: UserSchema,
+      userId: UserSchema.shape.userId,
       discussionId: z.string().nonempty(),
     }),
     responses: {

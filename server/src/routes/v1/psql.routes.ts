@@ -47,11 +47,11 @@ const tsRestRouter = s.router(contract, {
     };
   },
 
-  addComment: async ({ body: { content, user, parentId, discussionId } }) => {
+  addComment: async ({ body: { content, userId, parentId, discussionId } }) => {
     const res = await psqlCommentaryService.addComment(
       discussionId,
       content,
-      user,
+      userId,
       parentId,
     );
     return {

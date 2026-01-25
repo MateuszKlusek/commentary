@@ -54,7 +54,7 @@ export type CommentaryActions = {
   }: Omit<UserReaction, "createdAt">): Promise<void>;
   addComment(
     content: string,
-    user: User,
+    userId: User["userId"],
     parentId: Nullable<string>,
   ): Promise<CommentItem>;
   onUserNameClick?: (userId: string) => void;
