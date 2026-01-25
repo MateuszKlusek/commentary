@@ -33,3 +33,23 @@ CREATE TABLE IF NOT EXISTS user_reactions (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, comment_id)
 );
+
+-- NEEDED for making sured that we handle two entries on cascade delete
+CREATE OR REPLACE FUNCTION decrement_parent_reply_count()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.parent_id IS NOT NULL THEN
+        UPDATE comment_stats
+        SET reply_count = GREATEST(0, reply_count - 1)
+        WHERE comment_id = OLD.parent_id;
+    END IF;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trigger_decrement_reply_count ON comments;
+
+CREATE TRIGGER trigger_decrement_reply_count
+AFTER DELETE ON comments
+FOR EACH ROW
+EXECUTE FUNCTION decrement_parent_reply_count();

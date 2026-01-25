@@ -164,15 +164,24 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
       `,
         [commentId, discussionId, userId, parentId, content],
       );
+
       await connect.query(
         `
       INSERT INTO comment_stats (comment_id, like_count, dislike_count, reply_count)
       VALUES ($1, 0, 0, 0)
-      ON CONFLICT (comment_id) 
-      DO UPDATE SET reply_count = comment_stats.reply_count + 1
       `,
-        [parentId || commentId],
+        [commentId],
       );
+
+      // incrementing reply count for parent comment (decrementing is handled by the sql trigger)
+      if (parentId) {
+        await connect.query(
+          `
+        UPDATE comment_stats SET reply_count = comment_stats.reply_count + 1 WHERE comment_id = $1
+          `,
+          [parentId],
+        );
+      }
 
       await connect.query("COMMIT");
       return commentResult.rows[0];
