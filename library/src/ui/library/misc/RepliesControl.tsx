@@ -31,8 +31,18 @@ export const RepliesControl = ({
     <>
       {comment?.commentStats?.replyCount > 0 && !loading && (
         <button
-          className=" w-fit flex text-[#ffffff] cursor-pointer hover:bg-white/20 rounded-full px-2 py-2 gap-1 
-"
+          className="
+            w-fit 
+            flex 
+            text-[#ffffff] 
+            cursor-pointer 
+            hover:bg-white/20 
+            rounded-full 
+            px-2 
+            py-2 
+            gap-1
+            mb-2
+          "
           onClick={handleRepliesToggle}
         >
           <div className="text-[14px] font-medium h-[22px]">
