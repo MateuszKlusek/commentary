@@ -201,7 +201,7 @@ export const CommentContent = ({
         {/* TODO: rethink approach */}
         {hasMore && <div ref={ref} className="h-0.5" />}
 
-        {loading && <CommentLoader count={3} className="pb-4" />}
+        {loading && <CommentLoader count={3} className="pb-4" skeletonAvatarSize={6} />}
       </div>
     </div>
   );
