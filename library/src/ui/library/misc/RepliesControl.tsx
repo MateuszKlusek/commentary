@@ -2,9 +2,12 @@ import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import type { CommentItem } from "@shared/src/types/core";
 import { useCopy } from "../../../context/CopyContext";
 import { handlePluralization } from "../../../copy/utils";
+import { CurvedThreadLine } from "../ThreadLine";
 
 type Props = {
   comment: CommentItem;
+  type: "comment" | "reply";
+  hasReplies: boolean;
   loading: boolean;
   repliesShown: boolean;
   handleHideReplies: () => void;
@@ -12,6 +15,8 @@ type Props = {
 };
 export const RepliesControl = ({
   comment,
+  type,
+  hasReplies,
   handleHideReplies,
   handleShowMoreReplies,
   loading,
@@ -28,8 +33,11 @@ export const RepliesControl = ({
   };
 
   return (
-    <commentary-replies-control>
-      {comment?.commentStats?.replyCount > 0 && !loading && (
+    <commentary-replies-control className="flex flex-row">
+      {hasReplies && (
+        <CurvedThreadLine type={type} />
+      )}
+      {hasReplies && !loading && (
         <button
           className="
             w-fit 

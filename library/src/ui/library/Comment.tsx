@@ -11,12 +11,14 @@ import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { useNoUserPopover } from "../../hooks/useNoUserPopover";
 import { cn } from "../../utils/style";
+import { VStack } from "../layout/VStack";
 import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 import CommentLoader from "./misc/CommentLoader";
 import { RepliesControl } from "./misc/RepliesControl";
+import { ParentThreadLine, ReplyThreadLine } from "./ThreadLine";
 
 type FetchMode = "auto" | "manual";
 export type CommentType = "comment" | "reply";
@@ -32,6 +34,8 @@ export const ThreadContent = ({
 }) => {
   const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
+
+  // --------------------------------- hooks ---------------------------------
 
   const { getReplies, onUserNameClick, handleUserReaction } =
     useCommentaryAPI();
@@ -74,6 +78,12 @@ export const ThreadContent = ({
     enabled: !isUserSet,
   });
 
+  // misc
+  const hasReplies = Boolean(comment.commentStats?.replyCount && comment.commentStats?.replyCount > 0);
+
+
+  // --------------------------------- handlers ---------------------------------
+
   const handleReplyClick = () => {
     if (!isUserSet) {
       return;
@@ -95,7 +105,7 @@ export const ThreadContent = ({
     <>
       <commentary-parent-comment className="w-full flex gap-4 relative">
 
-        <div className="flex flex-col bg-red-400">
+        <div className="flex flex-col">
           <ImageWithLoader
             src={comment.author?.avatarUrl}
             alt={comment.author?.userId || ""}
@@ -106,11 +116,9 @@ export const ThreadContent = ({
             )}
             id={type === "comment" ? "comment-avatar" : "reply-avatar"}
           />
-          {/* thread line - unify */}
-          <div className="w-full h-full flex justify-end mt-1">
-            <div className="w-1/2 h-full border-l border-thread-line-color" id="thread-line">
-            </div>
-          </div>
+          {hasReplies && (
+            <ParentThreadLine />
+          )}
 
         </div>
 
@@ -192,10 +200,9 @@ export const ThreadContent = ({
 
 
 
-          {/* TODO: rethink approach */}
           {hasMore && <div ref={ref} className="h-0.25" />}
 
-          {loading && <CommentLoader count={3} className="pb-4 " skeletonAvatarSize={6} />}
+          {loading && <CommentLoader count={3} className="pb-4" skeletonAvatarSize={6} />}
         </div>
 
       </commentary-parent-comment>
@@ -203,21 +210,15 @@ export const ThreadContent = ({
       <Activity mode={repliesShown ? "visible" : "hidden"}>
         {items?.map((reply) => (
           <commentary-reply-thread className="flex flex-column gap-4">
-            <commentary-thread-line className={cn("flex gap-4 relative bg-red-300", type === "comment" ? "min-w-[34px]" : "min-w-[24px]")}>
-              <div className="w-full h-full flex justify-end mt-1">
-                <div className="w-1/2 h-full border-l border-thread-line-color">
-                </div>
-              </div>
-            </commentary-thread-line>
-            <div className="flex flex-col gap-4">
-
+            <ReplyThreadLine type={type} />
+            <VStack >
               <ThreadContainer
                 key={reply.comment.commentId}
                 comment={reply}
                 type="reply"
                 fetchMode="auto"
               />
-            </div>
+            </VStack>
           </commentary-reply-thread>
         ))}
 
@@ -226,6 +227,8 @@ export const ThreadContent = ({
 
       <RepliesControl
         comment={comment}
+        type={type}
+        hasReplies={hasReplies}
         loading={loading}
         repliesShown={repliesShown}
         handleHideReplies={handleHideReplies}

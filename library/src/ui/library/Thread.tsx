@@ -1,5 +1,5 @@
 import type { CommentItem } from "@shared/src/types/core";
-import { ThreadContainer } from "./ParentComment";
+import { ThreadContainer } from "./Comment";
 
 export const Thread = ({ comment }: { comment: CommentItem }) => {
   return (

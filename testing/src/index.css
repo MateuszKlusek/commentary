@@ -2,6 +2,10 @@
 
 @source "../../library/src";
 
+@theme {
+  --color-thread-line: #3f3f3f;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,6 +19,4 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  --thread-line-color: #d1d5db;
 }
