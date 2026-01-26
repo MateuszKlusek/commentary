@@ -57,7 +57,7 @@ export const HeaderSectionContent = <T,>({
           />
           <span className="text-[14px] text-[#f1f1f1] font-medium">{sortByLabel}</span>
         </HStack>
-        <HStack className="w-full gap-4 px-2">
+        <HStack className="w-full gap-4 ">
           <NoUserPopover>
             <ImageWithLoader
               src={user?.avatarUrl || ""}
