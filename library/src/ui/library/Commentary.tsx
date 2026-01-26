@@ -6,10 +6,10 @@ import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import "../index.css";
-import { CommentThread } from "./CommentThread";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
 import CommentLoader from "./misc/CommentLoader";
+import { Thread } from "./Thread";
 
 const CommentaryComponent = () => {
   const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
@@ -42,7 +42,7 @@ const CommentaryComponent = () => {
       />
       <Content>
         {items?.map((comment) => (
-          <CommentThread key={comment.comment.commentId} comment={comment} />
+          <Thread key={comment.comment.commentId} comment={comment} />
         ))}
 
 

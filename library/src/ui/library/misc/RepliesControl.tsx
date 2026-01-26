@@ -28,7 +28,7 @@ export const RepliesControl = ({
   };
 
   return (
-    <>
+    <commentary-replies-control>
       {comment?.commentStats?.replyCount > 0 && !loading && (
         <button
           className="
@@ -64,6 +64,6 @@ export const RepliesControl = ({
           )}
         </button>
       )}
-    </>
+    </commentary-replies-control>
   );
 };

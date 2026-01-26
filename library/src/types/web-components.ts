@@ -4,8 +4,13 @@ export type WebComponentProps<T extends object = object> =
 export const webComponentWrappers = [
   "commentary-container",
   "commentary-header",
+  "commentary-top-level-thread",
+  "commentary-reply-thread",
+  "commentary-thread-line",
   "commentary-content",
+  "commentary-parent-comment",
   "commentary-thread",
+  "commentary-replies-control",
 ] as const;
 
 export type Wrapper = (typeof webComponentWrappers)[number];

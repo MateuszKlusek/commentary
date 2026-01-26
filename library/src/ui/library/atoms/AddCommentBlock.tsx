@@ -4,7 +4,7 @@ import { useCommentaryAPI } from "../../../context/CommentaryAPIContext";
 import { useCommentBlockStatus } from "../../../context/CommentBlockStatusContext";
 import { useUser } from "../../../context/UserContext";
 import { AutoTextarea } from "../AutoTextarea";
-import type { CommentType } from "../Comment";
+import type { CommentType } from "../ParentComment";
 
 type Props = {
   parentId: Nullable<string>;
