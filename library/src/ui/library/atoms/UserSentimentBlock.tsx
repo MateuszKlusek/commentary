@@ -39,14 +39,14 @@ export const UserSentimentBlock = ({ comment }: Props) => {
             if (prevState === 1) newLikes--;
             if (prevState === -1) newDislikes--;
 
-            // 2. Apply the new sentiment's effect
+            // Apply the new sentiment's effect
             if (nextSentiment === 1) newLikes++;
             if (nextSentiment === -1) newDislikes++;
 
             return {
                 likes: newLikes,
                 dislikes: newDislikes,
-                userSentiment: nextSentiment as UserSentiment['sentiment']
+                userSentiment: nextSentiment
             };
         }
     );
