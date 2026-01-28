@@ -13,7 +13,7 @@ export const UserProvider = ({
   user: Nullable<User>;
   children: React.ReactNode;
 }) => {
-  const isUserSet = Boolean(user);
+  const isUserSet = Boolean(user?.userId);
 
   return (
     <UserContext.Provider value={{ user, isUserSet }}>

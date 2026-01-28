@@ -4,9 +4,9 @@ import type {
   PaginationParams,
   SortingStrategy,
 } from "@shared/src/types/core";
+import type { UserSentiment } from "@shared/src/types/data";
 import type { Nullable } from "@shared/src/types/helpers";
 import { getPool } from "../db/postgresql/connection";
-import type { UserReaction } from "@shared/src/types/data";
 
 export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDiscussionContext {
   private static instance: PsqlCommentaryServiceSingleton;
@@ -60,11 +60,11 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
         u.user_id as author_user_id,
         u.name as author_name,
         u.avatar_url as author_avatar_url,
-        ur.reaction as user_reaction
+        us.sentiment as user_sentiment
       FROM comments c
       LEFT JOIN comment_stats cs ON cs.comment_id = c.comment_id 
       LEFT JOIN users u ON u.user_id = c.user_id
-      LEFT JOIN user_reactions ur ON ur.comment_id = c.comment_id AND ur.user_id = $2
+      LEFT JOIN user_sentiments us ON us.comment_id = c.comment_id AND us.user_id = $2
       WHERE c.discussion_id = $1 AND c.parent_id IS NOT DISTINCT FROM $3
       ORDER BY c.created_at ${sortBy === "newest" ? "DESC" : "ASC"}
       LIMIT $4 OFFSET $5
@@ -94,10 +94,10 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
             name: row.author_name,
             avatarUrl: row.author_avatar_url,
           },
-          userReaction: {
+          userSentiment: {
             commentId: row.comment_id,
             userId: row.user_id,
-            reaction: row.user_reaction,
+            sentiment: row.user_sentiment,
           },
         };
       });
@@ -194,8 +194,68 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
     }
   }
 
-  handleUserReaction({}: Omit<UserReaction, "createdAt">): Promise<void> {
-    return Promise.resolve();
+  async handleUserSentiment({ commentId, userId, sentiment }: UserSentiment) {
+    const pool = getPool();
+    const connect = await pool.connect();
+    console.log("handleUserSentiment service", commentId, userId, sentiment);
+
+    try {
+      await connect.query("BEGIN");
+
+      const oldSentiment = await connect
+        .query<{
+          sentiment: number;
+        }>(
+          `
+      SELECT sentiment FROM user_sentiments WHERE user_id = $1 AND comment_id = $2
+        `,
+          [userId, commentId],
+        )
+        .then((res) => res.rows[0]?.sentiment);
+
+      await connect.query(
+        `
+        INSERT INTO user_sentiments (user_id, comment_id, sentiment)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (user_id, comment_id) DO UPDATE SET sentiment = $3
+        `,
+        [userId, commentId, sentiment],
+      );
+
+      const [likeDelta, dislikeDelta] = (() => {
+        if (oldSentiment === -1) {
+          return [sentiment, -1];
+        }
+
+        if (oldSentiment === 1) {
+          return [-1, sentiment];
+        }
+
+        return [sentiment === 1 ? 1 : 0, sentiment === -1 ? 1 : 0];
+      })();
+
+      const commentStatsResult = await connect.query<{
+        like_count: number;
+        dislike_count: number;
+      }>(
+        `
+        UPDATE comment_stats SET like_count = like_count + $1, dislike_count = dislike_count + $2 WHERE comment_id = $3
+        RETURNING like_count, dislike_count
+        `,
+        [likeDelta, dislikeDelta, commentId],
+      );
+
+      await connect.query("COMMIT");
+      return {
+        likeCount: commentStatsResult.rows[0].like_count,
+        dislikeCount: commentStatsResult.rows[0].dislike_count,
+      };
+    } catch (error) {
+      await connect.query("ROLLBACK");
+      throw error;
+    } finally {
+      connect.release();
+    }
   }
 }
 

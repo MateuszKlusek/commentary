@@ -1,7 +1,7 @@
 import { initContract } from "@ts-rest/core";
 import z from "zod";
 import { CommentItemSchema, SortingStrategySchema } from "./types/core";
-import { UserSchema } from "./types/data";
+import { UserSchema, UserSentimentSchema } from "./types/data";
 
 const c = initContract();
 
@@ -54,6 +54,18 @@ export const contract = c.router({
     }),
     responses: {
       200: CommentItemSchema,
+    },
+  },
+
+  handleUserSentiment: {
+    method: "POST",
+    path: "/comment/sentiment",
+    body: UserSentimentSchema,
+    responses: {
+      200: z.object({
+        likeCount: z.number().int().min(0),
+        dislikeCount: z.number().int().min(0),
+      }),
     },
   },
 });

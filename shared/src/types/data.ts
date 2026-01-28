@@ -31,11 +31,12 @@ export const UserSchema = z.object({
 });
 export type User = z.infer<typeof UserSchema>;
 
-// ---------------------- User Reactions ----------------------
+// ---------------------- User Sentiments ----------------------
 
-export const UserReactionSchema = z.object({
+export const UserSentimentSchema = z.object({
   userId: z.string(),
   commentId: z.string(),
-  reaction: z.union([z.literal(1), z.literal(-1), z.literal(0)]),
+  sentiment: z.union([z.literal(1), z.literal(-1), z.literal(0)]),
 });
-export type UserReaction = z.infer<typeof UserReactionSchema>;
+
+export type UserSentiment = z.infer<typeof UserSentimentSchema>;

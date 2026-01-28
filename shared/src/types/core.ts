@@ -3,10 +3,10 @@ import type { Copy } from "./copy";
 import {
   CommentSliceSchema,
   CommentStatsSchema,
-  UserReactionSchema,
   UserSchema,
+  UserSentimentSchema,
   type User,
-  type UserReaction,
+  type UserSentiment,
 } from "./data";
 import type { Nullable } from "./helpers";
 
@@ -14,7 +14,7 @@ export const CommentItemSchema = z.object({
   comment: CommentSliceSchema,
   commentStats: CommentStatsSchema,
   author: UserSchema,
-  userReaction: UserReactionSchema.nullish(),
+  userSentiment: UserSentimentSchema.nullish(),
 });
 
 export type CommentItem = z.infer<typeof CommentItemSchema>;
@@ -29,7 +29,7 @@ export const CommentItemWithIdSchema = z.object({
   author: UserSchema.extend({
     id: z.string(),
   }),
-  userReaction: UserReactionSchema.extend({
+  userSentiment: UserSentimentSchema.extend({
     id: z.string(),
   }),
 });
@@ -47,16 +47,16 @@ export type CommentaryActions = {
       userId: Nullable<User["userId"]>;
     }
   >;
-  handleUserReaction({
-    commentId,
-    userId,
-    reaction,
-  }: Omit<UserReaction, "createdAt">): Promise<void>;
   addComment(
     content: string,
     userId: User["userId"],
     parentId: Nullable<string>,
   ): Promise<CommentItem>;
+  handleUserSentiment({
+    commentId,
+    userId,
+    sentiment,
+  }: UserSentiment): Promise<{ likeCount: number; dislikeCount: number }>;
   onUserNameClick?: (userId: string) => void;
 };
 

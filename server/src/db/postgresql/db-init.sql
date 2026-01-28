@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS comment_stats (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS user_reactions (
+CREATE TABLE IF NOT EXISTS user_sentiments (
     user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     comment_id UUID NOT NULL REFERENCES comments(comment_id) ON DELETE CASCADE,
-    reaction INTEGER NOT NULL CHECK (reaction IN (-1, 0, 1)),
+    sentiment INTEGER NOT NULL CHECK (sentiment IN (-1, 0, 1)),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, comment_id)

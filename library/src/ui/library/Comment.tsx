@@ -16,6 +16,7 @@ import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
+import { UserSentimentBlock } from "./atoms/UserSentimentBlock";
 import CommentLoader from "./misc/CommentLoader";
 import { RepliesControl } from "./misc/RepliesControl";
 import { ParentThreadLine, ReplyThreadLine } from "./ThreadLine";
@@ -37,7 +38,7 @@ export const ThreadContent = ({
 
   // --------------------------------- hooks ---------------------------------
 
-  const { getReplies, onUserNameClick, handleUserReaction } =
+  const { getReplies, onUserNameClick } =
     useCommentaryAPI();
   const { isUserSet, user } = useUser();
 
@@ -68,13 +69,7 @@ export const ThreadContent = ({
   );
 
   const { setCommentBlockStatus } = useCommentBlockStatus();
-  const { NoUserPopover: NoUserPopoverLike } = useNoUserPopover({
-    enabled: !isUserSet,
-  });
-  const { NoUserPopover: NoUserPopoverDislike } = useNoUserPopover({
-    enabled: !isUserSet,
-  });
-  const { NoUserPopover: NoUserPopoverReply } = useNoUserPopover({
+  const { NoUserPopover } = useNoUserPopover({
     enabled: !isUserSet,
   });
 
@@ -130,45 +125,8 @@ export const ThreadContent = ({
           {/* actions */}
           <div className="flex gap-2 flex-col pb-2">
             <div className="flex gap-1">
-              <NoUserPopoverLike>
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => {
-                      if (isUserSet && user) {
-                        handleUserReaction({
-                          commentId: comment.comment.commentId,
-                          userId: user.userId,
-                          reaction: 1,
-                        });
-                      }
-                    }}
-                  >
-                    Like{" "}
-                  </button>
-                  <div>{comment.commentStats?.likeCount || 0}</div>
-                </div>
-              </NoUserPopoverLike>
-
-              <NoUserPopoverDislike>
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => {
-                      if (isUserSet && user) {
-                        handleUserReaction({
-                          commentId: comment.comment.commentId,
-                          userId: user.userId,
-                          reaction: -1,
-                        });
-                      }
-                    }}
-                  >
-                    Dislike{" "}
-                  </button>
-                  <div>{comment.commentStats?.dislikeCount || 0}</div>
-                </div>
-              </NoUserPopoverDislike>
-
-              <NoUserPopoverReply>
+              <UserSentimentBlock comment={comment} />
+              <NoUserPopover>
                 <div className="flex gap-1">
                   <button
                     onClick={handleReplyClick}
@@ -177,7 +135,7 @@ export const ThreadContent = ({
                     Reply
                   </button>
                 </div>
-              </NoUserPopoverReply>
+              </NoUserPopover>
             </div>
             {replyInputShown ? (
               <div className="flex gap-4">

@@ -1,3 +1,5 @@
+import type { UserSentiment } from "./data";
+
 export type JsonCommentStats = {
   commentId: string;
   likeCount: number;
@@ -15,10 +17,10 @@ export type JsonComment = {
   updatedAt: string;
 };
 
-export type JsonUserReaction = {
+export type JsonUserSentiment = {
   userId: string;
   commentId: string;
-  reaction: 1 | -1 | 0;
+  sentiment: UserSentiment["sentiment"];
   createdAt: string;
 };
 

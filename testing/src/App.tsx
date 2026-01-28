@@ -23,9 +23,7 @@ function App() {
           getTopLevelComments={client.getTopLevelComments}
           getReplies={client.getReplies}
           addComment={client.addComment}
-          // TODO: implement
-          handleUserReaction={() => Promise.resolve()}
-          //
+          handleUserSentiment={client.handleUserSentiment}
           user={user}
           discussionId={discussionId}
           customCss={customCss}

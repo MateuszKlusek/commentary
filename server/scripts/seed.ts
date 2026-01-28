@@ -2,7 +2,7 @@ import type {
   JsonComment,
   JsonCommentStats,
   JsonUser,
-  JsonUserReaction,
+  JsonUserSentiment,
 } from "@shared/src/types/json";
 import { readFileSync } from "fs";
 import path from "path";
@@ -67,7 +67,7 @@ async function main() {
   await client.connect();
 
   // order is important here
-  // USERS -> COMMENTS -> COMMENT_STATS -> USER_REACTIONS
+  // USERS -> COMMENTS -> COMMENT_STATS -> USER_SENTIMENTS
 
   await seedFromJson<JsonUser>({
     client,
@@ -115,20 +115,20 @@ async function main() {
     successMessage: (n) => `Seeded ${n} comment stats`,
   });
 
-  await seedFromJson<JsonUserReaction>({
+  await seedFromJson<JsonUserSentiment>({
     client,
-    jsonPath: "mocks/user-reactions.json",
-    table: "user_reactions",
-    columns: ["user_id", "comment_id", "reaction", "created_at", "updated_at"],
+    jsonPath: "mocks/user-sentiments.json",
+    table: "user_sentiments",
+    columns: ["user_id", "comment_id", "sentiment", "created_at", "updated_at"],
     mapRow: (r) => [
       r.userId,
       r.commentId,
-      r.reaction,
+      r.sentiment,
       r.createdAt,
       r.createdAt,
     ],
-    emptyMessage: "No user reactions to seed",
-    successMessage: (n) => `Seeded ${n} user reactions`,
+    emptyMessage: "No user sentiments to seed",
+    successMessage: (n) => `Seeded ${n} user sentiments`,
   });
 
   await client.end();

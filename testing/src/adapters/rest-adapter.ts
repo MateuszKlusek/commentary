@@ -1,6 +1,6 @@
 import { contract } from "@shared/src/contracts";
 import type { CommentaryActions, GetParams } from "@shared/src/types/core";
-import type { User, UserReaction } from "@shared/src/types/data";
+import type { User, UserSentiment } from "@shared/src/types/data";
 import type { Nullable } from "@shared/src/types/helpers";
 import { initClient, type InitClientArgs } from "@ts-rest/core";
 
@@ -106,16 +106,23 @@ export class GenericRestClient implements CommentaryActions {
     throw new Error("Failed to add comment");
   };
 
-  handleUserReaction({
+  handleUserSentiment = async ({
     commentId,
     userId,
-    reaction,
-  }: Omit<UserReaction, "createdAt">): Promise<void> {
-    void commentId;
-    void userId;
-    void reaction;
-    return Promise.resolve();
-  }
+    sentiment,
+  }: UserSentiment) => {
+    const res = await this.client.handleUserSentiment({
+      body: {
+        commentId,
+        userId,
+        sentiment,
+      },
+    });
+    if (res.status === 200) {
+      return res.body;
+    }
+    throw new Error("Failed to handle user sentiment");
+  };
   slug: Nullable<string>;
   userId: Nullable<string>;
 }

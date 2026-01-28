@@ -3,12 +3,12 @@ import { CommentItemSchema, type CommentItem } from "../types/core";
 import {
   CommentSliceSchema,
   CommentStatsSchema,
-  UserReactionSchema,
   UserSchema,
+  UserSentimentSchema,
   type CommentSlice,
   type CommentStats,
   type User,
-  type UserReaction,
+  type UserSentiment,
 } from "../types/data";
 
 // --------------------------- comments ---------------------------
@@ -38,13 +38,13 @@ export function safeValidateUsers(data: unknown) {
   return z.array(UserSchema).safeParse(data);
 }
 
-// --------------------------- user reactions ---------------------------
-export function validateUserReactions(data: unknown): UserReaction[] {
-  return z.array(UserReactionSchema).parse(data);
+// --------------------------- user sentiments ---------------------------
+export function validateUserSentiments(data: unknown): UserSentiment[] {
+  return z.array(UserSentimentSchema).parse(data);
 }
 
-export function safeValidateUserReactions(data: unknown) {
-  return z.array(UserReactionSchema).safeParse(data);
+export function safeValidateUserSentiments(data: unknown) {
+  return z.array(UserSentimentSchema).safeParse(data);
 }
 
 // --------------------------- comment data ---------------------------

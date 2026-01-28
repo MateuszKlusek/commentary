@@ -61,6 +61,21 @@ const tsRestRouter = s.router(contract, {
       },
     };
   },
+
+  handleUserSentiment: async ({ body: { commentId, userId, sentiment } }) => {
+    const res = await psqlCommentaryService.handleUserSentiment({
+      commentId,
+      userId,
+      sentiment,
+    });
+    return {
+      status: 200,
+      body: {
+        likeCount: res.likeCount,
+        dislikeCount: res.dislikeCount,
+      },
+    };
+  },
 });
 
 createExpressEndpoints(contract, tsRestRouter, router);
