@@ -197,7 +197,6 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
   async handleUserSentiment({ commentId, userId, sentiment }: UserSentiment) {
     const pool = getPool();
     const connect = await pool.connect();
-    console.log("handleUserSentiment service", commentId, userId, sentiment);
 
     try {
       await connect.query("BEGIN");
@@ -224,16 +223,26 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
 
       const [likeDelta, dislikeDelta] = (() => {
         if (oldSentiment === -1) {
-          return [sentiment, -1];
+          return [Math.abs(sentiment), -1];
         }
 
         if (oldSentiment === 1) {
-          return [-1, sentiment];
+          return [-1, Math.abs(sentiment)];
         }
 
         return [sentiment === 1 ? 1 : 0, sentiment === -1 ? 1 : 0];
       })();
 
+      console.log(
+        "likeDelta",
+        likeDelta,
+        "dislikeDelta",
+        dislikeDelta,
+        "sentiment",
+        sentiment,
+        "oldSentiment",
+        oldSentiment,
+      );
       const commentStatsResult = await connect.query<{
         like_count: number;
         dislike_count: number;
