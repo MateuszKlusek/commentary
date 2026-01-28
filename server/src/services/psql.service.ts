@@ -243,6 +243,7 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
         "oldSentiment",
         oldSentiment,
       );
+
       const commentStatsResult = await connect.query<{
         like_count: number;
         dislike_count: number;
@@ -253,13 +254,19 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
         `,
         [likeDelta, dislikeDelta, commentId],
       );
+      console.log({
+        commentStatsResult: commentStatsResult.rows[0],
+        likeCount: commentStatsResult?.rows[0]?.like_count || 0,
+        dislikeCount: commentStatsResult?.rows[0]?.dislike_count || 0,
+      });
 
       await connect.query("COMMIT");
       return {
-        likeCount: commentStatsResult.rows[0].like_count,
-        dislikeCount: commentStatsResult.rows[0].dislike_count,
+        likeCount: commentStatsResult?.rows[0]?.like_count || 0,
+        dislikeCount: commentStatsResult?.rows[0]?.dislike_count || 0,
       };
     } catch (error) {
+      console.error(error);
       await connect.query("ROLLBACK");
       throw error;
     } finally {

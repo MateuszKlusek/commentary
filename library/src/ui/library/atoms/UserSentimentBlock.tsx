@@ -1,6 +1,6 @@
 import type { CommentItem } from "@shared/src/types/core";
 import type { UserSentiment } from "@shared/src/types/data";
-import { useOptimistic, useRef, useState, useTransition } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { useCommentaryAPI } from "../../../context/CommentaryAPIContext";
 import { useUser } from "../../../context/UserContext";
 import { useNoUserPopover } from "../../../hooks/useNoUserPopover";
@@ -20,8 +20,6 @@ export const UserSentimentBlock = ({ comment }: Props) => {
     const { handleUserSentiment } = useCommentaryAPI();
     const { user, isUserSet } = useUser();
 
-    const promiseQueue = useRef(Promise.resolve());
-
     const { NoUserPopover: NoUserPopoverLike } = useNoUserPopover({
         enabled: !isUserSet,
     });
@@ -32,18 +30,26 @@ export const UserSentimentBlock = ({ comment }: Props) => {
 
     const [optimisticSentiment, addOptimisticSentiment] = useOptimistic(
         data,
-        (state, action: UserSentiment['sentiment']) => {
-            switch (action) {
-                case 1:
-                    return { likes: state.likes + 1, dislikes: state.dislikes, userSentiment: 1 };
-                case -1:
-                    return { likes: state.likes, dislikes: state.dislikes + 1, userSentiment: -1 };
-                default:
-                    return { likes: state.likes, dislikes: state.dislikes, userSentiment: 0 };
-            }
+        (state, nextSentiment: UserSentiment['sentiment']) => {
+            const prevState = state.userSentiment;
+            let newLikes = state.likes;
+            let newDislikes = state.dislikes;
+
+            // Undo the previous sentiment's effect
+            if (prevState === 1) newLikes--;
+            if (prevState === -1) newDislikes--;
+
+            // 2. Apply the new sentiment's effect
+            if (nextSentiment === 1) newLikes++;
+            if (nextSentiment === -1) newDislikes++;
+
+            return {
+                likes: newLikes,
+                dislikes: newDislikes,
+                userSentiment: nextSentiment as UserSentiment['sentiment']
+            };
         }
     );
-
 
     async function handleReaction(sentiment: "like" | "dislike", userReaction: number) {
         if (isPending || !user?.userId) return;
@@ -52,9 +58,6 @@ export const UserSentimentBlock = ({ comment }: Props) => {
         const finalSentiment = (() => {
             const f = sentiment === "like" ? Array.prototype.findLastIndex : Array.prototype.findIndex
             const idx = f.call(sentimentList, s => s !== userReaction)
-            console.log(userReaction)
-            console.log("idx", idx)
-            console.log(sentimentList[idx])
             return sentimentList[idx]
         })();
 
@@ -62,28 +65,27 @@ export const UserSentimentBlock = ({ comment }: Props) => {
         startTransition(async () => {
             addOptimisticSentiment(finalSentiment);
 
-            promiseQueue.current = promiseQueue.current.then(async () => {
-                try {
-                    const updatedReactions = await handleUserSentiment({
-                        commentId: comment.comment.commentId,
-                        userId: user.userId,
-                        sentiment: finalSentiment,
-                    });
-                    setData({ likes: updatedReactions.likeCount, dislikes: updatedReactions.dislikeCount, userSentiment: finalSentiment });
-                } catch (error) {
-                    console.error("Failed to like:", error);
-                }
-            });
-
-            await promiseQueue.current;
+            try {
+                const updatedReactions = await handleUserSentiment({
+                    commentId: comment.comment.commentId,
+                    userId: user.userId,
+                    sentiment: finalSentiment,
+                });
+                console.log(updatedReactions)
+                setData({ likes: updatedReactions.likeCount, dislikes: updatedReactions.dislikeCount, userSentiment: finalSentiment });
+            } catch (error) {
+                console.error("Failed to like:", error);
+            }
         });
+
 
     }
 
     return (
-        <div className="flex gap-2" onClick={() => console.log("optimisticSentiment", comment)}>
+        <div className="flex gap-2">
             <NoUserPopoverLike>
                 <button
+                    className="cursor-pointer"
                     onClick={() => handleReaction("like", optimisticSentiment.userSentiment)}
                 >
                     {optimisticSentiment.userSentiment === 1 ? (
@@ -102,6 +104,7 @@ export const UserSentimentBlock = ({ comment }: Props) => {
 
             <NoUserPopoverDislike>
                 <button
+                    className="cursor-pointer"
                     onClick={() => handleReaction("dislike", optimisticSentiment.userSentiment)}
                 >
                     {optimisticSentiment.userSentiment === -1 ? (
