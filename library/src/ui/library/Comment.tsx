@@ -166,8 +166,8 @@ export const ThreadContent = ({
       </commentary-parent-comment>
 
       <Activity mode={repliesShown ? "visible" : "hidden"}>
-        {items?.map((reply) => (
-          <commentary-reply-thread className="flex flex-column gap-4">
+        {items?.map((reply,) => (
+          <commentary-reply-thread className="flex flex-column gap-4" key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
             <VStack >
               <ThreadContainer
