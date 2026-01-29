@@ -1,7 +1,7 @@
 import type { Nullable } from "@shared/src/types/helpers";
 import { useState } from "react";
 import { useCommentaryAPI } from "../../../context/CommentaryAPIContext";
-import { useCommentBlockStatus } from "../../../context/CommentBlockStatusContext";
+import { useCommentBlock } from "../../../context/CommentBlockContext";
 import { useUser } from "../../../context/UserContext";
 import { AutoTextarea } from "../AutoTextarea";
 import type { CommentType } from "../Comment";
@@ -27,7 +27,7 @@ export const AddCommentBlock = ({
 }: Props) => {
   const [replyComment, setReplyComment] = useState("");
   const { addComment, user } = useCommentaryAPI();
-  const { commentBlockStatus, setCommentBlockStatus } = useCommentBlockStatus();
+  const { commentBlockStatus, setCommentBlockStatus } = useCommentBlock();
   const { isUserSet } = useUser();
 
   const handleCancel = () => {

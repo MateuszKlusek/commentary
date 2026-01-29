@@ -2,9 +2,9 @@ import type { CommentItem } from "@shared/src/types/core";
 import { Activity, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import {
-  CommentBlockStatusProvider,
-  useCommentBlockStatus,
-} from "../../context/CommentBlockStatusContext";
+  CommentBlockProvider,
+  useCommentBlock,
+} from "../../context/CommentBlockContext";
 import { useCopy } from "../../context/CopyContext";
 import { useUser } from "../../context/UserContext";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
@@ -68,7 +68,7 @@ export const ThreadContent = ({
     (fetchMode === "auto" || offset === 0)
   );
 
-  const { setCommentBlockStatus } = useCommentBlockStatus();
+  const { setCommentBlockStatus } = useCommentBlock();
   const { NoUserPopover } = useNoUserPopover({
     enabled: !isUserSet,
   });
@@ -99,7 +99,6 @@ export const ThreadContent = ({
   return (
     <>
       <commentary-parent-comment className="w-full flex gap-4 relative">
-
         <div className="flex flex-col">
           <ImageWithLoader
             src={comment.author?.avatarUrl}
@@ -167,9 +166,9 @@ export const ThreadContent = ({
 
       <Activity mode={repliesShown ? "visible" : "hidden"}>
         {items?.map((reply,) => (
-          <commentary-reply-thread className="flex flex-column gap-4" key={reply.comment.commentId}>
+          <commentary-reply-thread className="flex flex-column gap-4 " key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
-            <VStack >
+            <VStack>
               <ThreadContainer
                 key={reply.comment.commentId}
                 comment={reply}
@@ -203,8 +202,8 @@ export const ThreadContainer = (props: {
   fetchMode: FetchMode;
 }) => {
   return (
-    <CommentBlockStatusProvider>
+    <CommentBlockProvider>
       <ThreadContent {...props} />
-    </CommentBlockStatusProvider>
+    </CommentBlockProvider>
   );
 };

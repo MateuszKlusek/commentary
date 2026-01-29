@@ -1,7 +1,7 @@
 import {
-  CommentBlockStatusProvider,
-  useCommentBlockStatus,
-} from "../../context/CommentBlockStatusContext";
+  CommentBlockProvider,
+  useCommentBlock,
+} from "../../context/CommentBlockContext";
 import { useCopy } from "../../context/CopyContext";
 import { useUser } from "../../context/UserContext";
 import { handlePluralization } from "../../copy/utils";
@@ -34,7 +34,7 @@ export const HeaderSectionContent = <T,>({
 
   const { isUserSet, user } = useUser();
 
-  const { commentBlockStatus } = useCommentBlockStatus();
+  const { commentBlockStatus } = useCommentBlock();
   const { NoUserPopover, setIsOpen } = useNoUserPopover({
     mode: "manual",
     enabled: !isUserSet,
@@ -88,12 +88,12 @@ export const HeaderSection = <T,>({
   setSortBy,
 }: Props<T>) => {
   return (
-    <CommentBlockStatusProvider>
+    <CommentBlockProvider>
       <HeaderSectionContent
         commentsCount={commentsCount}
         sortBy={sortBy}
         setSortBy={setSortBy}
       />
-    </CommentBlockStatusProvider>
+    </CommentBlockProvider>
   );
 };

@@ -4,6 +4,7 @@
 
 @theme {
   --color-thread-line: #3f3f3f;
+  --color-thread-line-hover: #ffffff;
 }
 
 :root {

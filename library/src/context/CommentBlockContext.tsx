@@ -1,16 +1,20 @@
 import { createContext, useContext, useState } from "react";
 
-const CommentBlockStatusContext = createContext<{
+const CommentBlockContext = createContext<{
   commentBlockStatus: "open-focused" | "open-blurred" | "closed";
   setCommentBlockStatus: (
     status: "open-focused" | "open-blurred" | "closed"
   ) => void;
+  isHovered: boolean;
+  setIsHovered: (isHovered: boolean) => void;
 }>({
   commentBlockStatus: "closed",
-  setCommentBlockStatus: () => {},
+  setCommentBlockStatus: () => { },
+  isHovered: false,
+  setIsHovered: () => { },
 });
 
-export const CommentBlockStatusProvider = ({
+export const CommentBlockProvider = ({
   children,
 }: {
   children: React.ReactNode;
@@ -19,17 +23,18 @@ export const CommentBlockStatusProvider = ({
     "open-focused" | "open-blurred" | "closed"
   >("closed");
 
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <CommentBlockStatusContext.Provider
-      value={{ commentBlockStatus, setCommentBlockStatus }}
+    <CommentBlockContext.Provider
+      value={{ commentBlockStatus, setCommentBlockStatus, isHovered, setIsHovered }}
     >
       {children}
-    </CommentBlockStatusContext.Provider>
+    </CommentBlockContext.Provider>
   );
 };
 
-export const useCommentBlockStatus = () => {
-  const context = useContext(CommentBlockStatusContext);
+export const useCommentBlock = () => {
+  const context = useContext(CommentBlockContext);
   if (!context) {
     throw new Error(
       "useCommentBlockStatus must be used within a CommentBlockStatusProvider"
