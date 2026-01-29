@@ -44,6 +44,18 @@ export const ReplyThreadLine = ({ type }: Props) => {
                 type === "comment" ? "min-w-[34px]" : "min-w-[24px]"
             )}
         >
+            <div className={cn(`absolute top-[-12px] bottom-0 w-[34px]`, type === "comment" ? "left-[17px]" : "left-[12px]")}>
+                <div
+                    className={`
+                                w-1/2 
+                                h-[24px]
+                                border-b 
+                                border-l 
+                                rounded-bl-full 
+                                border-thread-line
+                `}
+                />
+            </div>
             <div className="w-full h-full flex justify-end">
                 <div className="w-1/2 h-full border-l border-thread-line" />
             </div>
