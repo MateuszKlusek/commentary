@@ -31,6 +31,7 @@ export class GenericRestClient implements CommentaryActions {
     limit,
     sortBy,
     userId,
+    snapshotTime,
   }: GetParams<CommentaryActions["getTopLevelComments"]>) => {
     const res = await this.client.getTopLevelComments({
       query: {
@@ -39,6 +40,7 @@ export class GenericRestClient implements CommentaryActions {
         discussionId: this.discussionId,
         sortBy,
         userId,
+        snapshotTime,
       },
     });
 
@@ -61,6 +63,7 @@ export class GenericRestClient implements CommentaryActions {
     parentId,
     sortBy,
     userId,
+    snapshotTime,
   }: GetParams<CommentaryActions["getReplies"]>) => {
     const res = await this.client.getReplies({
       query: {
@@ -70,6 +73,7 @@ export class GenericRestClient implements CommentaryActions {
         discussionId: this.discussionId,
         sortBy,
         userId,
+        snapshotTime,
       },
     });
     if (res.status === 200) {

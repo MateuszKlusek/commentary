@@ -15,6 +15,7 @@ export const contract = c.router({
       sortBy: SortingStrategySchema,
       offset: z.coerce.number().min(0),
       limit: z.coerce.number().min(1),
+      snapshotTime: z.string(),
     }),
     responses: {
       200: z.object({
@@ -34,6 +35,7 @@ export const contract = c.router({
       sortBy: SortingStrategySchema,
       offset: z.coerce.number(),
       limit: z.coerce.number(),
+      snapshotTime: z.string(),
     }),
     responses: {
       200: z.object({

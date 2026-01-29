@@ -16,8 +16,12 @@ export function useInfiniteQuery<T>(
   const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [snapshotTime, setSnapshotTime] = useState("");
 
   const reset = () => {
+    const snapshotTime = new Date().toISOString();
+    setSnapshotTime(snapshotTime);
+
     setItems([]);
     setOffset(0);
     setTotalCount(0);
@@ -34,6 +38,7 @@ export function useInfiniteQuery<T>(
     const res = await fetcher({
       offset,
       limit: pageSize,
+      snapshotTime,
     });
 
     setItems((prev) => [...prev, ...res.items]);

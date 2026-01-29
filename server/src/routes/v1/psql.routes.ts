@@ -8,7 +8,7 @@ const s = initServer();
 
 const tsRestRouter = s.router(contract, {
   getTopLevelComments: async ({
-    query: { offset, limit, discussionId, sortBy, userId },
+    query: { offset, limit, discussionId, sortBy, userId, snapshotTime },
   }) => {
     const comments = await psqlCommentaryService.getTopLevelComments(
       discussionId,
@@ -17,6 +17,7 @@ const tsRestRouter = s.router(contract, {
         limit,
         sortBy,
         userId,
+        snapshotTime,
       },
     );
     return {
@@ -29,7 +30,15 @@ const tsRestRouter = s.router(contract, {
   },
 
   getReplies: async ({
-    query: { parentId, offset, limit, discussionId, sortBy, userId },
+    query: {
+      parentId,
+      offset,
+      limit,
+      discussionId,
+      sortBy,
+      userId,
+      snapshotTime,
+    },
   }) => {
     const replies = await psqlCommentaryService.getReplies(discussionId, {
       parentId,
@@ -37,6 +46,7 @@ const tsRestRouter = s.router(contract, {
       limit,
       sortBy,
       userId,
+      snapshotTime,
     });
     return {
       status: 200,

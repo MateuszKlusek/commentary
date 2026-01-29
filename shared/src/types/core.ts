@@ -100,7 +100,11 @@ export type PaginationParams = {
   limit: number;
 };
 
-export type InfiniteFetcher<T, P = {}> = (_: PaginationParams & P) => Promise<{
+export type SnapshotTime = { snapshotTime: string };
+
+export type InfiniteFetcher<T, P = {}> = (
+  _: PaginationParams & P & SnapshotTime,
+) => Promise<{
   items: T[];
   itemsCount: number;
 }>;
