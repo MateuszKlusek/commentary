@@ -17,8 +17,8 @@ import { CommentHeader } from "./atoms/CommentHeader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 import { UserSentimentBlock } from "./atoms/UserSentimentBlock";
-import CommentLoader from "./misc/CommentLoader";
-import { RepliesControl } from "./misc/RepliesControl";
+import CommentLoader from "./atoms/CommentLoader";
+import { RepliesControl } from "./atoms/RepliesControl";
 import { ParentThreadLine, ReplyThreadLine } from "./ThreadLine";
 
 type FetchMode = "auto" | "manual";
