@@ -6,9 +6,10 @@ type Props = {
 };
 
 export const ParentThreadLine = () => {
-    const { isHovered, setIsHovered } = useCommentBlock();
+    const { isHovered, setIsHovered, setShowReplies } = useCommentBlock();
     return (
         <commentary-thread-line className="w-full h-full flex justify-end mt-1 cursor-pointer"
+            onClick={() => setShowReplies(prev => !prev)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -22,13 +23,14 @@ export const ParentThreadLine = () => {
 };
 
 export const CurvedThreadLine = ({ type }: Props) => {
-    const { isHovered, setIsHovered } = useCommentBlock();
+    const { isHovered, setIsHovered, setShowReplies } = useCommentBlock();
     return (
         <commentary-thread-line
             className={cn(
                 "flex gap-4 relative cursor-pointer",
                 type === "comment" ? "min-w-[34px]" : "min-w-[24px]"
             )}
+            onClick={() => setShowReplies(prev => !prev)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -50,13 +52,14 @@ export const CurvedThreadLine = ({ type }: Props) => {
 };
 
 export const ReplyThreadLine = ({ type }: Props) => {
-    const { isHovered, setIsHovered } = useCommentBlock();
+    const { isHovered, setIsHovered, setShowReplies } = useCommentBlock();
     return (
         <commentary-thread-line
             className={cn(
                 "flex gap-4 relative cursor-pointer",
                 type === "comment" ? "min-w-[34px]" : "min-w-[24px]"
             )}
+            onClick={() => setShowReplies(prev => !prev)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

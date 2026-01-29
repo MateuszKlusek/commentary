@@ -33,8 +33,8 @@ export const ThreadContent = ({
   type: CommentType;
   fetchMode: FetchMode;
 }) => {
-  const [repliesShown, setRepliesShown] = useState(false);
   const [replyInputShown, setReplyInputShown] = useState(false);
+  const { showReplies } = useCommentBlock();
 
   // --------------------------------- hooks ---------------------------------
 
@@ -57,13 +57,13 @@ export const ThreadContent = ({
         ...params,
       }),
     10,
-    { initialFetch: false, enabled: repliesShown }
+    { initialFetch: false, enabled: showReplies }
   );
 
   const ref = useIntersectionObserver(
     loadMore,
     hasMore &&
-    repliesShown &&
+    showReplies &&
     // allow autofetch for top-level comments and for first page of replies
     (fetchMode === "auto" || offset === 0)
   );
@@ -73,9 +73,7 @@ export const ThreadContent = ({
     enabled: !isUserSet,
   });
 
-  // misc
   const hasReplies = Boolean(comment.commentStats?.replyCount && comment.commentStats?.replyCount > 0);
-
 
   // --------------------------------- handlers ---------------------------------
 
@@ -87,14 +85,8 @@ export const ThreadContent = ({
     setReplyInputShown(true);
   };
 
-  const handleShowMoreReplies = () => {
-    setCommentBlockStatus("open-focused");
-    setRepliesShown(true);
-  };
 
-  const handleHideReplies = () => {
-    setRepliesShown(false);
-  };
+
 
   return (
     <>
@@ -164,7 +156,7 @@ export const ThreadContent = ({
 
       </commentary-parent-comment>
 
-      <Activity mode={repliesShown ? "visible" : "hidden"}>
+      <Activity mode={showReplies ? "visible" : "hidden"}>
         {items?.map((reply,) => (
           <commentary-reply-thread className="flex flex-column gap-4 " key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
@@ -187,9 +179,6 @@ export const ThreadContent = ({
         type={type}
         hasReplies={hasReplies}
         loading={loading}
-        repliesShown={repliesShown}
-        handleHideReplies={handleHideReplies}
-        handleShowMoreReplies={handleShowMoreReplies}
       />
 
     </>

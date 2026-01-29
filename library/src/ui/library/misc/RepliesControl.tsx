@@ -1,5 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import type { CommentItem } from "@shared/src/types/core";
+import { useCommentBlock } from "../../../context/CommentBlockContext";
 import { useCopy } from "../../../context/CopyContext";
 import { handlePluralization } from "../../../copy/utils";
 import { CurvedThreadLine } from "../ThreadLine";
@@ -9,26 +10,23 @@ type Props = {
   type: "comment" | "reply";
   hasReplies: boolean;
   loading: boolean;
-  repliesShown: boolean;
-  handleHideReplies: () => void;
-  handleShowMoreReplies: () => void;
 };
 export const RepliesControl = ({
   comment,
   type,
   hasReplies,
-  handleHideReplies,
-  handleShowMoreReplies,
   loading,
-  repliesShown,
 }: Props) => {
   const { commentActionLabels } = useCopy();
+  const { showReplies, setShowReplies, setCommentBlockStatus } = useCommentBlock();
+
 
   const handleRepliesToggle = () => {
-    if (repliesShown) {
-      handleHideReplies();
+    if (showReplies) {
+      setShowReplies(false);
     } else {
-      handleShowMoreReplies();
+      setCommentBlockStatus("open-focused");
+      setShowReplies(true);
     }
   };
 
@@ -54,7 +52,7 @@ export const RepliesControl = ({
           onClick={handleRepliesToggle}
         >
           <div className="text-[14px] font-medium h-[22px]">
-            {repliesShown ? (
+            {showReplies ? (
               <div>{commentActionLabels.hideReplies}</div>
             ) : (
               <div>
@@ -65,7 +63,7 @@ export const RepliesControl = ({
               </div>
             )}
           </div>
-          {repliesShown ? (
+          {showReplies ? (
             <ChevronUpIcon width={22} height={22} strokeWidth={2} />
           ) : (
             <ChevronDownIcon width={22} height={22} strokeWidth={2} />

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, type Dispatch, type SetStateAction } from "react";
 
 const CommentBlockContext = createContext<{
   commentBlockStatus: "open-focused" | "open-blurred" | "closed";
@@ -6,12 +6,16 @@ const CommentBlockContext = createContext<{
     status: "open-focused" | "open-blurred" | "closed"
   ) => void;
   isHovered: boolean;
-  setIsHovered: (isHovered: boolean) => void;
+  setIsHovered: Dispatch<SetStateAction<boolean>>
+  showReplies: boolean;
+  setShowReplies: Dispatch<SetStateAction<boolean>>
 }>({
   commentBlockStatus: "closed",
   setCommentBlockStatus: () => { },
   isHovered: false,
   setIsHovered: () => { },
+  showReplies: false,
+  setShowReplies: () => { },
 });
 
 export const CommentBlockProvider = ({
@@ -24,9 +28,11 @@ export const CommentBlockProvider = ({
   >("closed");
 
   const [isHovered, setIsHovered] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
+
   return (
     <CommentBlockContext.Provider
-      value={{ commentBlockStatus, setCommentBlockStatus, isHovered, setIsHovered }}
+      value={{ commentBlockStatus, setCommentBlockStatus, isHovered, setIsHovered, showReplies, setShowReplies }}
     >
       {children}
     </CommentBlockContext.Provider>
