@@ -71,7 +71,6 @@ export const UserSentimentBlock = ({ comment }: Props) => {
                     userId: user.userId,
                     sentiment: finalSentiment,
                 });
-                console.log(updatedReactions)
                 setData({ likes: updatedReactions.likeCount, dislikes: updatedReactions.dislikeCount, userSentiment: finalSentiment });
             } catch (error) {
                 console.error("Failed to like:", error);
