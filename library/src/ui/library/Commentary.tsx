@@ -6,9 +6,9 @@ import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import "../index.css";
+import CommentLoader from "./atoms/CommentLoader";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
-import CommentLoader from "./atoms/CommentLoader";
 import { Thread } from "./Thread";
 
 const CommentaryComponent = () => {

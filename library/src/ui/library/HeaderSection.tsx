@@ -44,43 +44,41 @@ export const HeaderSectionContent = <T,>({
   const frozenCount = useFrozenValue(commentsCount, commentsCount > 0)
 
   return (
-    <commentary-header>
-      <section className="pb-8">
-        <HStack className="gap-4 items-center h-7 mb-6">
-          <div className="text-[20px] text-[#ffffff] font-bold">
-            {handlePluralization({
-              quantity: frozenCount,
-              rules: commentCopy,
-            })}
-          </div>
-          <SortingStrategySelector
-            options={sortingOptions}
-            value={sortBy?.toString()}
-            onValueChange={(value) => setSortBy(value as T)}
+    <commentary-header className="pb-8">
+      <HStack className="gap-4 items-center h-7 mb-6">
+        <div className="text-[20px] text-[#ffffff] font-bold">
+          {handlePluralization({
+            quantity: frozenCount,
+            rules: commentCopy,
+          })}
+        </div>
+        <SortingStrategySelector
+          options={sortingOptions}
+          value={sortBy?.toString()}
+          onValueChange={(value) => setSortBy(value as T)}
+        />
+        <span className="text-[14px] text-[#f1f1f1] font-medium">{sortByLabel}</span>
+      </HStack>
+      <HStack className="w-full gap-4 ">
+        <NoUserPopover>
+          <ImageWithLoader
+            src={user?.avatarUrl || ""}
+            className={cn(
+              "rounded-full",
+              commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
+            )}
           />
-          <span className="text-[14px] text-[#f1f1f1] font-medium">{sortByLabel}</span>
-        </HStack>
-        <HStack className="w-full gap-4 ">
-          <NoUserPopover>
-            <ImageWithLoader
-              src={user?.avatarUrl || ""}
-              className={cn(
-                "rounded-full",
-                commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
-              )}
-            />
-          </NoUserPopover>
+        </NoUserPopover>
 
-          <AddCommentBlock
-            parentId={null}
-            placeholder={addCommentPlaceholder}
-            actionButtonLabel={addCommentButtonLabel}
-            cancelButtonLabel={addCommentCancelButtonLabel}
-            type="comment"
-            handlePopoverOpen={() => setIsOpen(true)}
-          />
-        </HStack>
-      </section>
+        <AddCommentBlock
+          parentId={null}
+          placeholder={addCommentPlaceholder}
+          actionButtonLabel={addCommentButtonLabel}
+          cancelButtonLabel={addCommentCancelButtonLabel}
+          type="comment"
+          handlePopoverOpen={() => setIsOpen(true)}
+        />
+      </HStack>
     </commentary-header>
   );
 };
