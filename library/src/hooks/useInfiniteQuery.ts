@@ -7,7 +7,7 @@ export function useInfiniteQuery<T>(
   options?: {
     initialFetch?: boolean;
     enabled?: boolean;
-  }
+  },
 ) {
   const { initialFetch = false, enabled = true } = options || {};
 

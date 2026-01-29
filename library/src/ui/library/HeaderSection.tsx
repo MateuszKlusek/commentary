@@ -5,6 +5,7 @@ import {
 import { useCopy } from "../../context/CopyContext";
 import { useUser } from "../../context/UserContext";
 import { handlePluralization } from "../../copy/utils";
+import { useFrozenValue } from "../../hooks/useFrozenValue";
 import { useNoUserPopover } from "../../hooks/useNoUserPopover";
 import { cn } from "../../utils/style";
 import { HStack } from "../layout/HStack";
@@ -40,13 +41,15 @@ export const HeaderSectionContent = <T,>({
     enabled: !isUserSet,
   });
 
+  const frozenCount = useFrozenValue(commentsCount, commentsCount > 0)
+
   return (
     <commentary-header>
       <section className="pb-8">
         <HStack className="gap-4 items-center h-7 mb-6">
           <div className="text-[20px] text-[#ffffff] font-bold">
             {handlePluralization({
-              quantity: commentsCount,
+              quantity: frozenCount,
               rules: commentCopy,
             })}
           </div>
