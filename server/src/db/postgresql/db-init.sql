@@ -2,8 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     avatar_url TEXT,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -12,25 +12,28 @@ CREATE TABLE IF NOT EXISTS comments (
     user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     parent_id UUID REFERENCES comments(comment_id) ON DELETE CASCADE, 
     content TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+CREATE INDEX idx_comments_discussion_time ON comments (discussion_id, created_at DESC);
 
 CREATE TABLE IF NOT EXISTS comment_stats (
     comment_id UUID PRIMARY KEY REFERENCES comments(comment_id) ON DELETE CASCADE,
     like_count INTEGER NOT NULL DEFAULT 0,
     dislike_count INTEGER NOT NULL DEFAULT 0,
     reply_count INTEGER NOT NULL DEFAULT 0,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX idx_comment_stats_likes ON comment_stats (like_count DESC);
 
 CREATE TABLE IF NOT EXISTS user_sentiments (
     user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     comment_id UUID NOT NULL REFERENCES comments(comment_id) ON DELETE CASCADE,
     sentiment INTEGER NOT NULL CHECK (sentiment IN (-1, 0, 1)),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, comment_id)
 );
 
@@ -47,9 +50,36 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_decrement_reply_count ON comments;
-
 CREATE TRIGGER trigger_decrement_reply_count
 AFTER DELETE ON comments
 FOR EACH ROW
 EXECUTE FUNCTION decrement_parent_reply_count();
+
+-- generic timestamp update function
+CREATE OR REPLACE FUNCTION update_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_users_timestamp
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE FUNCTION update_timestamp();
+
+CREATE TRIGGER trigger_update_comments_timestamp
+BEFORE UPDATE ON comments
+FOR EACH ROW
+EXECUTE FUNCTION update_timestamp();
+
+CREATE TRIGGER trigger_update_stats_timestamp
+BEFORE UPDATE ON comment_stats
+FOR EACH ROW
+EXECUTE FUNCTION update_timestamp();
+
+CREATE TRIGGER trigger_update_sentiments_timestamp
+BEFORE UPDATE ON user_sentiments
+FOR EACH ROW
+EXECUTE FUNCTION update_timestamp();

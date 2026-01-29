@@ -40,7 +40,7 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
       SELECT COUNT(*) as total
       FROM comments
       WHERE discussion_id = $1 AND parent_id IS NOT DISTINCT FROM $2
-      AND created_at < $3
+      AND created_at <= $3
       `,
         [discussionId, parentId, snapshotTime],
       );
@@ -68,7 +68,7 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
       LEFT JOIN users u ON u.user_id = c.user_id
       LEFT JOIN user_sentiments us ON us.comment_id = c.comment_id AND us.user_id = $2
       WHERE c.discussion_id = $1 AND c.parent_id IS NOT DISTINCT FROM $3
-      AND c.created_at < $4
+      AND c.created_at <= $4
       ORDER BY c.created_at ${sortBy === "newest" ? "DESC" : "ASC"}
       LIMIT $5 OFFSET $6
       `,

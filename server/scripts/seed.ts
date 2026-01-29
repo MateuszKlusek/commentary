@@ -90,7 +90,6 @@ async function main() {
       "parent_id",
       "content",
       "created_at",
-      "updated_at",
     ],
     mapRow: (c) => [
       c.commentId,
@@ -99,7 +98,6 @@ async function main() {
       c.parentId,
       c.content,
       c.createdAt,
-      c.updatedAt,
     ],
     emptyMessage: "No comments to seed",
     successMessage: (n) => `Seeded ${n} comments`,
@@ -119,14 +117,8 @@ async function main() {
     client,
     jsonPath: "mocks/user-sentiments.json",
     table: "user_sentiments",
-    columns: ["user_id", "comment_id", "sentiment", "created_at", "updated_at"],
-    mapRow: (r) => [
-      r.userId,
-      r.commentId,
-      r.sentiment,
-      r.createdAt,
-      r.createdAt,
-    ],
+    columns: ["user_id", "comment_id", "sentiment", "created_at"],
+    mapRow: (r) => [r.userId, r.commentId, r.sentiment, r.createdAt],
     emptyMessage: "No user sentiments to seed",
     successMessage: (n) => `Seeded ${n} user sentiments`,
   });

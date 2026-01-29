@@ -14,7 +14,6 @@ export type JsonComment = {
   parentId: string | null;
   content: string;
   createdAt: string;
-  updatedAt: string;
 };
 
 export type JsonUserSentiment = {
