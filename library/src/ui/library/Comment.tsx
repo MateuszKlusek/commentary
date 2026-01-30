@@ -171,7 +171,6 @@ export const ThreadContent = ({
           </commentary-reply-thread>
         ))}
 
-
       </Activity>
 
       <RepliesControl

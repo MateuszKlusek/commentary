@@ -6,6 +6,7 @@ import { useCommentBlock } from "../../../context/CommentBlockContext";
 import { useUser } from "../../../context/UserContext";
 import { AutoTextarea } from "../AutoTextarea";
 import type { CommentType } from "../Comment";
+import { Button } from "./Button";
 
 type Props = {
   parentId: Nullable<string>;
@@ -75,18 +76,8 @@ export const AddCommentBlock = ({
       />
       {commentBlockStatus === "open-focused" && (
         <div className="flex justify-end gap-2">
-          <button
-            className="text-[#ffffff] cursor-pointer"
-            onClick={handleCancel}
-          >
-            {cancelButtonLabel}
-          </button>
-          <button
-            className="text-[#ffffff] cursor-pointer"
-            onClick={handleAddComment}
-          >
-            {actionButtonLabel}
-          </button>
+          <Button onClick={handleCancel}>{cancelButtonLabel}</Button>
+          <Button onClick={handleAddComment}>{actionButtonLabel}</Button>
         </div>
       )}
     </div>
