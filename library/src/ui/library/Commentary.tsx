@@ -7,6 +7,7 @@ import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import "../index.css";
 import CommentLoader from "./atoms/CommentLoader";
+import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
 import { Thread } from "./Thread";
@@ -47,8 +48,7 @@ const CommentaryComponent = () => {
           <Thread key={comment.comment.commentId} comment={comment} />
         ))}
 
-        {/* TODO: rethink approach */}
-        {hasMore && <div ref={ref} className="h-0.5" />}
+        {hasMore && <IntersectionSentinel ref={ref} />}
 
         {loading && <CommentLoader count={3} />}
       </Content>

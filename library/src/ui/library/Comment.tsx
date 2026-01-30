@@ -17,6 +17,7 @@ import { CommentHeader } from "./atoms/CommentHeader";
 import CommentLoader from "./atoms/CommentLoader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
+import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
 import { RepliesControl } from "./atoms/RepliesControl";
 import { UserSentimentBlock } from "./atoms/UserSentimentBlock";
 import { ParentThreadLine, ReplyThreadLine } from "./ThreadLine";
@@ -146,10 +147,7 @@ export const ThreadContent = ({
             ) : null}
           </div>
 
-
-
-
-          {hasMore && <div ref={ref} className="h-0.25" />}
+          {hasMore && <IntersectionSentinel ref={ref} />}
 
           {loading && <CommentLoader count={3} className="pb-4" skeletonAvatarSize={6} />}
         </div>
