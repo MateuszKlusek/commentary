@@ -69,7 +69,7 @@ export const HeaderSectionContent = <T,>({
             src={user?.avatarUrl || ""}
             className={cn(
               "rounded-full",
-              commentBlockStatus === "closed" ? "w-6 h-6" : "w-10 h-10"
+              commentBlockStatus === "closed" ? "min-w-6 min-h-6 w-6 h-6" : "min-w-10 min-h-10 w-10 h-10"
             )}
           />
         </NoUserPopover>

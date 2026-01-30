@@ -97,8 +97,8 @@ export const ThreadContent = ({
             alt={comment.author?.userId || ""}
             className={cn(
               "rounded-full",
-              type === "comment" && "w-9 h-9",
-              type === "reply" && "w-6 h-6"
+              type === "comment" && "min-w-9 min-h-9 w-9 h-9",
+              type === "reply" && "min-w-6 min-h-6 w-6 h-6"
             )}
             id={type === "comment" ? "comment-avatar" : "reply-avatar"}
           />
