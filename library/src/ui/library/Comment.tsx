@@ -28,12 +28,10 @@ export const ThreadContent = ({
   comment,
   type,
   fetchMode,
-  setNewComments,
 }: {
   comment: CommentItem;
   type: CommentType;
   fetchMode: FetchMode;
-  setNewComments?: Dispatch<SetStateAction<CommentItem[]>>;
 }) => {
   const [replyInputShown, setReplyInputShown] = useState(false);
   const { showReplies } = useCommentBlock();
