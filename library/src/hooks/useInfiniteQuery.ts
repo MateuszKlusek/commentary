@@ -1,8 +1,6 @@
 import type { InfiniteFetcher } from "@shared/src/types/core";
 import { useEffect, useState } from "react";
 
-const snapshotTime = new Date().toISOString();
-
 export function useInfiniteQuery<T>(
   fetcher: InfiniteFetcher<T>,
   pageSize: number,
@@ -19,12 +17,18 @@ export function useInfiniteQuery<T>(
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
+  const [snapshotTime, setSnapshotTime] = useState(() =>
+    new Date().toISOString(),
+  );
+
   const reset = () => {
     setItems([]);
     setOffset(0);
     setTotalCount(0);
     setLoading(false);
     setHasMore(true);
+
+    setSnapshotTime(new Date().toISOString());
   };
 
   const loadMore = async () => {

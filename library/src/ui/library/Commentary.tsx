@@ -27,6 +27,7 @@ const CommentaryComponent = () => {
 
   useEffect(() => {
     reset();
+    setNewTopLevelComments([]);
   }, [sortBy, user?.userId, discussionId]);
 
   const ref = useIntersectionObserver(loadMore, hasMore);
@@ -42,6 +43,7 @@ const CommentaryComponent = () => {
         sortBy={sortBy}
         setSortBy={setSortBy}
         setNewComments={setNewTopLevelComments}
+        newTopLevelCommentsCount={newTopLevelComments.length}
       />
       <Content>
         {[...newTopLevelComments, ...items]?.map((comment) => (

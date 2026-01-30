@@ -7,7 +7,7 @@ import {
 import { useCopy } from "../../context/CopyContext";
 import { useUser } from "../../context/UserContext";
 import { handlePluralization } from "../../copy/utils";
-import { useFrozenValue } from "../../hooks/useFrozenValue";
+import { useLockedValue } from "../../hooks/useLockedValue";
 import { useNoUserPopover } from "../../hooks/useNoUserPopover";
 import { cn } from "../../utils/style";
 import { HStack } from "../layout/HStack";
@@ -20,6 +20,7 @@ type Props<T> = {
   setNewComments: Dispatch<SetStateAction<CommentItem[]>>;
   sortBy: T;
   setSortBy: (sortBy: T) => void;
+  newTopLevelCommentsCount: number;
 };
 
 export const HeaderSectionContent = <T,>({
@@ -27,6 +28,7 @@ export const HeaderSectionContent = <T,>({
   sortBy,
   setSortBy,
   setNewComments,
+  newTopLevelCommentsCount
 }: Props<T>) => {
   const {
     comment: commentCopy,
@@ -45,7 +47,11 @@ export const HeaderSectionContent = <T,>({
     enabled: !isUserSet,
   });
 
-  const frozenCount = useFrozenValue(commentsCount, commentsCount > 0)
+  const frozenCount = useLockedValue({
+    lockedValue: commentsCount,
+    stableValue: newTopLevelCommentsCount,
+    condition: commentsCount > 0
+  })
 
   return (
     <commentary-header className="pb-8">
@@ -90,6 +96,7 @@ export const HeaderSectionContent = <T,>({
 
 export const HeaderSection = <T,>({
   commentsCount,
+  newTopLevelCommentsCount,
   sortBy,
   setSortBy,
   setNewComments,
@@ -101,6 +108,7 @@ export const HeaderSection = <T,>({
         sortBy={sortBy}
         setSortBy={setSortBy}
         setNewComments={setNewComments}
+        newTopLevelCommentsCount={newTopLevelCommentsCount}
       />
     </CommentBlockProvider>
   );
