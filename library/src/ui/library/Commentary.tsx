@@ -1,4 +1,4 @@
-import type { CommentaryAPI, SortingStrategy } from "@shared/src/types/core";
+import type { CommentaryAPI, CommentItem, SortingStrategy } from "@shared/src/types/core";
 import { useEffect, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import { ContextWrapper } from "../../context/ContextWrapper";
@@ -13,6 +13,7 @@ import { Thread } from "./Thread";
 
 const CommentaryComponent = () => {
   const [sortBy, setSortBy] = useState<SortingStrategy>("newest");
+  const [newTopLevelComments, setNewTopLevelComments] = useState<CommentItem[]>([]);
 
   const { getTopLevelComments, user, discussionId, customCss } =
     useCommentaryAPI();
@@ -39,12 +40,12 @@ const CommentaryComponent = () => {
         commentsCount={totalCount}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        setNewComments={setNewTopLevelComments}
       />
       <Content>
-        {items?.map((comment) => (
+        {[...newTopLevelComments, ...items]?.map((comment) => (
           <Thread key={comment.comment.commentId} comment={comment} />
         ))}
-
 
         {/* TODO: rethink approach */}
         {hasMore && <div ref={ref} className="h-0.5" />}

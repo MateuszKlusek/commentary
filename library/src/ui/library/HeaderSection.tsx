@@ -1,3 +1,5 @@
+import type { CommentItem } from "@shared/src/types/core";
+import type { Dispatch, SetStateAction } from "react";
 import {
   CommentBlockProvider,
   useCommentBlock,
@@ -15,6 +17,7 @@ import { SortingStrategySelector } from "./atoms/SortingStrategySelector";
 
 type Props<T> = {
   commentsCount: number;
+  setNewComments: Dispatch<SetStateAction<CommentItem[]>>;
   sortBy: T;
   setSortBy: (sortBy: T) => void;
 };
@@ -23,6 +26,7 @@ export const HeaderSectionContent = <T,>({
   commentsCount,
   sortBy,
   setSortBy,
+  setNewComments,
 }: Props<T>) => {
   const {
     comment: commentCopy,
@@ -77,6 +81,7 @@ export const HeaderSectionContent = <T,>({
           cancelButtonLabel={addCommentCancelButtonLabel}
           type="comment"
           handlePopoverOpen={() => setIsOpen(true)}
+          setNewComments={setNewComments}
         />
       </HStack>
     </commentary-header>
@@ -87,6 +92,7 @@ export const HeaderSection = <T,>({
   commentsCount,
   sortBy,
   setSortBy,
+  setNewComments,
 }: Props<T>) => {
   return (
     <CommentBlockProvider>
@@ -94,6 +100,7 @@ export const HeaderSection = <T,>({
         commentsCount={commentsCount}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        setNewComments={setNewComments}
       />
     </CommentBlockProvider>
   );

@@ -1,5 +1,6 @@
+import type { CommentItem } from "@shared/src/types/core";
 import type { Nullable } from "@shared/src/types/helpers";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { useCommentaryAPI } from "../../../context/CommentaryAPIContext";
 import { useCommentBlock } from "../../../context/CommentBlockContext";
 import { useUser } from "../../../context/UserContext";
@@ -14,6 +15,7 @@ type Props = {
   cancelButtonLabel: string;
   type: CommentType;
   handlePopoverOpen?: () => void;
+  setNewComments?: Dispatch<SetStateAction<CommentItem[]>>;
 };
 
 export const AddCommentBlock = ({
@@ -24,6 +26,7 @@ export const AddCommentBlock = ({
   placeholder,
   type,
   handlePopoverOpen,
+  setNewComments,
 }: Props) => {
   const [replyComment, setReplyComment] = useState("");
   const { addComment, user } = useCommentaryAPI();
@@ -47,6 +50,19 @@ export const AddCommentBlock = ({
     setCommentBlockStatus?.("open-blurred");
   };
 
+  const handleAddComment = async () => {
+    if (!user?.userId || !setNewComments) return;
+    try {
+      const newComment = await addComment(replyComment, user.userId, parentId);
+      console.log("newComment", newComment);
+      setNewComments((prev) => [newComment, ...prev]);
+      setReplyComment("");
+    } catch (error) {
+      console.error("Failed to add comment:", error);
+    }
+
+  };
+
   return (
     <div className="w-full">
       <AutoTextarea
@@ -67,8 +83,7 @@ export const AddCommentBlock = ({
           </button>
           <button
             className="text-[#ffffff] cursor-pointer"
-            onClick={() => user?.userId && addComment(replyComment, user.userId, parentId)
-            }
+            onClick={handleAddComment}
           >
             {actionButtonLabel}
           </button>

@@ -163,7 +163,8 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
       const commentId = crypto.randomUUID();
 
       await connect.query("BEGIN");
-      const commentResult = await connect.query(
+
+      await connect.query(
         `
       INSERT INTO comments (comment_id, discussion_id, user_id, parent_id, content)
       VALUES ($1, $2, $3, $4, $5)
@@ -189,8 +190,65 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
         );
       }
 
+      //
+      const commentResult = await connect.query(
+        `
+        SELECT
+          c.comment_id as comment_id,
+          c.discussion_id,
+          c.user_id,
+          c.parent_id,
+          c.content,
+          c.created_at,
+          c.updated_at,
+          cs.like_count,
+          cs.dislike_count,
+          cs.reply_count,
+          u.user_id as author_user_id,
+          u.name as author_name,
+          u.avatar_url as author_avatar_url,
+          us.sentiment as user_sentiment
+        FROM comments c
+        LEFT JOIN comment_stats cs ON cs.comment_id = c.comment_id 
+        LEFT JOIN users u ON u.user_id = c.user_id
+        LEFT JOIN user_sentiments us ON us.comment_id = c.comment_id AND us.user_id = $2
+        WHERE c.comment_id = $1
+        `,
+        [commentId, userId],
+      );
+
+      const rows: CommentItem[] = commentResult.rows.map((row) => {
+        return {
+          comment: {
+            commentId: row.comment_id,
+            discussionId: row.discussion_id,
+            userId: row.user_id,
+            parentId: row.parent_id,
+            content: row.content,
+            createdAt: row.created_at,
+            updatedAt: row.updated_at,
+          },
+          commentStats: {
+            commentId: row.comment_id,
+            likeCount: row.like_count,
+            dislikeCount: row.dislike_count,
+            replyCount: row.reply_count,
+          },
+          author: {
+            userId: row.author_user_id,
+            name: row.author_name,
+            avatarUrl: row.author_avatar_url,
+          },
+          userSentiment: {
+            commentId: row.comment_id,
+            userId: row.user_id,
+            sentiment: row.user_sentiment,
+          },
+        };
+      });
+
       await connect.query("COMMIT");
-      return commentResult.rows[0];
+      return rows[0];
     } catch (error) {
       await connect.query("ROLLBACK");
       throw error;

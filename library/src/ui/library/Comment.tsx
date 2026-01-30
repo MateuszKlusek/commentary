@@ -1,5 +1,5 @@
 import type { CommentItem } from "@shared/src/types/core";
-import { Activity, useState } from "react";
+import { Activity, type Dispatch, type SetStateAction, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import {
   CommentBlockProvider,
@@ -14,11 +14,11 @@ import { cn } from "../../utils/style";
 import { VStack } from "../layout/VStack";
 import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
+import CommentLoader from "./atoms/CommentLoader";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
-import { UserSentimentBlock } from "./atoms/UserSentimentBlock";
-import CommentLoader from "./atoms/CommentLoader";
 import { RepliesControl } from "./atoms/RepliesControl";
+import { UserSentimentBlock } from "./atoms/UserSentimentBlock";
 import { ParentThreadLine, ReplyThreadLine } from "./ThreadLine";
 
 type FetchMode = "auto" | "manual";
@@ -28,13 +28,17 @@ export const ThreadContent = ({
   comment,
   type,
   fetchMode,
+  setNewComments,
 }: {
   comment: CommentItem;
   type: CommentType;
   fetchMode: FetchMode;
+  setNewComments?: Dispatch<SetStateAction<CommentItem[]>>;
 }) => {
   const [replyInputShown, setReplyInputShown] = useState(false);
   const { showReplies } = useCommentBlock();
+  const [newReplies, setNewReplies] = useState<CommentItem[]>([]);
+
 
   // --------------------------------- hooks ---------------------------------
 
@@ -84,9 +88,6 @@ export const ThreadContent = ({
     setCommentBlockStatus("open-focused");
     setReplyInputShown(true);
   };
-
-
-
 
   return (
     <>
@@ -140,6 +141,7 @@ export const ThreadContent = ({
                   actionButtonLabel={addReplyButtonLabel}
                   cancelButtonLabel={addReplyCancelButtonLabel}
                   setReplyInputShown={setReplyInputShown}
+                  setNewComments={setNewReplies}
                   type="reply"
                 />
               </div>
@@ -157,7 +159,8 @@ export const ThreadContent = ({
       </commentary-parent-comment>
 
       <Activity mode={showReplies ? "visible" : "hidden"}>
-        {items?.map((reply,) => (
+
+        {[...newReplies, ...items]?.map((reply) => (
           <commentary-reply-thread className="flex flex-column gap-4 " key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
             <VStack>
@@ -166,6 +169,7 @@ export const ThreadContent = ({
                 comment={reply}
                 type="reply"
                 fetchMode="auto"
+                setNewComments={setNewReplies}
               />
             </VStack>
           </commentary-reply-thread>
@@ -189,6 +193,7 @@ export const ThreadContainer = (props: {
   comment: CommentItem;
   type: CommentType;
   fetchMode: FetchMode;
+  setNewComments?: Dispatch<SetStateAction<CommentItem[]>>;
 }) => {
   return (
     <CommentBlockProvider>
