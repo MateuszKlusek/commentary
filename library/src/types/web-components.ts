@@ -11,6 +11,7 @@ export const webComponentWrappers = [
   "commentary-parent-comment",
   "commentary-thread",
   "commentary-replies-control",
+  "commentary-app-loader",
 ] as const;
 
 export type Wrapper = (typeof webComponentWrappers)[number];

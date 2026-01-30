@@ -33,8 +33,7 @@ const CommentaryComponent = () => {
   const ref = useIntersectionObserver(loadMore, hasMore);
   const { isReady } = useDynamicCss(customCss);
 
-  // TODO add loader
-  if (!isReady) return <div>Loading...</div>;
+  if (!isReady) return <commentary-app-loader />
 
   return (
     <commentary-container>
