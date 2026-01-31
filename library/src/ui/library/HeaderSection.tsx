@@ -97,9 +97,9 @@ export const HeaderSectionContent = <T,>({
         </NoUserPopover>
 
         {onMountLoading ? (
-          <div className="flex flex-col gap-2 w-full self-start">
-            <GenericSkeletonItem className="h-3.5 w-1/12" />
-            <GenericSkeletonItem className="h-[2px] w-full" />
+          <div className="flex flex-col gap-2.5 w-full self-start">
+            <GenericSkeletonItem className="h-4 w-[100px]" innerClassName="rounded-full" />
+            <GenericSkeletonItem className="h-[2px] w-full" innerClassName="rounded-full" />
           </div>
         ) : (
           <AddCommentBlock

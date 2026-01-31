@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { cn } from "../../utils/style";
 
 type Props = {
@@ -14,8 +14,10 @@ export const AutoTextarea = ({
   className,
   onFocus,
   onBlur,
+  placeholder,
   ...props
 }: Props) => {
+  const [isFocused, setIsFocused] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
 
   const resize = () => {
@@ -38,28 +40,45 @@ export const AutoTextarea = ({
   };
 
   return (
-    <textarea
-      ref={ref}
-      value={value}
-      onChange={handleChange}
-      rows={1}
-      onFocus={onFocus}
-      className={cn(
-        `
+    <div className="w-full flex flex-col gap-1">
+      <textarea
+        ref={ref}
+        value={value}
+        onChange={handleChange}
+        rows={1}
+        onFocus={() => {
+          onFocus?.();
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
+        className={cn(
+          `
+        p-1
         w-full
         resize-none
         overflow-hidden
         focus:outline-none
-        border-b
-        focus:border-white
+        border-none
         px-0
-        py-1
-        leading-6
-        box-border
-      `,
-        className
-      )}
-      {...props}
-    />
+        py-0
+        bg-transparent
+        text-[14px] 
+        leading-[14px]
+        outline-none
+        `,
+          className
+        )}
+        style={{
+          height: '14px',
+          lineHeight: '20px',
+          minHeight: '14px'
+        }}
+        placeholder={placeholder}
+        {...props}
+      />
+      <div className={cn("h-0.25 bg-[#717171]", isFocused && "bg-white")} />
+    </div>
   );
 };
