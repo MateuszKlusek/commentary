@@ -65,7 +65,7 @@ export const AddCommentBlock = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col w-full gap-2">
       <AutoTextarea
         placeholder={commentBlockStatus === "closed" ? placeholder : ""}
         value={replyComment}
