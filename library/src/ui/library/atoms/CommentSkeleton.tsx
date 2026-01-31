@@ -8,7 +8,7 @@ type Props = {
   skeletonAvatarSize?: number
 };
 
-const CommentLoader = ({ count = 3, colorTo = "bg-[#ffffff33]", className, skeletonAvatarSize = 9 }: Props) => {
+const CommentSkeleton = ({ count = 3, colorTo = "bg-[#ffffff33]", className, skeletonAvatarSize = 9 }: Props) => {
   const avatarSize = skeletonAvatarSize || 9;
   return (
     <div className={cn("space-y-4", className)}>
@@ -37,4 +37,4 @@ const CommentLoader = ({ count = 3, colorTo = "bg-[#ffffff33]", className, skele
   );
 };
 
-export default CommentLoader;
+export default CommentSkeleton;

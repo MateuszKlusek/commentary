@@ -6,7 +6,7 @@ import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import "../index.css";
-import CommentLoader from "./atoms/CommentLoader";
+import CommentSkeleton from "./atoms/CommentSkeleton";
 import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
@@ -51,7 +51,7 @@ const CommentaryComponent = () => {
 
         {hasMore && <IntersectionSentinel ref={ref} />}
 
-        {loading && <CommentLoader count={3} />}
+        {loading && <CommentSkeleton count={3} />}
       </Content>
     </commentary-container>
   );

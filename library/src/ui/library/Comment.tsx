@@ -14,7 +14,7 @@ import { cn } from "../../utils/style";
 import { VStack } from "../layout/VStack";
 import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
-import CommentLoader from "./atoms/CommentLoader";
+import CommentSkeleton from "./atoms/CommentSkeleton";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
@@ -149,7 +149,7 @@ export const ThreadContent = ({
 
           {hasMore && <IntersectionSentinel ref={ref} />}
 
-          {loading && <CommentLoader count={3} className="pb-4" skeletonAvatarSize={6} />}
+          {loading && <CommentSkeleton count={3} className="pb-4" skeletonAvatarSize={6} />}
         </div>
 
       </commentary-parent-comment>
