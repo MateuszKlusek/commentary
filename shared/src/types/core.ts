@@ -50,7 +50,7 @@ export type CommentaryActions = {
   addComment(
     content: string,
     userId: User["userId"],
-    parentId: Nullable<string>,
+    parentId: Nullable<string>
   ): Promise<CommentItem>;
   handleUserSentiment({
     commentId,
@@ -84,17 +84,6 @@ export type CommentaryActionsWithDiscussionContext = WithDiscussionId<
 
 export type CommentaryAPI = CommentaryActions & CommentaryConfig;
 
-// TODO: consider using that for Mongodb-like databases with cursor pagination
-// export type InfiniteFetcher<T> =
-//   | ((params: {
-//       offset: number;
-//       limit: number;
-//     }) => Promise<{ items: T[]; itemTotal: number }>)
-//   | ((params: {
-//       cursor?: string;
-//       limit: number;
-//     }) => Promise<{ items: T[]; nextCursor?: string }>);
-
 export type PaginationParams = {
   offset: number;
   limit: number;
@@ -103,7 +92,7 @@ export type PaginationParams = {
 export type SnapshotTime = { snapshotTime: string };
 
 export type InfiniteFetcher<T, P = {}> = (
-  _: PaginationParams & P & SnapshotTime,
+  _: PaginationParams & P & SnapshotTime
 ) => Promise<{
   items: T[];
   itemsCount: number;

@@ -4,6 +4,28 @@ import { defaultCopy } from "../copy/defaults";
 
 const CopyContext = createContext(defaultCopy);
 
+
+function deepMerge(defaultCopy: Copy, providedCopy?: Copy) {
+  if (!providedCopy) return defaultCopy;
+
+  for (const key in providedCopy) {
+    const k = key as keyof Copy
+    if (providedCopy[k] instanceof Object && k in defaultCopy) {
+      const defVal = defaultCopy[k];
+      if (defVal !== undefined && typeof defVal === "object" && defVal !== null) {
+        Object.assign(
+          providedCopy[k],
+          deepMerge(defVal as Copy, providedCopy[k] as Copy)
+        );
+      }
+    }
+  }
+
+  Object.assign(defaultCopy || {}, providedCopy);
+  return defaultCopy;
+}
+
+
 export const CopyProvider = ({
   copy,
   children,
@@ -11,9 +33,8 @@ export const CopyProvider = ({
   copy?: Copy;
   children: React.ReactNode;
 }) => {
-  // TODO implement deep merge
-  //   const value = useMemo(() => deepMerge(defaultCopy, copy), [copy]);
-  const value = useMemo(() => copy ?? defaultCopy, [copy]);
+
+  const value = useMemo(() => deepMerge(defaultCopy, copy), [copy]);
 
   return <CopyContext.Provider value={value}>{children}</CopyContext.Provider>;
 };

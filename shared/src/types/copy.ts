@@ -5,12 +5,12 @@ export const QuantityRangeRuleSchema = z.array(
   z.object({
     from: z.number().int().nonnegative(),
     label: z.string(),
-  }),
+  })
 );
 
 export type QuantityRangeRule = z.infer<typeof QuantityRangeRuleSchema>;
 
-export const CopySchema = z.object({
+const CopySchemaBasis = z.object({
   language: z.string().nonempty(),
   comment: QuantityRangeRuleSchema,
   addCommentButtonLabel: z.string().nonempty(),
@@ -24,7 +24,7 @@ export const CopySchema = z.object({
       title: z.string().nonempty(),
       subtitle: z.string().nonempty(),
       value: SortingStrategySchema,
-    }),
+    })
   ),
   sortByLabel: z.string().nonempty(),
   commentActionLabels: z.object({
@@ -43,8 +43,9 @@ export const CopySchema = z.object({
   }),
 });
 
-export type Copy = z.infer<typeof CopySchema>;
-export type PartialCopy = Partial<Copy>;
+const CopySchema = CopySchemaBasis.partial();
+
+export type Copy = Partial<z.infer<typeof CopySchema>>;
 
 /**
  * A string that must contain both {quantity} and {label}
