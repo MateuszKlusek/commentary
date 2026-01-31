@@ -92,7 +92,7 @@ export class GenericRestClient implements CommentaryActions {
   addComment = async (
     content: string,
     userId: User["userId"],
-    parentId: Nullable<string>,
+    parentId: Nullable<string>
   ) => {
     const res = await this.client.addComment({
       body: {

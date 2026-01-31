@@ -27,6 +27,7 @@ function App() {
           user={user}
           discussionId={discussionId}
           customCss={customCss}
+
           // just for rerendering
           key={`${user.name}-${discussionId}`}
         />

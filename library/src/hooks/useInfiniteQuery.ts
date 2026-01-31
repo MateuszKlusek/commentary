@@ -7,7 +7,7 @@ export function useInfiniteQuery<T>(
   options?: {
     initialFetch?: boolean;
     enabled?: boolean;
-  },
+  }
 ) {
   const { initialFetch = false, enabled = true } = options || {};
 
@@ -15,10 +15,11 @@ export function useInfiniteQuery<T>(
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const [onMountLoading, setOnMountLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
 
   const [snapshotTime, setSnapshotTime] = useState(() =>
-    new Date().toISOString(),
+    new Date().toISOString()
   );
 
   const reset = () => {
@@ -52,6 +53,9 @@ export function useInfiniteQuery<T>(
     }
 
     setLoading(false);
+
+    // this will be triggered only once, since we start with onMountLoading = true
+    setOnMountLoading(false);
     console.log("ending for: ", offset, pageSize);
   };
 
@@ -64,6 +68,7 @@ export function useInfiniteQuery<T>(
     offset,
     items,
     loading,
+    onMountLoading,
     hasMore,
     totalCount,
     loadMore,

@@ -6,8 +6,8 @@ import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import "../index.css";
-import CommentSkeleton from "./atoms/CommentSkeleton";
 import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
+import { CommentSkeleton } from "./atoms/SkeletonLoaders";
 import { Content } from "./Content";
 import { HeaderSection } from "./HeaderSection";
 import { Thread } from "./Thread";
@@ -19,7 +19,7 @@ const CommentaryComponent = () => {
   const { getTopLevelComments, user, discussionId, customCss } =
     useCommentaryAPI();
 
-  const { items, loadMore, loading, hasMore, totalCount, reset } =
+  const { items, loadMore, loading, hasMore, totalCount, reset, onMountLoading } =
     useInfiniteQuery(
       (params) => getTopLevelComments({ sortBy, userId: user?.userId, ...params, }),
       10
@@ -43,6 +43,7 @@ const CommentaryComponent = () => {
         setSortBy={setSortBy}
         setNewComments={setNewTopLevelComments}
         newTopLevelCommentsCount={newTopLevelComments.length}
+        onMountLoading={onMountLoading}
       />
       <Content>
         {[...newTopLevelComments, ...items]?.map((comment) => (

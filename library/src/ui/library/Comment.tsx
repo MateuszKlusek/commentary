@@ -14,11 +14,11 @@ import { cn } from "../../utils/style";
 import { VStack } from "../layout/VStack";
 import { AddCommentBlock } from "./atoms/AddCommentBlock";
 import { CommentHeader } from "./atoms/CommentHeader";
-import CommentSkeleton from "./atoms/CommentSkeleton";
 import { CommentRender } from "./atoms/CommentRender";
 import ImageWithLoader from "./atoms/ImageWithLoader";
 import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
 import { RepliesControl } from "./atoms/RepliesControl";
+import { CommentSkeleton } from "./atoms/SkeletonLoaders";
 import { UserSentimentBlock } from "./atoms/UserSentimentBlock";
 import { ParentThreadLine, ReplyThreadLine } from "./ThreadLine";
 
