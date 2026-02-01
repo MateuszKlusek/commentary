@@ -1,25 +1,67 @@
 import type {
   CommentaryActionsWithDiscussionContext,
-  CommentItem,
   PaginationParams,
   SnapshotTime,
   SortingStrategy,
 } from "@shared/src/types/core";
 import type { UserSentiment } from "@shared/src/types/data";
 import type { Nullable } from "@shared/src/types/helpers";
+import type { PoolClient } from "pg";
 import { getPool } from "../db/postgresql/connection";
+import { PsqlCommentaryRepository } from "../repository/psql.repository";
 
-export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDiscussionContext {
-  private static instance: PsqlCommentaryServiceSingleton;
+export class PsqlCommentaryService
+  implements CommentaryActionsWithDiscussionContext
+{
+  private static instance: PsqlCommentaryService;
+  private repo: PsqlCommentaryRepository;
 
-  private constructor() {}
+  private constructor(repo: PsqlCommentaryRepository) {
+    this.repo = repo;
+  }
 
-  public static getInstance() {
-    if (!PsqlCommentaryServiceSingleton.instance) {
-      PsqlCommentaryServiceSingleton.instance =
-        new PsqlCommentaryServiceSingleton();
+  // ------------------------ private methods -------------------
+
+  private async runInTransaction<T>(
+    fn: (connect: PoolClient) => Promise<T>
+  ): Promise<T> {
+    const pool = getPool();
+    const connect = await pool.connect();
+    try {
+      await connect.query("BEGIN");
+      const result = await fn(connect); // Pass the connection to the block
+      await connect.query("COMMIT");
+      return result;
+    } catch (error) {
+      await connect.query("ROLLBACK");
+      throw error;
+    } finally {
+      connect.release();
     }
-    return PsqlCommentaryServiceSingleton.instance;
+  }
+
+  private calculateSentimentDelta(
+    oldSentiment: UserSentiment["sentiment"],
+    newSentiment: UserSentiment["sentiment"]
+  ) {
+    if (oldSentiment === -1) {
+      return [Math.abs(newSentiment), -1];
+    }
+
+    if (oldSentiment === 1) {
+      return [-1, Math.abs(newSentiment)];
+    }
+
+    return [newSentiment === 1 ? 1 : 0, newSentiment === -1 ? 1 : 0];
+  }
+
+  // ----------------------- singleton methods ------------------------
+  public static getInstance(repo?: PsqlCommentaryRepository) {
+    if (!PsqlCommentaryService.instance) {
+      const targetRepo = repo || new PsqlCommentaryRepository();
+      PsqlCommentaryService.instance = new PsqlCommentaryService(targetRepo);
+    }
+    return PsqlCommentaryService.instance;
   }
 
   // ----------------------- helpers methods ------------------------
@@ -28,88 +70,35 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
     params: PaginationParams & { sortBy: SortingStrategy } & {
       userId: Nullable<string>;
       parentId: Nullable<string>;
-    } & SnapshotTime,
+    } & SnapshotTime
   ) {
-    const pool = getPool();
-    const connect = await pool.connect();
     const { limit, offset, sortBy, userId, parentId, snapshotTime } = params;
 
     try {
-      const countResult = await connect.query<{ total: string }>(
-        `
-      SELECT COUNT(*) as total
-      FROM comments
-      WHERE discussion_id = $1 AND parent_id IS NOT DISTINCT FROM $2
-      AND created_at <= $3
-      `,
-        [discussionId, parentId, snapshotTime],
-      );
-      const itemsCount = parseInt(countResult.rows[0].total, 10);
+      return await this.runInTransaction(async (connect) => {
+        const itemsCount = await this.repo.getCommentCount({
+          discussionId,
+          parentId,
+          snapshotTime,
+          connect,
+        });
 
-      const result = await connect.query(
-        `
-      SELECT
-        c.comment_id as comment_id,
-        c.discussion_id,
-        c.user_id,
-        c.parent_id,
-        c.content,
-        c.created_at,
-        c.updated_at,
-        cs.like_count,
-        cs.dislike_count,
-        cs.reply_count,
-        u.user_id as author_user_id,
-        u.name as author_name,
-        u.avatar_url as author_avatar_url,
-        us.sentiment as user_sentiment
-      FROM comments c
-      LEFT JOIN comment_stats cs ON cs.comment_id = c.comment_id 
-      LEFT JOIN users u ON u.user_id = c.user_id
-      LEFT JOIN user_sentiments us ON us.comment_id = c.comment_id AND us.user_id = $2
-      WHERE c.discussion_id = $1 AND c.parent_id IS NOT DISTINCT FROM $3
-      AND c.created_at <= $4
-      ORDER BY c.created_at ${sortBy === "newest" ? "DESC" : "ASC"}
-      LIMIT $5 OFFSET $6
-      `,
-        [discussionId, userId, parentId, snapshotTime, limit, offset],
-      );
+        const comments = await this.repo.getComments({
+          discussionId,
+          parentId,
+          snapshotTime,
+          sortBy,
+          userId,
+          limit,
+          offset,
+          connect,
+        });
 
-      const rows: CommentItem[] = result.rows.map((row) => {
-        return {
-          comment: {
-            commentId: row.comment_id,
-            discussionId: row.discussion_id,
-            userId: row.user_id,
-            parentId: row.parent_id,
-            content: row.content,
-            createdAt: row.created_at,
-            updatedAt: row.updated_at,
-          },
-          commentStats: {
-            commentId: row.comment_id,
-            likeCount: row.like_count,
-            dislikeCount: row.dislike_count,
-            replyCount: row.reply_count,
-          },
-          author: {
-            userId: row.author_user_id,
-            name: row.author_name,
-            avatarUrl: row.author_avatar_url,
-          },
-          userSentiment: {
-            commentId: row.comment_id,
-            userId: row.user_id,
-            sentiment: row.user_sentiment,
-          },
-        };
+        return { items: comments, itemsCount };
       });
-
-      return { items: rows, itemsCount };
     } catch (error) {
-      throw error;
-    } finally {
-      connect.release();
+      console.error("Error getting comments", error);
+      throw new Error("Failed to get comments");
     }
   }
   // ----------------------- CommentaryAPI methods ------------------------
@@ -118,11 +107,11 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
     discussionId: string,
     params: PaginationParams & { sortBy: SortingStrategy } & {
       userId: Nullable<string>;
-    } & SnapshotTime,
+    } & SnapshotTime
   ) {
     const { limit, offset, sortBy, userId, snapshotTime } = params;
 
-    return this.getComments(discussionId, {
+    return await this.getComments(discussionId, {
       limit,
       offset,
       sortBy,
@@ -136,11 +125,11 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
     discussionId: string,
     params: PaginationParams & { parentId: string; sortBy: SortingStrategy } & {
       userId: Nullable<string>;
-    } & SnapshotTime,
+    } & SnapshotTime
   ) {
     const { limit, offset, sortBy, userId, parentId, snapshotTime } = params;
 
-    return this.getComments(discussionId, {
+    return await this.getComments(discussionId, {
       limit,
       offset,
       sortBy,
@@ -154,174 +143,86 @@ export class PsqlCommentaryServiceSingleton implements CommentaryActionsWithDisc
     discussionId: string,
     content: string,
     userId: string,
-    parentId: Nullable<string>,
+    parentId: Nullable<string>
   ) {
-    const pool = getPool();
-    const connect = await pool.connect();
-
     try {
       const commentId = crypto.randomUUID();
 
-      await connect.query("BEGIN");
+      return await this.runInTransaction(async (connect) => {
+        await this.repo.insertComment({
+          commentId,
+          discussionId,
+          userId,
+          parentId,
+          content,
+          connect,
+        });
 
-      await connect.query(
-        `
-      INSERT INTO comments (comment_id, discussion_id, user_id, parent_id, content)
-      VALUES ($1, $2, $3, $4, $5)
-      `,
-        [commentId, discussionId, userId, parentId, content],
-      );
+        await this.repo.insertCommentStats({
+          commentId,
+          connect,
+        });
 
-      await connect.query(
-        `
-      INSERT INTO comment_stats (comment_id, like_count, dislike_count, reply_count)
-      VALUES ($1, 0, 0, 0)
-      `,
-        [commentId],
-      );
+        // incrementing reply count for parent comment (decrementing is handled by the sql trigger)
+        if (parentId) {
+          await this.repo.incrementParentReplyCount({
+            parentId,
+            connect,
+          });
+        }
 
-      // incrementing reply count for parent comment (decrementing is handled by the sql trigger)
-      if (parentId) {
-        await connect.query(
-          `
-        UPDATE comment_stats SET reply_count = comment_stats.reply_count + 1 WHERE comment_id = $1
-          `,
-          [parentId],
-        );
-      }
+        const comment = await this.repo.getFreshComment({
+          commentId,
+          userId,
+          connect,
+        });
 
-      //
-      const commentResult = await connect.query(
-        `
-        SELECT
-          c.comment_id as comment_id,
-          c.discussion_id,
-          c.user_id,
-          c.parent_id,
-          c.content,
-          c.created_at,
-          c.updated_at,
-          cs.like_count,
-          cs.dislike_count,
-          cs.reply_count,
-          u.user_id as author_user_id,
-          u.name as author_name,
-          u.avatar_url as author_avatar_url,
-          us.sentiment as user_sentiment
-        FROM comments c
-        LEFT JOIN comment_stats cs ON cs.comment_id = c.comment_id 
-        LEFT JOIN users u ON u.user_id = c.user_id
-        LEFT JOIN user_sentiments us ON us.comment_id = c.comment_id AND us.user_id = $2
-        WHERE c.comment_id = $1
-        `,
-        [commentId, userId],
-      );
-
-      const rows: CommentItem[] = commentResult.rows.map((row) => {
-        return {
-          comment: {
-            commentId: row.comment_id,
-            discussionId: row.discussion_id,
-            userId: row.user_id,
-            parentId: row.parent_id,
-            content: row.content,
-            createdAt: row.created_at,
-            updatedAt: row.updated_at,
-          },
-          commentStats: {
-            commentId: row.comment_id,
-            likeCount: row.like_count,
-            dislikeCount: row.dislike_count,
-            replyCount: row.reply_count,
-          },
-          author: {
-            userId: row.author_user_id,
-            name: row.author_name,
-            avatarUrl: row.author_avatar_url,
-          },
-          userSentiment: {
-            commentId: row.comment_id,
-            userId: row.user_id,
-            sentiment: row.user_sentiment,
-          },
-        };
+        return comment;
       });
-
-      await connect.query("COMMIT");
-      return rows[0];
     } catch (error) {
-      await connect.query("ROLLBACK");
-      throw error;
-    } finally {
-      connect.release();
+      console.error("Error adding comment", error);
+      throw new Error("Failed to add comment");
     }
   }
 
   async handleUserSentiment({ commentId, userId, sentiment }: UserSentiment) {
-    const pool = getPool();
-    const connect = await pool.connect();
-
     try {
-      await connect.query("BEGIN");
+      return await this.runInTransaction(async (connect) => {
+        const oldSentiment = await this.repo.getSentiment({
+          userId,
+          commentId,
+          connect,
+        });
 
-      const oldSentiment = await connect
-        .query<{
-          sentiment: number;
-        }>(
-          `
-      SELECT sentiment FROM user_sentiments WHERE user_id = $1 AND comment_id = $2
-        `,
-          [userId, commentId],
-        )
-        .then((res) => res.rows[0]?.sentiment);
+        await this.repo.upsertSentiment({
+          userId,
+          commentId,
+          sentiment,
+          connect,
+        });
 
-      await connect.query(
-        `
-        INSERT INTO user_sentiments (user_id, comment_id, sentiment)
-        VALUES ($1, $2, $3)
-        ON CONFLICT (user_id, comment_id) DO UPDATE SET sentiment = $3
-        `,
-        [userId, commentId, sentiment],
-      );
+        const [likeDelta, dislikeDelta] = this.calculateSentimentDelta(
+          oldSentiment,
+          sentiment
+        );
 
-      const [likeDelta, dislikeDelta] = (() => {
-        if (oldSentiment === -1) {
-          return [Math.abs(sentiment), -1];
-        }
+        // the assumption the row is already there, you can't act on it without the row being there
+        const commentStatsResult = await this.repo.getCommentStats({
+          commentId,
+          likeDelta,
+          dislikeDelta,
+          connect,
+        });
 
-        if (oldSentiment === 1) {
-          return [-1, Math.abs(sentiment)];
-        }
-
-        return [sentiment === 1 ? 1 : 0, sentiment === -1 ? 1 : 0];
-      })();
-
-      // the assumption the row is already there, you can't act on it without the row being there
-      const commentStatsResult = await connect.query<{
-        like_count: number;
-        dislike_count: number;
-      }>(
-        `
-        UPDATE comment_stats SET like_count = like_count + $1, dislike_count = dislike_count + $2 WHERE comment_id = $3
-        RETURNING like_count, dislike_count
-        `,
-        [likeDelta, dislikeDelta, commentId],
-      );
-      await connect.query("COMMIT");
-
-      return {
-        likeCount: commentStatsResult?.rows[0]?.like_count || 0,
-        dislikeCount: commentStatsResult?.rows[0]?.dislike_count || 0,
-      };
+        return commentStatsResult;
+      });
     } catch (error) {
-      await connect.query("ROLLBACK");
-      throw error;
-    } finally {
-      connect.release();
+      console.error("Error handling user sentiment", error);
+      throw new Error("Failed to handle user sentiment");
     }
   }
 }
 
-const psqlCommentaryService = PsqlCommentaryServiceSingleton.getInstance();
+const psqlCommentaryService = PsqlCommentaryService.getInstance();
 
 export { psqlCommentaryService };

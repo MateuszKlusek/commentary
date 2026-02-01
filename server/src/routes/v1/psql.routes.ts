@@ -10,7 +10,7 @@ const tsRestRouter = s.router(contract, {
   getTopLevelComments: async ({
     query: { offset, limit, discussionId, sortBy, userId, snapshotTime },
   }) => {
-    const comments = await psqlCommentaryService.getTopLevelComments(
+    const commentsPayload = await psqlCommentaryService.getTopLevelComments(
       discussionId,
       {
         offset,
@@ -18,14 +18,11 @@ const tsRestRouter = s.router(contract, {
         sortBy,
         userId,
         snapshotTime,
-      },
+      }
     );
     return {
       status: 200,
-      body: {
-        items: comments.items,
-        itemsCount: comments.itemsCount,
-      },
+      body: commentsPayload,
     };
   },
 
@@ -40,48 +37,46 @@ const tsRestRouter = s.router(contract, {
       snapshotTime,
     },
   }) => {
-    const replies = await psqlCommentaryService.getReplies(discussionId, {
-      parentId,
-      offset,
-      limit,
-      sortBy,
-      userId,
-      snapshotTime,
-    });
+    const repliesPayload = await psqlCommentaryService.getReplies(
+      discussionId,
+      {
+        parentId,
+        offset,
+        limit,
+        sortBy,
+        userId,
+        snapshotTime,
+      }
+    );
     return {
       status: 200,
-      body: {
-        items: replies.items,
-        itemsCount: replies.itemsCount,
-      },
+      body: repliesPayload,
     };
   },
 
   addComment: async ({ body: { content, userId, parentId, discussionId } }) => {
-    const res = await psqlCommentaryService.addComment(
+    const commentPayload = await psqlCommentaryService.addComment(
       discussionId,
       content,
       userId,
-      parentId,
+      parentId
     );
     return {
       status: 200,
-      body: res,
+      body: commentPayload,
     };
   },
 
   handleUserSentiment: async ({ body: { commentId, userId, sentiment } }) => {
-    const res = await psqlCommentaryService.handleUserSentiment({
-      commentId,
-      userId,
-      sentiment,
-    });
+    const userSentimentPayload =
+      await psqlCommentaryService.handleUserSentiment({
+        commentId,
+        userId,
+        sentiment,
+      });
     return {
       status: 200,
-      body: {
-        likeCount: res.likeCount,
-        dislikeCount: res.dislikeCount,
-      },
+      body: userSentimentPayload,
     };
   },
 });

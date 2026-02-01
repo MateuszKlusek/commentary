@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { globalErrorHandler } from "../global-error";
 import router from "./routes";
 
 const app = express();
@@ -18,6 +19,8 @@ app.use((_req, _res, next) => {
 });
 
 app.use("/api", router);
+
+app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

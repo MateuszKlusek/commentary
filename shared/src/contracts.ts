@@ -22,6 +22,9 @@ export const contract = c.router({
         items: z.array(CommentItemSchema),
         itemsCount: z.number().int().min(0),
       }),
+      500: z.object({
+        error: z.string().nonempty(),
+      }),
     },
   },
 
@@ -42,6 +45,9 @@ export const contract = c.router({
         items: z.array(CommentItemSchema),
         itemsCount: z.number().int().min(0),
       }),
+      500: z.object({
+        error: z.string().nonempty(),
+      }),
     },
   },
 
@@ -56,6 +62,9 @@ export const contract = c.router({
     }),
     responses: {
       200: CommentItemSchema,
+      500: z.object({
+        error: z.string().nonempty(),
+      }),
     },
   },
 
@@ -67,6 +76,9 @@ export const contract = c.router({
       200: z.object({
         likeCount: z.number().int().min(0),
         dislikeCount: z.number().int().min(0),
+      }),
+      500: z.object({
+        error: z.string().nonempty(),
       }),
     },
   },
