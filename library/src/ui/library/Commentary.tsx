@@ -59,7 +59,7 @@ const CommentaryComponent = () => {
   );
 };
 
-export const jCommentary = (commentaryAPI: CommentaryAPI) => {
+export const Commentary = (commentaryAPI: CommentaryAPI) => {
   return (
     <ContextWrapper commentaryAPI={commentaryAPI}>
       <CommentaryComponent />
