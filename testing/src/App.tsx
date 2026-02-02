@@ -1,6 +1,6 @@
 // import { Commentary } from "@commentary";
+import { Commentary } from "@mateuszklusek/commentary";
 import { useMemo } from "react";
-import { Commentary } from "@mateuszklusek/commentary"
 import { GenericRestClient } from "./adapters/rest-adapter";
 import { useCommentaryTestingController } from "./hooks/useCommentaryTestingController";
 import customCss from "/styles/custom-css-1.css?url";

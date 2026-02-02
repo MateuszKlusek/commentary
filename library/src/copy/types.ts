@@ -1,5 +1,5 @@
 import type { QuantityRangeRule } from "@shared/src/types/copy";
-import z from "zod";
+import * as z from "zod/v4";
 
 export const createQuantityRangeSchema = (rules: QuantityRangeRule) =>
   z
