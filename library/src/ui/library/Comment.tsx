@@ -146,15 +146,14 @@ export const ThreadContent = ({
             ) : null}
           </div>
 
-          {hasMore && <IntersectionSentinel ref={ref} />}
 
-          {isRepliesLoading && <CommentSkeleton count={3} className="pb-4" skeletonAvatarSize={6} />}
         </div>
 
       </commentary-parent-comment>
 
+      {/* new replies */}
       {newReplies?.map((reply, idx) => (
-        <commentary-reply-thread className="flex flex-column gap-4" key={reply.comment.commentId}>
+        <commentary-reply-thread className="flex flex-row gap-4" key={reply.comment.commentId}>
           <ReplyThreadLine type={type} parts={showReplies || idx !== newReplies.length - 1 || replies.length > 0 ? ["straight", "curved"] : ["curved"]} />
           <VStack>
             <ThreadContainer
@@ -168,9 +167,10 @@ export const ThreadContent = ({
         </commentary-reply-thread>
       ))}
 
+      {/* replies */}
       <Activity mode={showReplies ? "visible" : "hidden"}>
         {replies?.map((reply) => (
-          <commentary-reply-thread className="flex flex-column gap-4 " key={reply.comment.commentId}>
+          <commentary-reply-thread className="flex flex-row gap-4" key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
             <VStack>
               <ThreadContainer
@@ -186,13 +186,23 @@ export const ThreadContent = ({
 
       </Activity>
 
+      {hasMore && <IntersectionSentinel ref={ref} />}
+
+      {/* skeleton loader */}
+      {isRepliesLoading && (new Array(3).fill(0).map((_, idx) => (
+        <commentary-reply-skeleton className="flex flex-row gap-4">
+          <ReplyThreadLine type={type} parts={idx !== 2 ? ["curved", "straight"] : ["curved"]} />
+          <CommentSkeleton key={`skeleton-${idx}`} className="pb-4 w-full" skeletonAvatarSize={6} count={1} />
+        </commentary-reply-skeleton>
+      ))
+      )}
+
       <RepliesControl
         comment={comment}
         type={type}
         hasReplies={hasReplies}
         loading={isRepliesLoading}
       />
-
     </>
   );
 };

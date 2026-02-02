@@ -12,6 +12,7 @@ export const webComponentWrappers = [
   "commentary-thread",
   "commentary-replies-control",
   "commentary-app-loader",
+  "commentary-reply-skeleton",
 ] as const;
 
 export type Wrapper = (typeof webComponentWrappers)[number];

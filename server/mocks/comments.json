@@ -174,5 +174,109 @@
     "parentId": "8883c96e-e4de-42b6-83b3-b44b66431ea8",
     "content": "During the intense thunderstorm, the old wooden house creaked and groaned under the weight of the wind, as rain splattered against the windows, forcing everyone inside to seek warmth and comfort together.\n\nAs the sun dipped below the horizon, painting the sky with vibrant shades of pink and orange, the waves gently lapped against the shore, reflecting the warm glow and calming all who watched silently.",
     "createdAt": "2026-01-23T01:19:42.626Z"
+  },
+  {
+    "commentId": "5e91316b-7690-449e-881c-f23696f53a99",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The medical team coordinated diagnostics, treatment plans, medication schedules, patient education, and follow-up care across departments, ensuring continuity while adapting decisions based on evolving clinical data.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "f4a83c7d-9310-412e-a2b1-128e4695078c",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "As the multiplayer game scaled globally, developers optimized latency, synchronized state across servers, prevented cheating, handled matchmaking fairness, balanced gameplay mechanics, and deployed updates without disrupting active sessions.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "a1087e5b-2491-4c3e-99f5-7d8246a3901b",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The academic review synthesized decades of research, compared methodologies, identified gaps, resolved conflicting results, and proposed future directions while maintaining rigorous standards of citation and interpretation.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "c922a41d-ef67-428a-874b-1390eaec5092",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "During the long-term space mission, astronauts managed life-support systems, conducted experiments, maintained equipment, monitored health, and supported psychological well-being while operating far from immediate rescue or resupply.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "7b3e1a0d-9284-4c5e-81f3-d5a2c4e910fb",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The enterprise migration involved disentangling tightly coupled services, auditing undocumented dependencies, rewriting brittle scripts, upgrading legacy databases, validating data consistency across environments, retraining staff, coordinating deployment windows, and maintaining customer-facing uptime, all while leadership demanded rapid progress without tolerating regressions or operational instability.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "d512a3e4-6b7c-48d9-a0e1-f23456789abc",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "As the polar research station endured months of isolation, scientists followed rigid routines involving equipment calibration, sample preservation, mental health check-ins, power management, and contingency planning, knowing that any overlooked detail could escalate into a life-threatening emergency long before external assistance became possible.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "e6f7a8b9-0c1d-4e2f-8a9b-0c1d2e3f4a5b",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The autonomous vehicle system continuously fused sensor data from cameras, radar, lidar, GPS, and inertial measurements, resolving conflicting signals, predicting object trajectories, enforcing safety constraints, and adapting driving behavior in real time despite incomplete information and unpredictable human actions.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "During the multi-day negotiation, representatives evaluated legal exposure, public perception, financial risk, internal politics, and long-term consequences, carefully phrasing every statement, revising drafts repeatedly, and pausing frequently to reassess strategy as new concessions and threats emerged.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "f9e8d7c6-b5a4-4321-8765-43210fedcba9",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The scientific review board examined experimental design, sample size justification, statistical methodology, ethical compliance, reproducibility concerns, and funding disclosures, ensuring that published conclusions reflected evidence rather than bias, pressure, or misinterpretation.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "3d4e5f6a-7b8c-49d0-a1e2-f3b4c5d6e7f8",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "As the global supply network fractured under unexpected disruptions, planners rerouted shipments, renegotiated contracts, identified substitute materials, balanced inventory buffers, and communicated constantly with partners to prevent cascading failures across dependent industries.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "8c7d6e5f-4a3b-4210-9f8e-7d6c5b4a3210",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The large-scale refactor replaced ad-hoc logic with well-defined abstractions, introduced consistent naming conventions, eliminated duplicated functionality, improved test isolation, documented assumptions, and reduced cognitive load for future maintainers without altering external behavior.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "5a4b3c2d-1e0f-49a8-b7c6-d5e4f3a2b1c0",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "While filming in extreme conditions, the crew managed battery degradation, condensation, limited visibility, safety hazards, unpredictable wildlife, and tight schedules, capturing usable footage only through discipline, redundancy, and careful risk assessment.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
+  },
+  {
+    "commentId": "a9b8c7d6-e5f4-4321-8765-43210fedcba9",
+    "discussionId": "94c61dbf-1680-41c8-9029-ecf0bb301636",
+    "userId": "84233d3d-523b-4373-8c15-5545c6f9d0f1",
+    "parentId": "3d0865d1-4d7c-4758-ae5e-0d49f14aaeb5",
+    "content": "The incident response unfolded through detection, triage, containment, eradication, recovery, and postmortem analysis, requiring precise coordination, clear communication, disciplined documentation, and rapid decision-making under incomplete and evolving information.",
+    "createdAt": "2026-01-13T09:46:47.169Z"
   }
 ]

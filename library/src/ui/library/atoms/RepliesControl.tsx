@@ -34,6 +34,8 @@ export const RepliesControl = ({
     }
   };
 
+  if (loading) return null
+
   return (
     <commentary-replies-control className="flex flex-row">
       {hasReplies && (
