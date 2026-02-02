@@ -14,8 +14,8 @@ export function useInfiniteQuery<T>(
   const [items, setItems] = useState<T[]>([]);
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [loading, setLoading] = useState(false);
-  const [onMountLoading, setOnMountLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOnMountLoading, setIsOnMountLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
 
   const [snapshotTime, setSnapshotTime] = useState(() =>
@@ -26,17 +26,17 @@ export function useInfiniteQuery<T>(
     setItems([]);
     setOffset(0);
     setTotalCount(0);
-    setLoading(false);
+    setIsLoading(false);
     setHasMore(true);
 
     setSnapshotTime(new Date().toISOString());
   };
 
   const loadMore = async () => {
-    if (loading || !hasMore || !enabled) return;
+    if (isLoading || !hasMore || !enabled) return;
     console.log("loading more", offset, pageSize);
 
-    setLoading(true);
+    setIsLoading(true);
 
     const res = await fetcher({
       offset,
@@ -52,10 +52,10 @@ export function useInfiniteQuery<T>(
       setHasMore(false);
     }
 
-    setLoading(false);
+    setIsLoading(false);
 
     // this will be triggered only once, since we start with onMountLoading = true
-    setOnMountLoading(false);
+    setIsOnMountLoading(false);
     console.log("ending for: ", offset, pageSize);
   };
 
@@ -67,8 +67,8 @@ export function useInfiniteQuery<T>(
   return {
     offset,
     items,
-    loading,
-    onMountLoading,
+    isLoading,
+    isOnMountLoading,
     hasMore,
     totalCount,
     loadMore,

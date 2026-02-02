@@ -51,7 +51,9 @@ export const CurvedThreadLine = ({ type }: Props) => {
     );
 };
 
-export const ReplyThreadLine = ({ type }: Props) => {
+type Parts = "straight" | "curved"
+
+export const ReplyThreadLine = ({ type, parts = ["straight", "curved"] }: Props & { parts?: Parts[] }) => {
     const { isHovered, setIsHovered, setShowReplies } = useCommentBlock();
     return (
         <commentary-thread-line
@@ -63,21 +65,25 @@ export const ReplyThreadLine = ({ type }: Props) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className={cn(`absolute top-0 bottom-0 w-[34px]`, type === "comment" ? "left-[17px]" : "left-[12px]")}>
-                <div
-                    className={cn(
-                        "w-1/2 h-[12px] border-b border-l rounded-bl-full border-thread-line",
+            {parts.includes("curved") && (
+                <div className={cn(`absolute top-0 bottom-0 w-[34px]`, type === "comment" ? "left-[17px]" : "left-[12px]")}>
+                    <div
+                        className={cn(
+                            "w-1/2 h-[12px] border-b border-l rounded-bl-full border-thread-line",
+                            isHovered && "border-thread-line-hover"
+                        )}
+                    />
+                </div>
+            )}
+            {parts.includes("straight") && (
+                <div className="w-full h-full flex justify-end">
+                    <div className={cn(
+                        "w-1/2 h-full border-l border-thread-line",
                         isHovered && "border-thread-line-hover"
                     )}
-                />
-            </div>
-            <div className="w-full h-full flex justify-end">
-                <div className={cn(
-                    "w-1/2 h-full border-l border-thread-line",
-                    isHovered && "border-thread-line-hover"
-                )}
-                />
-            </div>
+                    />
+                </div>
+            )}
         </commentary-thread-line>
     );
 };

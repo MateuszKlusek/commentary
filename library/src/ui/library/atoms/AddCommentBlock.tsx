@@ -17,6 +17,7 @@ type Props = {
   type: CommentType;
   handlePopoverOpen?: () => void;
   setNewComments?: Dispatch<SetStateAction<CommentItem[]>>;
+  onCommentAdded?: () => void;
 };
 
 export const AddCommentBlock = ({
@@ -28,8 +29,9 @@ export const AddCommentBlock = ({
   type,
   handlePopoverOpen,
   setNewComments,
+  onCommentAdded,
 }: Props) => {
-  const [replyComment, setReplyComment] = useState("");
+  const [commentText, setCommentText] = useState("");
   const { addComment, user } = useCommentaryAPI();
   const { commentBlockStatus, setCommentBlockStatus } = useCommentBlock();
   const { isUserSet } = useUser();
@@ -54,10 +56,11 @@ export const AddCommentBlock = ({
   const handleAddComment = async () => {
     if (!user?.userId || !setNewComments) return;
     try {
-      const newComment = await addComment(replyComment, user.userId, parentId);
+      const newComment = await addComment(commentText, user.userId, parentId);
       console.log("newComment", newComment);
       setNewComments((prev) => [newComment, ...prev]);
-      setReplyComment("");
+      setCommentText("");
+      onCommentAdded?.();
     } catch (error) {
       console.error("Failed to add comment:", error);
     }
@@ -68,9 +71,9 @@ export const AddCommentBlock = ({
     <div className="flex flex-col w-full gap-2">
       <AutoTextarea
         placeholder={commentBlockStatus === "closed" ? placeholder : ""}
-        value={replyComment}
+        value={commentText}
         id="reply-textarea"
-        onChange={(e) => setReplyComment(e.target.value)}
+        onChange={(e) => setCommentText(e.target.value)}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
       />

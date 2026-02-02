@@ -22,7 +22,7 @@ type Props<T> = {
   sortBy: T;
   setSortBy: (sortBy: T) => void;
   newTopLevelCommentsCount: number;
-  onMountLoading: boolean;
+  isOnMountLoading: boolean;
 };
 
 export const HeaderSectionContent = <T,>({
@@ -31,7 +31,7 @@ export const HeaderSectionContent = <T,>({
   setSortBy,
   setNewComments,
   newTopLevelCommentsCount,
-  onMountLoading
+  isOnMountLoading
 }: Props<T>) => {
   const {
     comment: commentCopy,
@@ -59,7 +59,7 @@ export const HeaderSectionContent = <T,>({
   return (
     <commentary-header className="flex flex-col pb-5 gap-6">
       <HStack className="gap-4 items-center ">
-        {onMountLoading ? (
+        {isOnMountLoading ? (
           <GenericSkeletonItem className="h-[28px] w-[180px]" />
         ) : (
           <div className="text-[20px] text-[#ffffff] font-bold">
@@ -68,7 +68,7 @@ export const HeaderSectionContent = <T,>({
               rules: commentCopy,
             })}
           </div>)}
-        {onMountLoading ? (
+        {isOnMountLoading ? (
           <GenericSkeletonItem className="h-[28px] w-[80px]" />
         ) : (
           <>
@@ -83,7 +83,7 @@ export const HeaderSectionContent = <T,>({
       </HStack>
       <HStack className="w-full gap-4 min-h-10">
         <NoUserPopover>
-          {onMountLoading ? (
+          {isOnMountLoading ? (
             <GenericSkeletonItem className="h-[40px] w-[40px]" innerClassName="rounded-full" />
           ) : (
             <ImageWithLoader
@@ -96,7 +96,7 @@ export const HeaderSectionContent = <T,>({
           )}
         </NoUserPopover>
 
-        {onMountLoading ? (
+        {isOnMountLoading ? (
           <div className="flex flex-col gap-2.5 w-full self-start">
             <GenericSkeletonItem className="h-4 w-[100px]" innerClassName="rounded-full" />
             <GenericSkeletonItem className="h-[2px] w-full" innerClassName="rounded-full" />
@@ -122,7 +122,7 @@ export const HeaderSection = <T,>({
   sortBy,
   setSortBy,
   setNewComments,
-  onMountLoading,
+  isOnMountLoading,
 }: Props<T>) => {
   return (
     <CommentBlockProvider>
@@ -132,7 +132,7 @@ export const HeaderSection = <T,>({
         setSortBy={setSortBy}
         setNewComments={setNewComments}
         newTopLevelCommentsCount={newTopLevelCommentsCount}
-        onMountLoading={onMountLoading}
+        isOnMountLoading={isOnMountLoading}
       />
     </CommentBlockProvider>
   );

@@ -38,7 +38,6 @@ export const ThreadContent = ({
   const { showReplies } = useCommentBlock();
   const [newReplies, setNewReplies] = useState<CommentItem[]>([]);
 
-
   // --------------------------------- hooks ---------------------------------
 
   const { getReplies, onUserNameClick } =
@@ -51,7 +50,7 @@ export const ThreadContent = ({
     addReplyPlaceholder,
   } = useCopy();
 
-  const { items, loadMore, loading, hasMore, offset } = useInfiniteQuery(
+  const { items, loadMore, isLoading: isRepliesLoading, hasMore, offset } = useInfiniteQuery(
     (params) =>
       getReplies({
         parentId: comment.comment.commentId,
@@ -102,7 +101,7 @@ export const ThreadContent = ({
             )}
             id={type === "comment" ? "comment-avatar" : "reply-avatar"}
           />
-          {hasReplies && (
+          {(hasReplies || newReplies.length > 0) && (
             <ParentThreadLine />
           )}
 
@@ -149,14 +148,28 @@ export const ThreadContent = ({
 
           {hasMore && <IntersectionSentinel ref={ref} />}
 
-          {loading && <CommentSkeleton count={3} className="pb-4" skeletonAvatarSize={6} />}
+          {isRepliesLoading && <CommentSkeleton count={3} className="pb-4" skeletonAvatarSize={6} />}
         </div>
 
       </commentary-parent-comment>
 
-      <Activity mode={showReplies ? "visible" : "hidden"}>
+      {newReplies?.map((reply, idx) => (
+        <commentary-reply-thread className="flex flex-column gap-4" key={reply.comment.commentId}>
+          <ReplyThreadLine type={type} parts={showReplies || idx !== newReplies.length - 1 || items.length > 0 ? ["straight", "curved"] : ["curved"]} />
+          <VStack>
+            <ThreadContainer
+              key={reply.comment.commentId}
+              comment={reply}
+              type="reply"
+              fetchMode="auto"
+              setNewComments={setNewReplies}
+            />
+          </VStack>
+        </commentary-reply-thread>
+      ))}
 
-        {[...newReplies, ...items]?.map((reply) => (
+      <Activity mode={showReplies ? "visible" : "hidden"}>
+        {items?.map((reply) => (
           <commentary-reply-thread className="flex flex-column gap-4 " key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
             <VStack>
@@ -177,7 +190,7 @@ export const ThreadContent = ({
         comment={comment}
         type={type}
         hasReplies={hasReplies}
-        loading={loading}
+        loading={isRepliesLoading}
       />
 
     </>

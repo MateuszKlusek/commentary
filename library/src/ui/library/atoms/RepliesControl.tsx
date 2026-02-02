@@ -10,18 +10,22 @@ type Props = {
   type: "comment" | "reply";
   hasReplies: boolean;
   loading: boolean;
+  onRepliesToggle?: () => void;
 };
 export const RepliesControl = ({
   comment,
   type,
   hasReplies,
   loading,
+  onRepliesToggle,
 }: Props) => {
   const { commentActionLabels } = useCopy();
   const { showReplies, setShowReplies, setCommentBlockStatus } = useCommentBlock();
 
 
   const handleRepliesToggle = () => {
+    onRepliesToggle?.();
+
     if (showReplies) {
       setShowReplies(false);
     } else {

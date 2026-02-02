@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import { HStack } from "../../../library/src/ui/layout/HStack";
 import { VStack } from "../../../library/src/ui/layout/VStack";
 
+import type { Nullable } from "@shared/src/types/helpers";
 import { cn } from "../../../library/src/utils/style";
 import { Separator } from "../components/Separator";
-import type { Nullable } from "@shared/src/types/helpers";
 
 const CONFIG = {
   baseUrl: "http://localhost:3000/api/v1/psql",
@@ -57,7 +57,7 @@ export const useCommentaryTestingController = () => {
     },
     discussionId,
     baseUrl: CONFIG.baseUrl,
-    TestingController: Component,
+    TestingControllerComponent: Component,
   };
 };
 

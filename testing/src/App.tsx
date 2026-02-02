@@ -5,7 +5,7 @@ import { useCommentaryTestingController } from "./hooks/useCommentaryTestingCont
 import customCss from "/styles/custom-css-1.css?url";
 
 function App() {
-  const { user, discussionId, baseUrl, TestingController } =
+  const { user, discussionId, baseUrl, TestingControllerComponent } =
     useCommentaryTestingController();
 
   const client = useMemo(() => {
@@ -18,7 +18,7 @@ function App() {
   return (
     <>
       <div className="w-full p-10 flex flex-col gap-2 container mx-auto">
-        {TestingController}
+        {TestingControllerComponent}
         <Commentary
           getTopLevelComments={client.getTopLevelComments}
           getReplies={client.getReplies}
