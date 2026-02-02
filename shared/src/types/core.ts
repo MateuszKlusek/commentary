@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import * as z from "zod/v4";
 import type { Copy } from "./copy";
 import {
@@ -63,9 +64,11 @@ export type CommentaryActions = {
 export type CommentaryConfig = {
   discussionId: Nullable<string>;
   user?: User;
-  validationMode?: "warn" | "strict" | "silent";
   customCss?: Nullable<string>;
   copy?: Copy;
+  validationMode?: "warn" | "strict" | "silent";
+  mode?: "development" | "production";
+  errorBoundaryFallback?: ReactNode;
 };
 
 export type WithDiscussionId<T, I extends any, K extends keyof T> = {

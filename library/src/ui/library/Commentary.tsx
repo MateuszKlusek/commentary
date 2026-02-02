@@ -6,6 +6,7 @@ import { useDynamicCss } from "../../hooks/useDynamicCss";
 import { useInfiniteQuery } from "../../hooks/useInfiniteQuery";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import "../index.css";
+import { CommentaryErrorBoundary } from "./atoms/ErrorBoundary";
 import { IntersectionSentinel } from "./atoms/IntersectionSentinel";
 import { CommentSkeleton } from "./atoms/SkeletonLoaders";
 import { Content } from "./Content";
@@ -61,8 +62,10 @@ const CommentaryComponent = () => {
 
 export const Commentary = (commentaryAPI: CommentaryAPI) => {
   return (
-    <ContextWrapper commentaryAPI={commentaryAPI}>
-      <CommentaryComponent />
-    </ContextWrapper>
+    <CommentaryErrorBoundary fallback={commentaryAPI.errorBoundaryFallback}>
+      <ContextWrapper commentaryAPI={commentaryAPI}>
+        <CommentaryComponent />
+      </ContextWrapper>
+    </CommentaryErrorBoundary>
   );
 };
