@@ -6,6 +6,9 @@
   "exports": {
     ".": "./src/embed/react/index.ts"
   },
+  "main": "./dist/commentary.umd.js",
+  "module": "./dist/commentary.es.js",
+  "types": "./dist/commentary.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -55,5 +58,9 @@
     "playwright": "^1.58.0",
     "@vitest/browser-playwright": "4.0.17",
     "@vitest/coverage-v8": "4.0.17"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   }
 }

@@ -14,4 +14,22 @@ export default defineConfig({
   resolve: {
     alias: aliasResolution,
   },
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, "./src/ui/library/Commentary.tsx"),
+      name: "Commentary",
+      formats: ["es", "umd"],
+      fileName: (format) => `commentary.${format}.js`,
+      cssFileName: "style",
+    },
+    rollupOptions: {
+      external: ["react", "react-dom"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
+    },
+  },
 });
