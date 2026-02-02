@@ -1,5 +1,6 @@
-import { Commentary } from "@commentary";
+// import { Commentary } from "@commentary";
 import { useMemo } from "react";
+import { Commentary } from "@mateuszklusek/commentary"
 import { GenericRestClient } from "./adapters/rest-adapter";
 import { useCommentaryTestingController } from "./hooks/useCommentaryTestingController";
 import customCss from "/styles/custom-css-1.css?url";
@@ -31,6 +32,7 @@ function App() {
         // just for rerendering
         key={`${user.name}-${discussionId}`}
       />
+
     </div>
   );
 }
