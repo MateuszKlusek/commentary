@@ -80,7 +80,7 @@ export const AddCommentBlock = ({
       {commentBlockStatus === "open-focused" && (
         <div className="flex justify-end gap-2">
           <Button onClick={handleCancel}>{cancelButtonLabel}</Button>
-          <Button onClick={handleAddComment}>{actionButtonLabel}</Button>
+          <Button onClick={handleAddComment} disabled={!commentText}>{actionButtonLabel}</Button>
         </div>
       )}
     </div>
