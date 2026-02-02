@@ -12,7 +12,7 @@ export const Button = ({ onClick, className, children, disabled = false }: Butto
         <button
             disabled={disabled}
             className={cn(`
-                w-fit flex text-[#ffffff] cursor-pointer hover:bg-white/20 rounded-full px-2 py-2 gap-1 disabled:opacity-50 disabled:bg-white/20 disabled:cursor-auto`,
+                w-fit flex text-[#ffffff] cursor-pointer hover:bg-white/20 rounded-full px-2 py-2 gap-1 disabled:opacity-50 disabled:bg-white/20 disabled:cursor-autokj`,
                 className)}
             onClick={onClick}>
             {children}

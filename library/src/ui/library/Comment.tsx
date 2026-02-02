@@ -107,7 +107,7 @@ export const ThreadContent = ({
 
         </div>
 
-        <div className="flex flex-col gap-0 w-full">
+        <div className="flex flex-col gap-2 w-full">
           <CommentHeader comment={comment} onUserNameClick={onUserNameClick} />
 
           <CommentRender text={comment.comment.content} />
