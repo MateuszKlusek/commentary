@@ -6,6 +6,9 @@
   "exports": {
     ".": "./src/embed/react/index.ts"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/commentary.umd.js",
   "module": "./dist/commentary.es.js",
   "types": "./dist/commentary.d.ts",
