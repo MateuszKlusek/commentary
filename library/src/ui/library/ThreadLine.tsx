@@ -28,7 +28,7 @@ export const CurvedThreadLine = ({ type }: Props) => {
         <commentary-thread-line
             className={cn(
                 "flex gap-4 relative cursor-pointer",
-                type === "comment" ? "min-w-[34px]" : "min-w-[24px]"
+                type === "comment" ? "min-w-[36px]" : "min-w-[24px]"
             )}
             onClick={() => setShowReplies(prev => !prev)}
             onMouseEnter={() => setIsHovered(true)}
@@ -59,14 +59,14 @@ export const ReplyThreadLine = ({ type, parts = ["straight", "curved"] }: Props 
         <commentary-thread-line
             className={cn(
                 "flex gap-4 relative cursor-pointer",
-                type === "comment" ? "min-w-[34px]" : "min-w-[24px]"
+                type === "comment" ? "min-w-[36px]" : "min-w-[24px]"
             )}
             onClick={() => setShowReplies(prev => !prev)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {parts.includes("curved") && (
-                <div className={cn(`absolute top-0 bottom-0 w-[34px]`, type === "comment" ? "left-[17px]" : "left-[12px]")}>
+                <div className={cn(`absolute top-0 bottom-0 w-[36px]`, type === "comment" ? "left-[18px]" : "left-[12px]")}>
                     <div
                         className={cn(
                             "w-1/2 h-[12px] border-b border-l rounded-bl-full border-thread-line",

@@ -186,7 +186,6 @@ export const ThreadContent = ({
 
       </Activity>
 
-      {hasMore && <IntersectionSentinel ref={ref} />}
 
       {/* skeleton loader */}
       {isRepliesLoading && (new Array(3).fill(0).map((_, idx) => (
@@ -203,6 +202,8 @@ export const ThreadContent = ({
         hasReplies={hasReplies}
         loading={isRepliesLoading}
       />
+
+      {hasMore && <IntersectionSentinel ref={ref} />}
     </>
   );
 };
