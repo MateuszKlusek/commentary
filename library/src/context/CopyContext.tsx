@@ -1,11 +1,11 @@
-import type { Copy } from "@shared/src/types/copy";
+import type { CompleteCopy, Copy } from "@shared/src/types/copy";
 import { createContext, useContext, useMemo } from "react";
 import { defaultCopy } from "../copy/defaults";
 
 const CopyContext = createContext(defaultCopy);
 
 
-function deepMerge(defaultCopy: Copy, providedCopy?: Copy) {
+function deepMerge(defaultCopy: CompleteCopy, providedCopy?: Copy) {
   if (!providedCopy) return defaultCopy;
 
   for (const key in providedCopy) {
@@ -15,14 +15,14 @@ function deepMerge(defaultCopy: Copy, providedCopy?: Copy) {
       if (defVal !== undefined && typeof defVal === "object" && defVal !== null) {
         Object.assign(
           providedCopy[k],
-          deepMerge(defVal as Copy, providedCopy[k] as Copy)
+          deepMerge(defVal as unknown as CompleteCopy, providedCopy[k] as Copy)
         );
       }
     }
   }
 
   Object.assign(defaultCopy || {}, providedCopy);
-  return defaultCopy;
+  return defaultCopy
 }
 
 

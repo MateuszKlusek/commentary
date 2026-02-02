@@ -16,23 +16,22 @@ function App() {
   }, [discussionId, baseUrl]);
 
   return (
-    <>
-      <div className="w-full p-10 flex flex-col gap-2 container mx-auto">
-        {TestingControllerComponent}
-        <Commentary
-          getTopLevelComments={client.getTopLevelComments}
-          getReplies={client.getReplies}
-          addComment={client.addComment}
-          handleUserSentiment={client.handleUserSentiment}
-          user={user}
-          discussionId={discussionId}
-          customCss={customCss}
 
-          // just for rerendering
-          key={`${user.name}-${discussionId}`}
-        />
-      </div>
-    </>
+    <div className="w-full p-10 flex flex-col gap-2 container mx-auto">
+      {TestingControllerComponent}
+      <Commentary
+        getTopLevelComments={client.getTopLevelComments}
+        getReplies={client.getReplies}
+        addComment={client.addComment}
+        handleUserSentiment={client.handleUserSentiment}
+        user={user}
+        discussionId={discussionId}
+        customCss={customCss}
+
+        // just for rerendering
+        key={`${user.name}-${discussionId}`}
+      />
+    </div>
   );
 }
 

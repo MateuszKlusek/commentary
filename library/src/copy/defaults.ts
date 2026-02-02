@@ -1,7 +1,7 @@
-import type { Copy } from "@shared/src/types/copy";
+import type { CompleteCopy } from "@shared/src/types/copy";
 import { SortingStrategySchema } from "@shared/src/types/core";
 
-export const defaultCopy: Copy = {
+export const defaultCopy: CompleteCopy = {
   language: "en",
   comment: [
     {

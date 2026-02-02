@@ -50,7 +50,7 @@ export const ThreadContent = ({
     addReplyPlaceholder,
   } = useCopy();
 
-  const { items, loadMore, isLoading: isRepliesLoading, hasMore, offset } = useInfiniteQuery(
+  const { items: replies, loadMore, isLoading: isRepliesLoading, hasMore, offset } = useInfiniteQuery(
     (params) =>
       getReplies({
         parentId: comment.comment.commentId,
@@ -155,7 +155,7 @@ export const ThreadContent = ({
 
       {newReplies?.map((reply, idx) => (
         <commentary-reply-thread className="flex flex-column gap-4" key={reply.comment.commentId}>
-          <ReplyThreadLine type={type} parts={showReplies || idx !== newReplies.length - 1 || items.length > 0 ? ["straight", "curved"] : ["curved"]} />
+          <ReplyThreadLine type={type} parts={showReplies || idx !== newReplies.length - 1 || replies.length > 0 ? ["straight", "curved"] : ["curved"]} />
           <VStack>
             <ThreadContainer
               key={reply.comment.commentId}
@@ -169,7 +169,7 @@ export const ThreadContent = ({
       ))}
 
       <Activity mode={showReplies ? "visible" : "hidden"}>
-        {items?.map((reply) => (
+        {replies?.map((reply) => (
           <commentary-reply-thread className="flex flex-column gap-4 " key={reply.comment.commentId}>
             <ReplyThreadLine type={type} />
             <VStack>

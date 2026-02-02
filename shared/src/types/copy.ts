@@ -45,6 +45,7 @@ const CopySchemaBasis = z.object({
 
 const CopySchema = CopySchemaBasis.partial();
 
+export type CompleteCopy = z.infer<typeof CopySchemaBasis>;
 export type Copy = Partial<z.infer<typeof CopySchema>>;
 
 /**

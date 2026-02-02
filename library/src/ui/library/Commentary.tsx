@@ -31,7 +31,7 @@ const CommentaryComponent = () => {
   }, [sortBy, user?.userId, discussionId]);
 
   const ref = useIntersectionObserver(loadMore, hasMore);
-  
+
   const { isReady } = useDynamicCss(customCss);
 
   if (!isReady) return <commentary-app-loader />
@@ -59,7 +59,7 @@ const CommentaryComponent = () => {
   );
 };
 
-export const Commentary = (commentaryAPI: CommentaryAPI) => {
+export const jCommentary = (commentaryAPI: CommentaryAPI) => {
   return (
     <ContextWrapper commentaryAPI={commentaryAPI}>
       <CommentaryComponent />
