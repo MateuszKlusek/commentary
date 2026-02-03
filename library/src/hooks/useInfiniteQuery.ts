@@ -5,6 +5,28 @@ import { useCommentaryAPI } from "../context/CommentaryAPIContext";
 import { PayloadValidationError } from "../utils/errors";
 import { validationManager } from "../utils/validation";
 
+type State<T> = {
+  items: T[];
+  offset: number;
+  totalCount: number;
+  isLoading: boolean;
+  isOnMountLoading: boolean;
+  hasMore: boolean;
+  error: Error | null;
+  snapshotTime: string;
+};
+
+const initialState = {
+  items: [],
+  offset: 0,
+  totalCount: 0,
+  isLoading: false,
+  isOnMountLoading: true,
+  hasMore: true,
+  error: null,
+  snapshotTime: new Date().toISOString(),
+};
+
 /**
  * @param validator - Pass safe validator to validate the data after it is fetched.
  */
@@ -28,40 +50,27 @@ export function useInfiniteQuery<T>(
     validator?: (data: T) => ZodSafeParseResult<T>;
   } = options || {};
 
-  const [items, setItems] = useState<T[]>([]);
-  const [offset, setOffset] = useState(0);
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOnMountLoading, setIsOnMountLoading] = useState(true);
-  const [hasMore, setHasMore] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [state, setState] = useState<State<T>>(initialState);
 
   const { validationMode } = useCommentaryAPI();
-  const [snapshotTime, setSnapshotTime] = useState(() =>
-    new Date().toISOString()
-  );
 
   const reset = () => {
-    setItems([]);
-    setOffset(0);
-    setTotalCount(0);
-    setIsLoading(false);
-    setHasMore(true);
-
-    setSnapshotTime(new Date().toISOString());
+    setState((prev) => ({
+      ...prev,
+      ...initialState,
+      snapshotTime: new Date().toISOString(),
+    }));
   };
 
   const loadMore = async () => {
     try {
-      if (isLoading || !hasMore || !enabled) return;
-      console.log("loading more", offset, pageSize);
-
-      setIsLoading(true);
+      if (state.isLoading || !state.hasMore || !enabled) return;
+      setState((prev) => ({ ...prev, isLoading: true }));
 
       const res = await fetcher({
-        offset,
+        offset: state.offset,
         limit: pageSize,
-        snapshotTime,
+        snapshotTime: state.snapshotTime,
       });
 
       if (validator) {
@@ -78,27 +87,31 @@ export function useInfiniteQuery<T>(
           }
         }
 
-        setItems((prev) => [...prev, ...cleanItems]);
+        setState((prev) => ({
+          ...prev,
+          items: [...prev.items, ...cleanItems],
+        }));
       } else {
-        setItems((prev) => [...prev, ...res.items]);
+        setState((prev) => ({ ...prev, items: [...prev.items, ...res.items] }));
       }
 
-      setOffset((prev) => prev + res.items.length);
-      setTotalCount(res.itemsCount);
+      // offset deals with all items, not only validated ones
+      setState((prev) => ({ ...prev, offset: prev.offset + res.items.length }));
+      setState((prev) => ({ ...prev, totalCount: res.itemsCount }));
 
-      if (offset + res.items.length >= res.itemsCount) {
-        setHasMore(false);
+      if (state.offset + res.items.length >= res.itemsCount) {
+        setState((prev) => ({ ...prev, hasMore: false }));
       }
-
-      console.log("ending for: ", offset, pageSize);
     } catch (error) {
-      setError(error as Error);
+      setState((prev) => ({ ...prev, error: error as Error }));
     } finally {
-      setIsLoading(false);
-      setHasMore(false);
-
       // this will be triggered only once, since we start with onMountLoading = true
-      setIsOnMountLoading(false);
+      setState((prev) => ({
+        ...prev,
+        isLoading: false,
+        hasMore: false,
+        isOnMountLoading: false,
+      }));
     }
   };
 
@@ -108,14 +121,8 @@ export function useInfiniteQuery<T>(
   }, [initialFetch, enabled]);
 
   return {
-    offset,
-    items,
-    isLoading,
-    isOnMountLoading,
-    hasMore,
-    totalCount,
+    ...state,
     loadMore,
     reset,
-    error,
   };
 }
