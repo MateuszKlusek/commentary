@@ -53,7 +53,7 @@ export class CommentaryErrorBoundary extends Component<Props, State> {
             return (
                 <div className="p-4 border border-red-500 rounded-md">
                     <h3 className="text-lg font-bold">Something went wrong</h3>
-                    <p className="text-sm text-gray-500">{error}</p>
+                    <p className="text-sm text-gray-500">{JSON.stringify(error)}</p>
                 </div>
             );
 
