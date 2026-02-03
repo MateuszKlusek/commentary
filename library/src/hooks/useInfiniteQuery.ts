@@ -63,8 +63,9 @@ export function useInfiniteQuery<T>(
   };
 
   const loadMore = async () => {
+    if (state.isLoading || !state.hasMore || !enabled) return;
+
     try {
-      if (state.isLoading || !state.hasMore || !enabled) return;
       setState((prev) => ({ ...prev, isLoading: true }));
 
       const res = await fetcher({
