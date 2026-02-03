@@ -62,7 +62,7 @@ const CommentaryComponent = () => {
 
 export const Commentary = (commentaryAPI: CommentaryAPI) => {
   return (
-    <CommentaryErrorBoundary fallback={commentaryAPI.errorBoundaryFallback}>
+    <CommentaryErrorBoundary>
       <ContextWrapper commentaryAPI={commentaryAPI}>
         <CommentaryComponent />
       </ContextWrapper>

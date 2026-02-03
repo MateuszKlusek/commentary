@@ -1,35 +1,64 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { COMMENTARY_NAME } from "../../../constants";
+import { CommentaryIntegrationError } from "../../../utils/errors";
 
 interface Props {
     children: ReactNode;
-    fallback?: ReactNode;
+    fallback?: ReactNode | ((error: Error, reset: () => void) => ReactNode);
 }
 
 interface State {
     hasError: boolean;
+    error: Error | null;
 }
 
 export class CommentaryErrorBoundary extends Component<Props, State> {
-    public state: State = { hasError: false };
+    constructor(props: Props) {
+        super(props);
+        this.state = { hasError: false, error: null };
+    }
 
-    public static getDerivedStateFromError(_: Error): State {
-        return { hasError: true };
+    public static getDerivedStateFromError(error: Error): State {
+        return { hasError: true, error };
     }
 
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        console.error(`[${COMMENTARY_NAME}] Crashed:`, error, errorInfo);
+        console.error(`[${COMMENTARY_NAME}] Internal Crash:`, error, errorInfo);
     }
 
+    private handleReset = () => {
+        this.setState({ hasError: false, error: null });
+    };
+
     public render() {
-        if (this.state.hasError) {
-            return this.props.fallback || (
+        const { hasError, error } = this.state;
+        const { children, fallback } = this.props;
+
+        if (hasError && error) {
+            if (typeof fallback === "function") {
+                return fallback(error, this.handleReset);
+            }
+
+            if (fallback) return fallback;
+
+            if (CommentaryIntegrationError.is(error)) {
+                return (
+                    <div className="p-4 border border-red-500 rounded-md">
+                        <h3 className="text-lg font-bold">Integration Setup Required</h3>
+                        <p className="text-sm text-gray-500">{error.message}</p>
+                    </div>
+                );
+            }
+
+            return (
                 <div className="p-4 border border-red-500 rounded-md">
-                    <h4>Something went wrong with Commentary.</h4>
+                    <h3 className="text-lg font-bold">Something went wrong</h3>
+                    <p className="text-sm text-gray-500">{error}</p>
                 </div>
             );
+
         }
 
-        return this.props.children;
+        return children;
     }
 }

@@ -1,4 +1,1 @@
-export type CommentaryApi = {
-
-
-}
+export type CommentaryApi = {};

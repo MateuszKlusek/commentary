@@ -1,5 +1,7 @@
 import type { UserSentiment } from "./data";
 
+// types used in json seeding to postgres
+
 export type JsonCommentStats = {
   commentId: string;
   likeCount: number;

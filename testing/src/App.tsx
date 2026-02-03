@@ -22,15 +22,13 @@ function App() {
       {TestingControllerComponent}
       <Commentary
         getTopLevelComments={client.getTopLevelComments}
-        // getReplies={client.getReplies}
-        // addComment={client.addComment}
+        getReplies={client.getReplies}
+        addComment={client.addComment}
         handleUserSentiment={client.handleUserSentiment}
         user={user}
         discussionId={discussionId}
         customCss={customCss}
         validationMode="strict"
-
-        // errorBoundaryFallback={<div>Something went wrong with Commentary.</div>}
 
         // just for rerendering
         key={`${user.name}-${discussionId}`}

@@ -1,30 +1,10 @@
-import type { CommentaryActions, CommentaryAPI } from "@shared/src/types/core";
+import type { CommentaryAPI } from "@shared/src/types/core";
 import type { Nullable } from "@shared/src/types/helpers";
 import { createContext, useContext } from "react";
+import { useMergeAPIWithDefaults } from "../hooks/useMergeAPIWithDefaults";
+import { validateAPI } from "../utils/validation";
 
 const CommentaryAPIContext = createContext<Nullable<CommentaryAPI>>(undefined);
-
-const validateAPI = (api: CommentaryAPI) => {
-  const REQUIRED_ACTIONS: (keyof CommentaryActions)[] = [
-    "getTopLevelComments",
-    "getReplies",
-    "addComment",
-    "handleUserSentiment"
-  ];
-
-  const missing = REQUIRED_ACTIONS.filter(method => typeof api[method] !== 'function');
-
-  if (missing.length > 0) {
-    const errorMsg = `Missing required methods in API: ${missing.join(", ")}`;
-
-    if (api.validationMode === "strict") throw new Error(errorMsg);
-    if (api.validationMode === "warn") console.warn(errorMsg);
-    return false
-  }
-
-  return true;
-};
-
 export const CommentaryAPIProvider = ({
   commentaryAPI,
   children,
@@ -33,17 +13,11 @@ export const CommentaryAPIProvider = ({
   children: React.ReactNode;
 }) => {
 
-  const mergedApi: CommentaryAPI = {
-    ...{ mode: "development", validationMode: "warn" },
-    ...commentaryAPI,
-  };
-
-  if (process.env.NODE_ENV !== 'production') {
-    validateAPI(mergedApi);
-  }
+  const mergedAPI = useMergeAPIWithDefaults(commentaryAPI);
+  validateAPI(mergedAPI);
 
   return (
-    <CommentaryAPIContext.Provider value={mergedApi}>
+    <CommentaryAPIContext.Provider value={mergedAPI}>
       {children}
     </CommentaryAPIContext.Provider>
   );
