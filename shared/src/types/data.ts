@@ -36,7 +36,7 @@ export type User = z.infer<typeof UserSchema>;
 export const UserSentimentSchema = z.object({
   userId: z.string(),
   commentId: z.string(),
-  sentiment: z.union([z.literal(1), z.literal(-1), z.literal(0)]),
+  sentiment: z.union([z.literal(1), z.literal(-1), z.literal(0)]).nullish(),
 });
 
 export type UserSentiment = z.infer<typeof UserSentimentSchema>;

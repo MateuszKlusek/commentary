@@ -8,3 +8,14 @@ export class CommentaryIntegrationError extends Error {
     return err.name === "CommentaryIntegrationError";
   }
 }
+
+export class PayloadValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PayloadValidationError";
+  }
+
+  public static is(err: Error): err is PayloadValidationError {
+    return err.name === "PayloadValidationError";
+  }
+}

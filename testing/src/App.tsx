@@ -28,7 +28,7 @@ function App() {
         user={user}
         discussionId={discussionId}
         customCss={customCss}
-        validationMode="strict"
+        validationMode="warn"
 
         // just for rerendering
         key={`${user.name}-${discussionId}`}

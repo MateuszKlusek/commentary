@@ -1,4 +1,5 @@
 import type { CommentaryAPI, CommentItem, SortingStrategy } from "@shared/src/types/core";
+import { safeValidateCommentItem } from "@shared/src/validators";
 import { useEffect, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import { ContextWrapper } from "../../context/ContextWrapper";
@@ -20,10 +21,12 @@ const CommentaryComponent = () => {
   const { getTopLevelComments, user, discussionId, customCss } =
     useCommentaryAPI();
 
-  const { items, loadMore, isLoading: isTopLevelCommentsLoading, hasMore, totalCount, reset, isOnMountLoading } =
+  const { items, loadMore, isLoading: isTopLevelCommentsLoading, hasMore, totalCount, reset, isOnMountLoading, error: topLevelCommentsError } =
     useInfiniteQuery(
       (params) => getTopLevelComments({ sortBy, userId: user?.userId, ...params, }),
-      10
+
+      10,
+      { validator: safeValidateCommentItem }
     );
 
   useEffect(() => {
@@ -56,6 +59,9 @@ const CommentaryComponent = () => {
 
         {isTopLevelCommentsLoading && <CommentSkeleton count={3} />}
       </Content>
+
+      {topLevelCommentsError && <div className="text-red-500">{topLevelCommentsError.message}</div>}
+
     </commentary-container>
   );
 };

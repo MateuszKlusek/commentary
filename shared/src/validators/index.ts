@@ -53,5 +53,15 @@ export function validateCommentData(data: unknown): CommentItem[] {
 }
 
 export function safeValidateCommentData(data: unknown) {
-  return z.array(CommentSliceSchema).safeParse(data);
+  return z.array(CommentItemSchema).safeParse(data);
+}
+
+export function validateCommentItem(data: unknown): CommentItem {
+  return CommentItemSchema.parse(data);
+}
+
+export function safeValidateCommentItem(
+  data: CommentItem
+): z.ZodSafeParseResult<CommentItem> {
+  return CommentItemSchema.safeParse(data);
 }

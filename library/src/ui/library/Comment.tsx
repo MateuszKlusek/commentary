@@ -1,4 +1,5 @@
 import type { CommentItem } from "@shared/src/types/core";
+import { safeValidateCommentItem } from "@shared/src/validators";
 import { Activity, type Dispatch, type SetStateAction, useState } from "react";
 import { useCommentaryAPI } from "../../context/CommentaryAPIContext";
 import {
@@ -50,7 +51,7 @@ export const ThreadContent = ({
     addReplyPlaceholder,
   } = useCopy();
 
-  const { items: replies, loadMore, isLoading: isRepliesLoading, hasMore, offset } = useInfiniteQuery(
+  const { items: replies, loadMore, isLoading: isRepliesLoading, hasMore, offset, error: repliesError } = useInfiniteQuery(
     (params) =>
       getReplies({
         parentId: comment.comment.commentId,
@@ -59,7 +60,7 @@ export const ThreadContent = ({
         ...params,
       }),
     10,
-    { initialFetch: false, enabled: showReplies }
+    { initialFetch: false, enabled: showReplies, validator: safeValidateCommentItem }
   );
 
   const ref = useIntersectionObserver(
@@ -150,6 +151,8 @@ export const ThreadContent = ({
         </div>
 
       </commentary-parent-comment>
+
+      {repliesError && <div className="text-red-500">{repliesError.message}</div>}
 
       {/* new replies */}
       {newReplies?.map((reply, idx) => (

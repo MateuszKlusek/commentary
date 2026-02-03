@@ -17,11 +17,27 @@ export const validateAPI = (api: CommentaryAPI) => {
   if (missing.length > 0) {
     const errorMsg = `Missing required methods in API: ${missing.join(", ")}`;
 
-    if (api.validationMode === "strict")
-      throw new CommentaryIntegrationError(errorMsg);
-    if (api.validationMode === "warn") console.warn(errorMsg);
+    validationManager(
+      new CommentaryIntegrationError(errorMsg),
+      api.validationMode
+    );
     return false;
   }
 
   return true;
+};
+
+export const validationManager = (
+  error: Error,
+  validationMode: CommentaryAPI["validationMode"] = "warn"
+) => {
+  switch (validationMode) {
+    case "strict":
+      throw error;
+    case "warn":
+      console.warn(`[${error.name}] ${error.message}`);
+      return;
+    case "silent":
+      return;
+  }
 };
