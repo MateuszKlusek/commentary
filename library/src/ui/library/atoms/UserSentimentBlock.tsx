@@ -13,10 +13,12 @@ type Props = {
 const sentimentList: UserSentiment['sentiment'][] = [-1, 0, 1]
 
 export const UserSentimentBlock = ({ comment }: Props) => {
-    const [data, setData] = useState({ likes: comment.commentStats?.likeCount || 0, dislikes: comment.commentStats?.dislikeCount || 0, userSentiment: comment.userSentiment?.sentiment || 0 });
+    const [data, setData] = useState({
+        likes: comment.commentStats?.likeCount || 0,
+        dislikes: comment.commentStats?.dislikeCount || 0,
+        userSentiment: comment.userSentiment?.sentiment || 0
+    });
 
-
-    const [isPending, startTransition] = useTransition();
     const { handleUserSentiment } = useCommentaryAPI();
     const { user, isUserSet } = useUser();
 
@@ -27,6 +29,7 @@ export const UserSentimentBlock = ({ comment }: Props) => {
         enabled: !isUserSet,
     });
 
+    const [isPending, startTransition] = useTransition();
 
     const [optimisticSentiment, addOptimisticSentiment] = useOptimistic(
         data,

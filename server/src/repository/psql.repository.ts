@@ -29,7 +29,8 @@ export class PsqlCommentaryRepository {
       userSentiment: {
         commentId: row.comment_id,
         userId: row.user_id,
-        sentiment: row.user_sentiment,
+        // defaulting to 0 crucial, it won't pass through the validator since we are using [-1, 0, 1]
+        sentiment: row.user_sentiment ?? 0,
       },
     };
   };
