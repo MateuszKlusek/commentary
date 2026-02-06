@@ -31,3 +31,4 @@ storybook-static
 
 false
 bundle-analysis.html
+.env
